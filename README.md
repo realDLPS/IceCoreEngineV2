@@ -1,29 +1,32 @@
-# Raylib-CPP-Starter-Template-for-VSCODE-V2
-Raylib C++ Starter Template for Visual Studio Code on Windows.
-This demo project contains a bouncing ball raylib example program.
-It works with raylib version 5.0. Tested on both Windows 10 and Windows 11.
+![IceCoreLogoFullRez](https://github.com/realDLPS/IceCoreEngine/assets/68390971/a98261d1-899f-4ba0-b5c3-33d04d420797)
 
-# How to use this template
-1. Double click on the main.code-workspace file. This will open the template in VS Code.
-2. From the Explorer Window of VS Code navigate to the src folder and double click on the main.cpp file.
-3. Press F5 on the keyboard to compile and run the program.
+## This read me is not ready yet.
 
-# What's changed
-The template now uses folders for better organizion of the files. So, all the source code now lives in the src folder.
+# IceCore Engine
+A simplistic 2D game engine I am creating for my own needs and as a learning exercise.
 
-# Video Tutorial
+### Personal goals
+- Learn engine programming
+- Create and publish a game using this engine on Steam
+- Clear documentation
 
-<p align="center">
-  <img src="preview.jpg" alt="" width="800">
-</p>
+### Feature goals
+- Pathfinding
+- Fast 2D collision
+- Easy sprite rendering (Movable camera with zooming and such)
+- Unreal inspired actors that have a location in the scene
+- Input
+- Sounds
+- UI
+- File IO?
+- P2P networking?
 
-<p align="center">
-🎥 <a href="https://www.youtube.com/watch?v=PaAcVk5jUd8">Video Tutorial on YouTube</a>
-</p>
+### What is not planned
+- An editor
+- 3D
 
-<br>
-<br>
-<p align="center">
-| 📺 <a href="https://www.youtube.com/channel/UC3ivOTE5EgpmF2DHLBmWIWg">My YouTube Channel</a>
-| 🌍 <a href="http://www.educ8s.tv">My Website</a> | <br>
-</p>
+### File extension
+I plan to use the extension ".ictxt" for file loading. It can be pronounced as "Icy text" or "IceCore text".
+It is just a plain text extension to help with players feeling the need to mess with ".txt" files. No real protection is offered though.
+
+And yes, I chose this extension because it happened to sound cool.
