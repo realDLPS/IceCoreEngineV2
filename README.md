@@ -1,4 +1,4 @@
-![IceCoreLogoFullRez](https://github.com/realDLPS/IceCoreEngine/assets/68390971/a98261d1-899f-4ba0-b5c3-33d04d420797)
+![IceCoreLogo](https://github.com/user-attachments/assets/f41fef54-d4cd-489a-a6b6-40dd3f646afe)
 
 ## This read me is not ready yet.
 
