@@ -2,3 +2,6 @@
 *.dsym
 main
 .vscode
+x64/
+x32/
+.vs/
