@@ -42,13 +42,11 @@ public: // Public methods
 
 private: // Private methods
     void DrawDrawable(IC_drawable drawable);
-    void DrawTex(Texture2D texture, Vector2 position, float rotation, Vector2 scale, Color tint) // Customized texture drawing function to use Vector2 for scale instead of float
+    void DrawTex(Texture2D texture, Rectangle frame, Vector2 position, float rotation, Vector2 scale, Color tint) // Customized texture drawing function to use Vector2 for scale instead of float
     {
-        Rectangle source = { 0.0f, 0.0f, (float)texture.width, (float)texture.height };
         Rectangle dest = { position.x, position.y, (float)texture.width*scale.x, (float)texture.height*scale.y };
-        Vector2 origin = { 0, 0 };
 
-        DrawTexturePro(texture, source, dest, origin, rotation, tint);
+        DrawTexturePro(texture, frame, dest, Vec2(0), rotation, tint);
     }
     void DrawQueue();
 };

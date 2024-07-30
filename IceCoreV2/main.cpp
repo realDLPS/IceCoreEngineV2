@@ -39,15 +39,32 @@ int main(void)
 
     SetTargetFPS(120);
 
+    float TimeSinceGameStart = 0.f;
+
     // IceCore classes
     IC_graphicsManager graphicsManager = IC_graphicsManager();
 
-    Texture2D circle = LoadTexture("../Assets/circle.png");
 
-    // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
+
+    Texture2D circle = LoadTexture("../Assets/Circle.png");
+    Texture2D explosion = LoadTexture("../Assets/Explosion.png");
+    IC_sprite explosionSprite = IC_sprite(explosion, 4, 4, 16);
+    Texture2D fire = LoadTexture("../Assets/Fire.png");
+    IC_sprite fireSprite = IC_sprite(fire, 1, 25, 25);
+    Texture2D smoke = LoadTexture("../Assets/Smoke.png");
+    IC_sprite smokeSprite = IC_sprite(smoke, 7, 7, 45);
+
+    while (!WindowShouldClose())
     {
-        graphicsManager.AddToDrawQueue(IC_drawable(IC_sprite(circle), Vec2(0), 1.f, 0.f));
+        TimeSinceGameStart += GetFrameTime();
+
+        graphicsManager.AddToDrawQueue(IC_drawable(IC_sprite(circle), Vec2(0), Vec2(1.f), 0.f));
+
+        graphicsManager.AddToDrawQueue(IC_drawable(explosionSprite, Vec2(-200.f, 200.f), Vec2(1.f), 0.0f, int(TimeSinceGameStart*32) % 16));
+
+        graphicsManager.AddToDrawQueue(IC_drawable(fireSprite, Vec2(-200.f), Vec2(1.f), 0.0f, int(TimeSinceGameStart * 24) % 25));
+
+        graphicsManager.AddToDrawQueue(IC_drawable(smokeSprite, Vec2(200.f), Vec2(1.f), 0.0f, int(TimeSinceGameStart * 24) % 45));
 
         graphicsManager.SetCameraZoom(graphicsManager.GetCameraZoom() + GetMouseWheelMove() * 0.2f);
         
@@ -59,11 +76,6 @@ int main(void)
     }
 
     UnloadTexture(circle);
-
-    // De-Initialization
-    //--------------------------------------------------------------------------------------
-    CloseWindow();        // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
-
+    CloseWindow();
     return 0;
 }

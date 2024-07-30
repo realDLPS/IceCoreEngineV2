@@ -144,6 +144,8 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Assets\Circle.png" />
+    <Image Include="..\Assets\Explosion.png" />
+    <Image Include="..\Assets\Fire.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

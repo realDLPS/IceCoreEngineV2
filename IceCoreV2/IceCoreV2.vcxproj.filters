@@ -58,5 +58,11 @@
     <Image Include="..\Assets\Circle.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="..\Assets\Explosion.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Assets\Fire.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

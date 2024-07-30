@@ -18,7 +18,7 @@ void IC_graphicsManager::AddToDrawQueue(IC_drawable drawable)
 void IC_graphicsManager::Draw()
 {
     ClearBackground(BLACK);
-    DrawText(TextFormat("Congrats! You created your first window! %f", ((GetRenderWidth() / 1920.0f >= GetRenderHeight() / 1080.0f) ? GetRenderWidth() / 1920.0f : GetRenderHeight() / 1080.0f)), 190, 200, 20, RAYWHITE);
+    DrawText(TextFormat("Debug stuff %f", ((GetRenderWidth() / 1920.0f >= GetRenderHeight() / 1080.0f) ? GetRenderWidth() / 1920.0f : GetRenderHeight() / 1080.0f)), 10, 10, 20, RAYWHITE);
 
     DrawQueue();
 }
@@ -88,5 +88,22 @@ Vector2 IC_graphicsManager::WorldToViewSpace(Vector2 worldPosition)
 
 void IC_graphicsManager::DrawDrawable(IC_drawable drawable)
 {
-    DrawTex(drawable.sprite.texture, WorldToViewSpace(drawable.position) - (Vec2(drawable.sprite.texture.width / 2, drawable.sprite.texture.height / 2) * GetScreenSizeScaling() * cameraZoom), drawable.rotation, drawable.scale * GetScreenSizeScaling() * cameraZoom, WHITE);
+    Rectangle frame = Rectangle();
+    frame.width = drawable.sprite.frameWidth;
+	frame.height = drawable.sprite.frameHeight;
+    // This can be redone to support differently sorted sprite sheets
+    // Currently frames are expected to be sorted in the way shown below
+    // 0 1 2
+	// 3 4 5
+	// 6 7 8
+    
+    float xScale = frame.width / drawable.sprite.texture.width;
+	float yScale = frame.height / drawable.sprite.texture.height;
+
+    int x = drawable.frame % drawable.sprite.rowCount;
+	int y = drawable.frame / drawable.sprite.rowCount;
+	frame.x = x * drawable.sprite.frameWidth;
+	frame.y = y * drawable.sprite.frameHeight;
+
+    DrawTex(drawable.sprite.texture, frame, WorldToViewSpace(drawable.position) - (Vec2(frame.width / 2, frame.height / 2) * GetScreenSizeScaling() * cameraZoom), drawable.rotation, drawable.scale * GetScreenSizeScaling() * cameraZoom * Vec2(xScale, yScale), WHITE);
 }
