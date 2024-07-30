@@ -9,3 +9,4 @@ Vector2 Vec2(float x);
 Vector2 operator*(const Vector2& lhs, const float& rhs);
 Vector2 operator*(const Vector2& lhs, const Vector2& rhs);
 Vector2 operator-(const Vector2& lhs, const Vector2& rhs);
+Vector2 operator+(const Vector2& lhs, const Vector2& rhs);

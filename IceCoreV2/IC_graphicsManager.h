@@ -29,8 +29,14 @@ public: // Public methods
 
     // Camera
     void SetCameraPosition(Vector2 position);
+    Vector2 GetCameraPosition();
     void SetCameraZoom(float zoom);
+	float GetCameraZoom();
     void SetCameraRotation(float rotation);
+	float GetCameraRotation();
+
+
+    // Viewport
     float GetScreenSizeScaling();
     Vector2 WorldToViewSpace(Vector2 worldPosition);
 
@@ -40,7 +46,7 @@ private: // Private methods
     {
         Rectangle source = { 0.0f, 0.0f, (float)texture.width, (float)texture.height };
         Rectangle dest = { position.x, position.y, (float)texture.width*scale.x, (float)texture.height*scale.y };
-        Vector2 origin = { (float)texture.width / 2.f, (float)texture.height / 2.f };
+        Vector2 origin = { 0, 0 };
 
         DrawTexturePro(texture, source, dest, origin, rotation, tint);
     }

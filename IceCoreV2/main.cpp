@@ -47,9 +47,9 @@ int main(void)
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
-        graphicsManager.AddToDrawQueue(IC_drawable(IC_sprite(circle), Vec2(960, -540), 1.f, 0.f));
+        graphicsManager.AddToDrawQueue(IC_drawable(IC_sprite(circle), Vec2(0), 1.f, 0.f));
 
-
+        graphicsManager.SetCameraZoom(graphicsManager.GetCameraZoom() + GetMouseWheelMove() * 0.2f);
         
         BeginDrawing();
 
