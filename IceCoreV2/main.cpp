@@ -23,6 +23,7 @@
 
 #include "raylib.h"
 #include "IC_graphicsManager.h"
+#include "VectorHelpers.h"
 
 //------------------------------------------------------------------------------------
 // Program main entry point
@@ -30,35 +31,34 @@
 int main(void)
 {
     // Initialization
-    //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
     const int screenHeight = 450;
 
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "IceCoreEngineV2");
 
-    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
+    SetTargetFPS(120);
 
     // IceCore classes
     IC_graphicsManager graphicsManager = IC_graphicsManager();
 
-    //--------------------------------------------------------------------------------------
+    Texture2D circle = LoadTexture("../Assets/circle.png");
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
-        // Draw
-        //----------------------------------------------------------------------------------
+        graphicsManager.AddToDrawQueue(IC_drawable(IC_sprite(circle), Vec2(960, -540), 1.f, 0.f));
+
+
+        
         BeginDrawing();
 
-        graphicsManager.DrawQueue();
-
-        ClearBackground(RAYWHITE);
-
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+        graphicsManager.Draw();
 
         EndDrawing();
-        //----------------------------------------------------------------------------------
     }
+
+    UnloadTexture(circle);
 
     // De-Initialization
     //--------------------------------------------------------------------------------------

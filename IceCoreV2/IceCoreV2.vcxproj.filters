@@ -22,6 +22,12 @@
     <Filter Include="Header Files\Graphics">
       <UniqueIdentifier>{fdce90af-5b27-4269-9229-7f6a6c492cd6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Helpers">
+      <UniqueIdentifier>{c792e4d1-cb92-4590-b16d-177b6c7830d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Helpers">
+      <UniqueIdentifier>{f4da881a-8cb8-4934-b50a-38e937f94296}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -33,6 +39,9 @@
     <ClCompile Include="IC_graphicsManager.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="VectorHelpers.cpp">
+      <Filter>Source Files\Helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IC_graphicsStructs.h">
@@ -41,5 +50,13 @@
     <ClInclude Include="IC_graphicsManager.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="VectorHelpers.h">
+      <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Assets\Circle.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

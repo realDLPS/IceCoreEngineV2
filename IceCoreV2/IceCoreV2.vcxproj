@@ -135,10 +135,15 @@
   <ItemGroup>
     <ClCompile Include="IC_graphicsManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="VectorHelpers.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="VectorHelpers.h" />
     <ClInclude Include="IC_graphicsManager.h" />
     <ClInclude Include="IC_graphicsStructs.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Assets\Circle.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
