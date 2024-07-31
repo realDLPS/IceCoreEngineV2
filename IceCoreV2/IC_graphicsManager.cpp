@@ -18,7 +18,7 @@ void IC_graphicsManager::AddToDrawQueue(IC_drawable drawable)
 void IC_graphicsManager::Draw()
 {
     ClearBackground(BLACK);
-    DrawText(TextFormat("Debug stuff %f", ((GetRenderWidth() / 1920.0f >= GetRenderHeight() / 1080.0f) ? GetRenderWidth() / 1920.0f : GetRenderHeight() / 1080.0f)), 10, 10, 20, RAYWHITE);
+    //DrawText(TextFormat("Debug stuff %f", 1.0f/GetFrameTime()), 10, 10, 20, RAYWHITE);
 
     DrawQueue();
 }
@@ -32,6 +32,7 @@ void IC_graphicsManager::DrawQueue()
     drawQueue.clear();
 }
 
+#pragma region Camera
 void IC_graphicsManager::SetCameraPosition(Vector2 position)
 {
     cameraPosition = position;
@@ -61,7 +62,9 @@ float IC_graphicsManager::GetCameraRotation()
 {
     return cameraRotation;
 }
+#pragma endregion
 
+#pragma region Viewport
 float IC_graphicsManager::GetScreenSizeScaling()
 {
     return (GetRenderWidth() / 1920.0f >= GetRenderHeight() / 1080.0f) ? GetRenderWidth() / 1920.0f : GetRenderHeight() / 1080.0f;
@@ -81,29 +84,37 @@ Vector2 IC_graphicsManager::WorldToViewSpace(Vector2 worldPosition)
     WorkingPosition = WorkingPosition * GetScreenSizeScaling();
 
     // Rotating the position
-	WorkingPosition = Vector2Rotate(WorkingPosition, cameraRotation);
+    WorkingPosition = Vector2Rotate(WorkingPosition, cameraRotation);
 
     return WorkingPosition + Vec2(GetScreenWidth() / 2, GetScreenHeight() / 2);
 }
+#pragma endregion
 
 void IC_graphicsManager::DrawDrawable(IC_drawable drawable)
 {
     Rectangle frame = Rectangle();
     frame.width = drawable.sprite.frameWidth;
 	frame.height = drawable.sprite.frameHeight;
-    // This can be redone to support differently sorted sprite sheets
-    // Currently frames are expected to be sorted in the way shown below
-    // 0 1 2
-	// 3 4 5
-	// 6 7 8
     
+    
+    // Scaling to account for multiple frames in a single texture
     float xScale = frame.width / drawable.sprite.texture.width;
 	float yScale = frame.height / drawable.sprite.texture.height;
 
+    // This can be redone to support differently sorted sprite sheets
+    // Currently frames are expected to be sorted in the way shown below
+    // 0 1 2
+    // 3 4 5
+    // 6 7 8
     int x = drawable.frame % drawable.sprite.rowCount;
 	int y = drawable.frame / drawable.sprite.rowCount;
 	frame.x = x * drawable.sprite.frameWidth;
 	frame.y = y * drawable.sprite.frameHeight;
 
-    DrawTex(drawable.sprite.texture, frame, WorldToViewSpace(drawable.position) - (Vec2(frame.width / 2, frame.height / 2) * GetScreenSizeScaling() * cameraZoom), drawable.rotation, drawable.scale * GetScreenSizeScaling() * cameraZoom * Vec2(xScale, yScale), WHITE);
+    DrawTex(drawable.sprite.texture, 
+        frame, 
+        WorldToViewSpace(drawable.position) - (Vec2(frame.width / 2, frame.height / 2) * GetScreenSizeScaling() * cameraZoom), 
+        drawable.rotation, 
+        drawable.scale * GetScreenSizeScaling() * cameraZoom * Vec2(xScale, yScale), 
+        WHITE);
 }

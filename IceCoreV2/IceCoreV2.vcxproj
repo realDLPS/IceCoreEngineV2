@@ -134,10 +134,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IC_graphicsManager.cpp" />
+    <ClCompile Include="IC_visualDebugger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="VectorHelpers.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="IC_debugStructs.h" />
+    <ClInclude Include="IC_visualDebugger.h" />
     <ClInclude Include="VectorHelpers.h" />
     <ClInclude Include="IC_graphicsManager.h" />
     <ClInclude Include="IC_graphicsStructs.h" />

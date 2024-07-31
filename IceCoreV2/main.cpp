@@ -23,7 +23,10 @@
 
 #include "raylib.h"
 #include "IC_graphicsManager.h"
+#include "IC_visualDebugger.h"
 #include "VectorHelpers.h"
+
+#include <format>
 
 //------------------------------------------------------------------------------------
 // Program main entry point
@@ -37,12 +40,13 @@ int main(void)
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "IceCoreEngineV2");
 
-    SetTargetFPS(120);
+    SetTargetFPS(10000);
 
     float TimeSinceGameStart = 0.f;
 
     // IceCore classes
     IC_graphicsManager graphicsManager = IC_graphicsManager();
+	IC_visualDebugger visualDebugger = IC_visualDebugger();
 
 
 
@@ -54,9 +58,13 @@ int main(void)
     Texture2D smoke = LoadTexture("../Assets/Smoke.png");
     IC_sprite smokeSprite = IC_sprite(smoke, 7, 7, 45);
 
+    visualDebugger.AddDebugString(IC_debugString("Hello", 30.0f, RED), false);
+
     while (!WindowShouldClose())
     {
         TimeSinceGameStart += GetFrameTime();
+        
+        visualDebugger.AddDebugString(IC_debugString(std::string("FPS: ") + std::to_string(GetFPS()), 0.0f), false);
 
         graphicsManager.AddToDrawQueue(IC_drawable(IC_sprite(circle), Vec2(0), Vec2(1.f), 0.f));
 
@@ -68,10 +76,10 @@ int main(void)
 
         graphicsManager.SetCameraZoom(graphicsManager.GetCameraZoom() + GetMouseWheelMove() * 0.2f);
         
+
         BeginDrawing();
-
         graphicsManager.Draw();
-
+        visualDebugger.DrawDebugStrings();
         EndDrawing();
     }
 
