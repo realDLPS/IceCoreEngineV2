@@ -45,7 +45,7 @@ Vector2 IC_graphicsManager::GetCameraPosition()
 
 void IC_graphicsManager::SetCameraZoom(float zoom)
 {
-    cameraZoom = zoom;
+    cameraZoom = Clamp(zoom, 0.01f, 10.0f);
 }
 
 float IC_graphicsManager::GetCameraZoom()
@@ -75,7 +75,6 @@ Vector2 IC_graphicsManager::WorldToViewSpace(Vector2 worldPosition)
     // Convert to camera position, basically relative to the camera
     Vector2 WorkingPosition = worldPosition * Vec2(1, -1) - cameraPosition * Vec2(1, -1);
 
-
     // Zooming
     WorkingPosition = WorkingPosition * cameraZoom;
 
@@ -83,8 +82,8 @@ Vector2 IC_graphicsManager::WorldToViewSpace(Vector2 worldPosition)
     // Things scale properly if the window is resized
     WorkingPosition = WorkingPosition * GetScreenSizeScaling();
 
-    // Rotating the position
-    WorkingPosition = Vector2Rotate(WorkingPosition, cameraRotation);
+    // Rotating the position (and going from degrees to radians)
+    WorkingPosition = Vector2Rotate(WorkingPosition, cameraRotation * 0.0174533f);
 
     return WorkingPosition + Vec2(GetScreenWidth() / 2, GetScreenHeight() / 2);
 }
@@ -111,10 +110,11 @@ void IC_graphicsManager::DrawDrawable(IC_drawable drawable)
 	frame.x = x * drawable.sprite.frameWidth;
 	frame.y = y * drawable.sprite.frameHeight;
 
-    DrawTex(drawable.sprite.texture, 
+    DrawTex(
+        drawable.sprite.texture, 
         frame, 
-        WorldToViewSpace(drawable.position) - (Vec2(frame.width / 2, frame.height / 2) * GetScreenSizeScaling() * cameraZoom), 
-        drawable.rotation, 
+        WorldToViewSpace(drawable.position), 
+        drawable.rotation + cameraRotation,
         drawable.scale * GetScreenSizeScaling() * cameraZoom * Vec2(xScale, yScale), 
         WHITE);
 }

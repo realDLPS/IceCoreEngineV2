@@ -39,7 +39,7 @@
     <ClCompile Include="IC_graphicsManager.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="VectorHelpers.cpp">
+    <ClCompile Include="vectorHelpers.cpp">
       <Filter>Source Files\Helpers</Filter>
     </ClCompile>
     <ClCompile Include="IC_visualDebugger.cpp">
@@ -53,7 +53,7 @@
     <ClInclude Include="IC_graphicsManager.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="VectorHelpers.h">
+    <ClInclude Include="vectorHelpers.h">
       <Filter>Header Files\Helpers</Filter>
     </ClInclude>
     <ClInclude Include="IC_visualDebugger.h">

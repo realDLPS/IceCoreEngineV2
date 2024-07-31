@@ -1,4 +1,4 @@
-#include "VectorHelpers.h"
+#include "vectorHelpers.h"
 
 Vector2 Vec2(float x, float y)
 {

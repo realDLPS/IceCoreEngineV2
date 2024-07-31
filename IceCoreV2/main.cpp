@@ -24,7 +24,7 @@
 #include "raylib.h"
 #include "IC_graphicsManager.h"
 #include "IC_visualDebugger.h"
-#include "VectorHelpers.h"
+#include "vectorHelpers.h"
 
 #include <format>
 
@@ -41,8 +41,6 @@ int main(void)
     InitWindow(screenWidth, screenHeight, "IceCoreEngineV2");
 
     SetTargetFPS(10000);
-
-    float TimeSinceGameStart = 0.f;
 
     // IceCore classes
     IC_graphicsManager graphicsManager = IC_graphicsManager();
@@ -61,20 +59,29 @@ int main(void)
     visualDebugger.AddDebugString(IC_debugString("Hello", 30.0f, RED), false);
 
     while (!WindowShouldClose())
-    {
-        TimeSinceGameStart += GetFrameTime();
-        
+    { 
         visualDebugger.AddDebugString(IC_debugString(std::string("FPS: ") + std::to_string(GetFPS()), 0.0f), false);
+        visualDebugger.AddDebugString(IC_debugString(std::string("Camera rotation: ") + std::to_string(graphicsManager.GetCameraRotation()), 0.0f), false);
 
         graphicsManager.AddToDrawQueue(IC_drawable(IC_sprite(circle), Vec2(0), Vec2(1.f), 0.f));
 
-        graphicsManager.AddToDrawQueue(IC_drawable(explosionSprite, Vec2(-200.f, 200.f), Vec2(1.f), 0.0f, int(TimeSinceGameStart*32) % 16));
+        graphicsManager.AddToDrawQueue(IC_drawable(explosionSprite, Vec2(-200.f, 200.f), Vec2(1.f), 0.0f, int(GetTime()*32) % 16));
 
-        graphicsManager.AddToDrawQueue(IC_drawable(fireSprite, Vec2(-200.f), Vec2(1.f), 0.0f, int(TimeSinceGameStart * 24) % 25));
+        graphicsManager.AddToDrawQueue(IC_drawable(fireSprite, Vec2(-200.f), Vec2(1.f), 0.0f, int(GetTime() * 24) % 25));
 
-        graphicsManager.AddToDrawQueue(IC_drawable(smokeSprite, Vec2(200.f), Vec2(1.f), 0.0f, int(TimeSinceGameStart * 24) % 45));
+        graphicsManager.AddToDrawQueue(IC_drawable(smokeSprite, Vec2(200.f), Vec2(1.f), 0.0f, int(GetTime() * 24) % 45));
 
         graphicsManager.SetCameraZoom(graphicsManager.GetCameraZoom() + GetMouseWheelMove() * 0.2f);
+        float rotate = 0.0f;
+        if (IsKeyDown(KEY_RIGHT))
+        {
+			rotate += 1.0f;
+        }
+        if(IsKeyDown(KEY_LEFT))
+		{
+			rotate -= 1.0f;
+		}
+        graphicsManager.SetCameraRotation(graphicsManager.GetCameraRotation() + rotate * -0.03f);
         
 
         BeginDrawing();
@@ -84,6 +91,9 @@ int main(void)
     }
 
     UnloadTexture(circle);
+	UnloadTexture(explosion);
+	UnloadTexture(fire);
+	UnloadTexture(smoke);
     CloseWindow();
     return 0;
 }

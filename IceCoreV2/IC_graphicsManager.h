@@ -9,7 +9,7 @@
 
 // Other includes
 #include "IC_graphicsStructs.h"
-#include "VectorHelpers.h"
+#include "vectorHelpers.h"
 
 class IC_graphicsManager
 {
@@ -46,7 +46,7 @@ private: // Private methods
     {
         Rectangle dest = { position.x, position.y, (float)texture.width*scale.x, (float)texture.height*scale.y };
 
-        DrawTexturePro(texture, frame, dest, Vec2(0), rotation, tint);
+        DrawTexturePro(texture, frame, dest, Vec2(dest.width / 2, dest.height / 2), rotation, tint);
     }
     void DrawQueue();
 };
