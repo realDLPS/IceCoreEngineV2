@@ -6,6 +6,7 @@
 
 // Standard libraries
 #include <vector>
+//#include <cmath>
 
 // Other includes
 #include "IC_graphicsStructs.h"

@@ -1,32 +1,15 @@
-/*******************************************************************************************
-*
-*   raylib [core] example - Basic window
-*
-*   Welcome to raylib!
-*
-*   To test examples, just press F6 and execute raylib_compile_execute script
-*   Note that compiled executable is placed in the same folder as .c file
-*
-*   You can find all basic examples on C:\raylib\raylib\examples folder or
-*   raylib official webpage: www.raylib.com
-*
-*   Enjoy using raylib. :)
-*
-*   Example originally created with raylib 1.0, last time updated with raylib 1.0
-*
-*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
-*   BSD-like license that allows static linking with closed source software
-*
-*   Copyright (c) 2013-2024 Ramon Santamaria (@raysan5)
-*
-********************************************************************************************/
-
 #include "raylib.h"
 #include "IC_graphicsManager.h"
 #include "IC_visualDebugger.h"
 #include "vectorHelpers.h"
 
 #include <format>
+
+#ifndef _DEBUG
+
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+
+#endif
 
 //------------------------------------------------------------------------------------
 // Program main entry point
@@ -40,7 +23,7 @@ int main(void)
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "IceCoreEngineV2");
 
-    SetTargetFPS(10000);
+    SetTargetFPS(10000); // Lower this for your game, set this high for debugging.
 
     // IceCore classes
     IC_graphicsManager graphicsManager = IC_graphicsManager();
@@ -48,15 +31,15 @@ int main(void)
 
 
 
-    Texture2D circle = LoadTexture("../Assets/Circle.png");
-    Texture2D explosion = LoadTexture("../Assets/Explosion.png");
+    Texture2D circle = LoadTexture("Assets/Circle.png");
+    Texture2D explosion = LoadTexture("Assets/Explosion.png");
     IC_sprite explosionSprite = IC_sprite(explosion, 4, 4, 16);
-    Texture2D fire = LoadTexture("../Assets/Fire.png");
+    Texture2D fire = LoadTexture("Assets/Fire.png");
     IC_sprite fireSprite = IC_sprite(fire, 1, 25, 25);
-    Texture2D smoke = LoadTexture("../Assets/Smoke.png");
+    Texture2D smoke = LoadTexture("Assets/Smoke.png");
     IC_sprite smokeSprite = IC_sprite(smoke, 7, 7, 45);
 
-    visualDebugger.AddDebugString(IC_debugString("Hello", 30.0f, RED), false);
+    visualDebugger.AddDebugString(IC_debugString("Hello", 5.0f, RED), false);
 
     while (!WindowShouldClose())
     { 

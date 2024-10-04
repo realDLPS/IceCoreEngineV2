@@ -45,7 +45,7 @@ Vector2 IC_graphicsManager::GetCameraPosition()
 
 void IC_graphicsManager::SetCameraZoom(float zoom)
 {
-    cameraZoom = Clamp(zoom, 0.01f, 10.0f);
+    cameraZoom = Clamp(zoom, 0.001f, 1000.0f);
 }
 
 float IC_graphicsManager::GetCameraZoom()
@@ -55,7 +55,7 @@ float IC_graphicsManager::GetCameraZoom()
 
 void IC_graphicsManager::SetCameraRotation(float rotation)
 {
-    cameraRotation = rotation;
+    cameraRotation = fmodf(rotation, 360.0f); // Keeping the values small, if value got too big floating point errors might cause problems.
 }
 
 float IC_graphicsManager::GetCameraRotation()
