@@ -1,3 +1,5 @@
+## ALL EXAMPLES USE THE MIT LICENSE, SEE LIST OF EXAMPLES in LicenseExceptions
+
 ~~Currently on hold due to school work.~~
 ![IceCoreLogo](https://github.com/user-attachments/assets/f41fef54-d4cd-489a-a6b6-40dd3f646afe)
 
