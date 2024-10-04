@@ -1,4 +1,4 @@
-Currently on hold due to school work.
+~~Currently on hold due to school work.~~
 ![IceCoreLogo](https://github.com/user-attachments/assets/f41fef54-d4cd-489a-a6b6-40dd3f646afe)
 
 ## This read me is not ready yet.
