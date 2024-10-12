@@ -85,7 +85,7 @@ Vector2 IC_graphicsManager::WorldToViewSpace(Vector2 worldPosition)
     // Rotating the position (and going from degrees to radians)
     WorkingPosition = Vector2Rotate(WorkingPosition, cameraRotation * 0.0174533f);
 
-    return WorkingPosition + Vec2(GetScreenWidth() / 2, GetScreenHeight() / 2);
+    return WorkingPosition + Vec2(float(GetScreenWidth()) / 2.0f, float(GetScreenHeight()) / 2.0f);
 }
 #pragma endregion
 

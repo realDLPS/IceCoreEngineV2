@@ -41,7 +41,19 @@ void IC_inputSystem::UpdateInputs()
 
 	for (auto const& mapping : axisMappings)
 	{
+		float evaluation = 0.0f;
 
+		for (auto const& binding : mapping.second.bindings)
+		{
+			evaluation += EvaluateBindingAsAxis(binding);
+		}
+
+		for (auto const& delegate : mapping.second.delegates)
+		{
+			delegate(evaluation);
+		}
+
+		axisValues[mapping.first] = evaluation;
 	}
 
 	// Store current state.
@@ -87,6 +99,36 @@ IC_inputState IC_inputSystem::GetInputState()
     return inputState;
 }
 
+void IC_inputSystem::AddMapping(std::string name, IC_mapping mapping, bool axis)
+{
+	if (axis)
+	{
+		axisMappings.insert({ name, mapping });
+	}
+	else
+	{
+		actionMappings.insert({ name, mapping });
+	}
+}
+
+IC_mapping* IC_inputSystem::GetMapping(std::string name, bool axis)
+{
+	if (axis && axisMappings.contains(name))
+	{
+		return &axisMappings[name];
+	}
+	else if (actionMappings.contains(name))
+	{
+		return &actionMappings[name];
+	}
+	return nullptr;
+}
+
+float IC_inputSystem::GetAxisValue(std::string name)
+{
+	return axisValues[name];
+}
+
 float IC_inputSystem::EvaluateBindingAsAction(IC_binding binding)
 {
 	switch (binding.bindingType)
@@ -97,6 +139,8 @@ float IC_inputSystem::EvaluateBindingAsAction(IC_binding binding)
 		return IsKeyPressed(binding.key) ? 1.0f : (IsKeyReleased(binding.key) ? -1.0f : 0.0f);
 	case 1:
 		return IsMouseButtonPressed(binding.mouseButton) ? 1.0f : (IsMouseButtonReleased(binding.mouseButton) ? -1.0f : 0.0f);
+	case 4:
+		return 0.0f; // Sorry, you cannot use a mouse axis as an action
 	case 2:
 		if (!IsGamepadAvailable) { return 0.0f; } // No gamepad
 		return IsGamepadButtonPressed(0, binding.gamepadButton) ? 1.0f : (IsGamepadButtonReleased(0, binding.gamepadButton) ? -1.0f : 0.0f);
@@ -108,6 +152,7 @@ float IC_inputSystem::EvaluateBindingAsAction(IC_binding binding)
 		if (isPressed) { return 1.0f; } // Pressed
 		return -1.0f; // Released
 	}
+
 }
 
 bool IC_inputSystem::CheckIsBindingConsumed(IC_binding binding)
@@ -118,6 +163,8 @@ bool IC_inputSystem::CheckIsBindingConsumed(IC_binding binding)
 		return consumedInputs.contains(binding.key);
 	case 1:
 		return consumedInputs.contains(binding.mouseButton + 1000);
+	case 4:
+		return true; // Cannot use mouse axis as action
 	case 2:
 		if (!IsGamepadAvailable) { return false; } // No gamepad, no sending non-existent inputs
 		return consumedInputs.contains(binding.gamepadButton + 2000);
@@ -139,6 +186,8 @@ void IC_inputSystem::ConsumeBinding(IC_binding binding)
 	case 1:
 		consumedInputs.insert(binding.mouseButton + 1000);
 		return;
+	case 4:
+		return;
 	case 2:
 		if (!IsGamepadAvailable) { return; } // No gamepad
 		consumedInputs.insert(binding.gamepadButton + 2000);
@@ -149,5 +198,26 @@ void IC_inputSystem::ConsumeBinding(IC_binding binding)
 		return;
 	default:
 		return;
+	}
+}
+
+float IC_inputSystem::EvaluateBindingAsAxis(IC_binding binding)
+{
+	switch (binding.bindingType)
+	{
+	case 0:
+		return (IsKeyDown(binding.key) ? 1.0f : 0.0f) * binding.multiplier;
+	case 1:
+		return (IsMouseButtonDown(binding.mouseButton) ? 1.0f : 0.0f) * binding.multiplier;
+	case 2:
+		if (!IsGamepadAvailable) { return 0.0f; } // No gamepad
+		return (IsGamepadButtonDown(0, binding.gamepadButton) ? 1.0f : 0.0f) * binding.multiplier;
+	case 4:
+		return binding.mouseAxis == 0 ? GetMouseDelta().x * binding.multiplier : GetMouseDelta().y * binding.multiplier;
+	case 3:
+		if (!IsGamepadAvailable) { return 0.0f; } // No gamepad
+		return GetGamepadAxisMovement(0, binding.gamepadAxis) * binding.multiplier;
+	default:
+		return 0.0f;
 	}
 }

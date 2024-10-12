@@ -7,12 +7,12 @@ struct IC_sprite
 {
 public:
     IC_sprite() = default;
-    IC_sprite(Texture2D Texture) { texture = Texture; frameWidth = texture.width; frameHeight = texture.height; };
+    IC_sprite(Texture2D Texture) { texture = Texture; frameWidth = float(texture.width); frameHeight = float(texture.height); };
     // Line, row and frame count may not be smaller than 1
     // Frame count may not be larger than line*row
 	IC_sprite(Texture2D Texture, int LineCount, int RowCount, int FrameCount)
     {
-        texture = Texture; lineCount = LineCount; rowCount = RowCount; frameCount = FrameCount; frameWidth = texture.width / rowCount; frameHeight = texture.height / lineCount; printf(TextFormat("FrameWidth: %f, FrameHeight: %f \n", frameWidth, frameHeight));
+        texture = Texture; lineCount = LineCount; rowCount = RowCount; frameCount = FrameCount; frameWidth = float(texture.width) / float(rowCount); frameHeight = float(texture.height) / float(lineCount); printf(TextFormat("FrameWidth: %f, FrameHeight: %f \n", frameWidth, frameHeight));
     };
 
     Texture2D texture;

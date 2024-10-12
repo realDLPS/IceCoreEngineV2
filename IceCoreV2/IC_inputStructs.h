@@ -9,6 +9,7 @@
 
 // Other includes
 #include "vectorHelpers.h"
+#include "IC_inputEnums.h"
 
 // So, for now this "delegate" typedef can be here, but if more are introduced I may move them to their own header file.
 
@@ -24,17 +25,19 @@ struct IC_binding
 	IC_binding(MouseButton mouseButton, float multiplier = 1.0f) {this->bindingType = 1; this->mouseButton = mouseButton; this->multiplier = multiplier;};
 	IC_binding(GamepadButton gamepadButton, float multiplier = 1.0f) {this->bindingType = 2; this->gamepadButton = gamepadButton; this->multiplier = multiplier;};
 	IC_binding(GamepadAxis gamepadAxis, float multiplier = 1.0f) {this->bindingType = 3; this->gamepadAxis = gamepadAxis; this->multiplier = multiplier;}
+	IC_binding(MouseAxis mouseAxis, float multiplier = 1.0f) {this->bindingType = 4; this->mouseAxis = mouseAxis; this->multiplier = multiplier;}
 
 	// Set by constructors.
-	uint8_t bindingType = 0; // 0 = key, 1 = mouse button, 2 = gamepad button, 3 = gamepad axis
+	uint8_t bindingType = 0; // 0 = key, 1 = mouse button, 2 = gamepad button, 3 = gamepad axis, 4 = mouse axis
 	
 	// The value of a binding is multiplied by this value.
 	float multiplier = 1.0f;
-
+	
 	KeyboardKey key = KEY_NULL;
 	MouseButton mouseButton = MOUSE_BUTTON_LEFT;
 	GamepadButton gamepadButton = GAMEPAD_BUTTON_UNKNOWN;
 	GamepadAxis gamepadAxis = GAMEPAD_AXIS_LEFT_X;
+	MouseAxis mouseAxis = MOUSE_AXIS_X;
 
 	bool operator==(const IC_binding& other) const
 	{
@@ -48,6 +51,8 @@ struct IC_binding
 				return gamepadButton == other.gamepadButton && multiplier == other.multiplier;
 			case 3:
 				return gamepadAxis == other.gamepadAxis && multiplier == other.multiplier;
+			case 4:
+				return mouseAxis == other.mouseAxis && multiplier == other.multiplier;
 			default:
 				return false;
 		}

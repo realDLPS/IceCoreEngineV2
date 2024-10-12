@@ -1,7 +1,12 @@
 #include "raylib.h"
+
+// IceCore helpers
+#include "vectorHelpers.h"
+
+// IceCore classes
 #include "IC_graphicsManager.h"
 #include "IC_visualDebugger.h"
-#include "vectorHelpers.h"
+#include "IC_inputSystem.h"
 
 #include <format>
 
@@ -14,11 +19,31 @@
 //------------------------------------------------------------------------------------
 // Program main entry point
 //------------------------------------------------------------------------------------
+
+
+bool ToggleCursor(float value)
+{
+    if (value == 1.0f) // Is this a press?
+    {
+        if (IsCursorHidden())
+        {
+            ShowCursor();
+            EnableCursor();
+        }
+        else
+        {
+            HideCursor();
+            DisableCursor();
+        }
+    }
+    return true; // Consume the input
+}
+
 int main(void)
 {
     // Initialization
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    const int screenWidth = 1200;
+    const int screenHeight = 675;
 
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "IceCoreEngineV2");
@@ -28,8 +53,27 @@ int main(void)
     // IceCore classes
     IC_graphicsManager graphicsManager = IC_graphicsManager();
 	IC_visualDebugger visualDebugger = IC_visualDebugger();
+    IC_inputSystem inputSystem = IC_inputSystem();
 
+#pragma region Input Mappings
+    // Movement
+    IC_mapping moveUp = IC_mapping({ IC_binding(KEY_W, 1.0f), IC_binding(KEY_S, -1.0f), IC_binding(GAMEPAD_AXIS_LEFT_Y, -1.0f) });
+	IC_mapping moveRight = IC_mapping({ IC_binding(KEY_D, 1.0f), IC_binding(KEY_A, -1.0f), IC_binding(GAMEPAD_AXIS_LEFT_X, 1.0f) });
 
+    inputSystem.AddMapping("MoveUp", moveUp, true);
+	inputSystem.AddMapping("MoveRight", moveRight, true);
+
+    // Rotation
+    IC_mapping rotate = IC_mapping({ IC_binding(MOUSE_AXIS_X, 1.0f), IC_binding(GAMEPAD_AXIS_RIGHT_X, 1.0f), IC_binding(KEY_RIGHT, 1.0f), IC_binding(KEY_LEFT, -1.0f) });
+
+	inputSystem.AddMapping("Rotate", rotate, true);
+
+    // Showing cursor
+    IC_mapping showCursor = IC_mapping({ IC_binding(KEY_C, 1.0f) });
+    showCursor.AddDelegate(ToggleCursor);
+
+    inputSystem.AddMapping("ShowCursor", showCursor, false);
+#pragma endregion
 
     Texture2D circle = LoadTexture("Assets/Circle.png");
     Texture2D explosion = LoadTexture("Assets/Explosion.png");
@@ -41,8 +85,14 @@ int main(void)
 
     visualDebugger.AddDebugString(IC_debugString("Hello", 5.0f, RED), false);
 
+
+    HideCursor();
+    DisableCursor();
+
     while (!WindowShouldClose())
     { 
+        inputSystem.UpdateInputs(); // This should be called pretty early in a frame.
+
         visualDebugger.AddDebugString(IC_debugString(std::string("FPS: ") + std::to_string(GetFPS()), 0.0f), false);
         visualDebugger.AddDebugString(IC_debugString(std::string("Camera rotation: ") + std::to_string(graphicsManager.GetCameraRotation()), 0.0f), false);
 
@@ -64,7 +114,9 @@ int main(void)
 		{
 			rotate -= 1.0f;
 		}
-        graphicsManager.SetCameraRotation(graphicsManager.GetCameraRotation() + rotate * -0.03f);
+        graphicsManager.SetCameraRotation(graphicsManager.GetCameraRotation() + inputSystem.GetAxisValue("Rotate") * -0.03f);
+        
+		graphicsManager.SetCameraPosition(graphicsManager.GetCameraPosition() + rotVec2(Vector2Normalize(Vec2(inputSystem.GetAxisValue("MoveRight"), inputSystem.GetAxisValue("MoveUp"))),graphicsManager.GetCameraRotation())*300.0f * GetFrameTime());
         
 
         BeginDrawing();

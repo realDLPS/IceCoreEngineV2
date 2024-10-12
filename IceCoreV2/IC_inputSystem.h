@@ -19,13 +19,16 @@
 //
 // Currently actions can consume inputs, so that other actions aren't called. Axis mappings don't care about consumed inputs,
 // they will be called normally.
+//
+// Mouse axis cannot be used as action.
 class IC_inputSystem
 {
 private:
 	
 	// Mappings
-	std::map<std::string, IC_mapping> actionMappings;
-	std::map<std::string, IC_mapping> axisMappings;
+	std::map<std::string, IC_mapping> actionMappings = {};
+	std::map<std::string, IC_mapping> axisMappings = {};
+	std::map<std::string, float> axisValues = {};
 	
 	// State of inputs on the last update
 	IC_inputState previousInputState;
@@ -36,7 +39,7 @@ private:
 	// Mouse is value + 1000
 	// Gamepad is value + 2000
 	// GamepadAxis is value + 3000
-	std::unordered_set<int> consumedInputs;
+	std::unordered_set<int> consumedInputs = {};
 
 #pragma region PossibleInputs
 	// This pains me to do, but I need to create these arrays manually
@@ -67,15 +70,22 @@ public:
 	IC_inputState GetInputState();
 
 #pragma region Mappings
-	void AddMapping(std::string name, IC_mapping mapping);
-	IC_mapping* GetMapping(std::string name);
+	void AddMapping(std::string name, IC_mapping mapping, bool axis);
+	IC_mapping* GetMapping(std::string name, bool axis);
+	float GetAxisValue(std::string name);
 #pragma endregion
 
 private:
+#pragma region Action mapping functions
 	// Returns -1 if released, 1 if pressed, 0 if nothing changed.
 	float EvaluateBindingAsAction(IC_binding binding);
 	// Checks has this binding already been consumed.
 	bool CheckIsBindingConsumed(IC_binding binding);
 	// Consuming a binding.
 	void ConsumeBinding(IC_binding binding);
+#pragma endregion
+#pragma region Axis mapping functions
+	float EvaluateBindingAsAxis(IC_binding binding);
+#pragma endregion
+
 };
