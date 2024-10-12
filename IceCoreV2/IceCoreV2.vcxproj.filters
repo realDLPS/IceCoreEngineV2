@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Source Files\Graphics">
       <UniqueIdentifier>{de9bfa68-3914-4731-b50c-c89689302bb1}</UniqueIdentifier>
     </Filter>
@@ -27,6 +23,9 @@
     </Filter>
     <Filter Include="Source Files\Helpers">
       <UniqueIdentifier>{f4da881a-8cb8-4934-b50a-38e937f94296}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Enums">
+      <UniqueIdentifier>{8e847710-aa29-4755-b9e9-f8c514be7a22}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -45,6 +44,9 @@
     <ClCompile Include="IC_visualDebugger.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="IC_inputSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IC_graphicsStructs.h">
@@ -62,16 +64,14 @@
     <ClInclude Include="IC_debugStructs.h">
       <Filter>Header Files\Structs</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\Assets\Circle.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\Assets\Explosion.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\Assets\Fire.png">
-      <Filter>Resource Files</Filter>
-    </Image>
+    <ClInclude Include="IC_inputSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IC_inputStructs.h">
+      <Filter>Header Files\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="IC_inputEnums.h">
+      <Filter>Header Files\Enums</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
