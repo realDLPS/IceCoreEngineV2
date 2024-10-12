@@ -129,6 +129,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IC_graphicsManager.cpp" />
+    <ClCompile Include="IC_inputStructs.cpp" />
     <ClCompile Include="IC_inputSystem.cpp" />
     <ClCompile Include="IC_visualDebugger.cpp" />
     <ClCompile Include="main.cpp" />

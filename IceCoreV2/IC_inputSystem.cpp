@@ -29,12 +29,13 @@ void IC_inputSystem::UpdateInputs()
 
 			}
 		}
-		// We goto here, if a delegate consumes the input, as a mapping shouldn't have it's delegates called 
+		// We goto here if a delegate consumes the input, as a mapping shouldn't have it's delegates called 
 		// multiple times in a single update.
 		//
 		// Unless someone figures out how I can break multiple for loops at once without using another variable
 		// this will be used. I am far too happy about using goto properly in this day and age.
-		consumed:
+	consumed:
+		continue;
 	}
 
 
@@ -90,6 +91,8 @@ float IC_inputSystem::EvaluateBindingAsAction(IC_binding binding)
 {
 	switch (binding.bindingType)
 	{
+	default:
+		return 0.0f;
 	case 0:
 		return IsKeyPressed(binding.key) ? 1.0f : (IsKeyReleased(binding.key) ? -1.0f : 0.0f);
 	case 1:
@@ -104,8 +107,6 @@ float IC_inputSystem::EvaluateBindingAsAction(IC_binding binding)
 		if (wasPressed == isPressed) { return 0.0f; } // Nothing changed
 		if (isPressed) { return 1.0f; } // Pressed
 		return -1.0f; // Released
-	default:
-		return 0.0f;
 	}
 }
 

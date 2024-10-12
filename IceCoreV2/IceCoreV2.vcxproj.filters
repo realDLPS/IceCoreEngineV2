@@ -47,6 +47,9 @@
     <ClCompile Include="IC_inputSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="IC_inputStructs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IC_graphicsStructs.h">
