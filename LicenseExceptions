@@ -4,6 +4,8 @@ File paths are relative to this file.
 
 MIT License:
 IceCoreV2/main.cpp
+IceCoreV2/IC_exampleGame.h
+IceCoreV2/IC_exampleGame.cpp
 
 CC0:
 Assets/Circle.png

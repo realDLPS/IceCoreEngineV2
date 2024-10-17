@@ -115,11 +115,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /E /I "$(ProjectDir)..\Assets" "$(TargetDir)Assets" &amp;&amp; xcopy /Y /E /I "$(ProjectDir)..\Assets" "$(SolutionDir)..\Packaged\$(Platform)\$(Configuration)\$(GameName)\Assets"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -148,6 +152,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="IC_exampleGame.cpp" />
+    <ClCompile Include="IC_game.cpp" />
     <ClCompile Include="IC_graphicsManager.cpp" />
     <ClCompile Include="IC_inputStructs.cpp" />
     <ClCompile Include="IC_inputSystem.cpp" />
@@ -157,6 +163,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IC_debugStructs.h" />
+    <ClInclude Include="IC_exampleGame.h" />
+    <ClInclude Include="IC_game.h" />
     <ClInclude Include="IC_inputEnums.h" />
     <ClInclude Include="IC_inputStructs.h" />
     <ClInclude Include="IC_inputSystem.h" />

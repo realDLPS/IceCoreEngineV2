@@ -27,6 +27,18 @@
     <Filter Include="Header Files\Enums">
       <UniqueIdentifier>{8e847710-aa29-4755-b9e9-f8c514be7a22}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Game">
+      <UniqueIdentifier>{593fd712-719d-4971-9a7a-eace28a56f0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{0460dd4a-fb1a-4f00-b5b9-ec6cec65e6cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Examples">
+      <UniqueIdentifier>{da7c5ec4-cf18-4557-a5fd-a9fa93ba38dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Examples">
+      <UniqueIdentifier>{a71ec5c5-cb8d-4db9-bdac-63e75c49270d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -49,6 +61,12 @@
     </ClCompile>
     <ClCompile Include="IC_inputStructs.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IC_game.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="IC_exampleGame.cpp">
+      <Filter>Source Files\Examples</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +93,12 @@
     </ClInclude>
     <ClInclude Include="IC_inputEnums.h">
       <Filter>Header Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="IC_game.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="IC_exampleGame.h">
+      <Filter>Header Files\Examples</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
