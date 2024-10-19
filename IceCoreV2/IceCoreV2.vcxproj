@@ -155,8 +155,9 @@
     <ClCompile Include="IC_exampleGame.cpp" />
     <ClCompile Include="IC_game.cpp" />
     <ClCompile Include="IC_graphicsManager.cpp" />
-    <ClCompile Include="IC_inputStructs.cpp" />
     <ClCompile Include="IC_inputSystem.cpp" />
+    <ClCompile Include="IC_object.cpp" />
+    <ClCompile Include="IC_objectSystem.cpp" />
     <ClCompile Include="IC_visualDebugger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="vectorHelpers.cpp" />
@@ -168,6 +169,8 @@
     <ClInclude Include="IC_inputEnums.h" />
     <ClInclude Include="IC_inputStructs.h" />
     <ClInclude Include="IC_inputSystem.h" />
+    <ClInclude Include="IC_object.h" />
+    <ClInclude Include="IC_objectSystem.h" />
     <ClInclude Include="IC_visualDebugger.h" />
     <ClInclude Include="vectorHelpers.h" />
     <ClInclude Include="IC_graphicsManager.h" />

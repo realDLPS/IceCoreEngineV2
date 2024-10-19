@@ -10,9 +10,10 @@ void IC_game::Init(bool debug, bool useWindowDefaults)
 		SetTargetFPS(120);
 	}
 
-
 	graphicsManager = std::make_unique<IC_graphicsManager>();
 	inputSystem = std::make_unique<IC_inputSystem>();
+	objectSystem = std::make_unique<IC_objectSystem>();
+	objectSystem.get()->game = this;
 
 	if (debug)
 	{
@@ -26,7 +27,9 @@ void IC_game::Init(bool debug, bool useWindowDefaults)
 	while (!WindowShouldClose())
 	{
 		inputSystem->UpdateInputs();
-		Tick(GetFrameTime());
+		objectSystem->Update();
+
+		Tick(GetDeltaTime());
 
 
 
@@ -47,7 +50,10 @@ void IC_game::Init(bool debug, bool useWindowDefaults)
 
 		EndDrawing();
 	}
+	EndPlay();
 
+
+	Unload();
 	CloseWindow();
 }
 
@@ -56,6 +62,9 @@ void IC_game::Unload()
 	graphicsManager.reset();
 	inputSystem.reset();
 	visualDebugger.reset();
+
+	objectSystem.get()->Unload();
+	objectSystem.reset();
 }
 
 IC_graphicsManager* IC_game::GetGraphicsManager()
@@ -81,10 +90,31 @@ void IC_game::ICPrint(const IC_debugString& DebugString, bool Log)
 	}
 }
 
-void IC_game::BeginPlay()
+float IC_game::GetDeltaTime()
 {
+	if (paused)
+	{
+		return 0.0f;
+	}
+	return GetFrameTime() * timeDilation;
 }
 
-void IC_game::Tick(float deltaTime)
+void IC_game::SetTimeDilation(float newTimeDilation)
 {
+	timeDilation = newTimeDilation;
+}
+
+float IC_game::GetTimeDilation()
+{
+	return timeDilation;
+}
+
+void IC_game::SetPaused(bool newPaused)
+{
+	paused = newPaused;
+}
+
+bool IC_game::GetPaused()
+{
+	return paused;
 }

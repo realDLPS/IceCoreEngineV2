@@ -12,9 +12,6 @@
     <Filter Include="Source Files\Graphics">
       <UniqueIdentifier>{de9bfa68-3914-4731-b50c-c89689302bb1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Structs">
-      <UniqueIdentifier>{ad757a18-6b0a-4abc-8070-f4af1440ad5e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Graphics">
       <UniqueIdentifier>{fdce90af-5b27-4269-9229-7f6a6c492cd6}</UniqueIdentifier>
     </Filter>
@@ -23,9 +20,6 @@
     </Filter>
     <Filter Include="Source Files\Helpers">
       <UniqueIdentifier>{f4da881a-8cb8-4934-b50a-38e937f94296}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Enums">
-      <UniqueIdentifier>{8e847710-aa29-4755-b9e9-f8c514be7a22}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Game">
       <UniqueIdentifier>{593fd712-719d-4971-9a7a-eace28a56f0c}</UniqueIdentifier>
@@ -38,6 +32,27 @@
     </Filter>
     <Filter Include="Source Files\Examples">
       <UniqueIdentifier>{a71ec5c5-cb8d-4db9-bdac-63e75c49270d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DataTypes">
+      <UniqueIdentifier>{5e0f1666-646b-4284-861f-182e52dd43a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DataTypes\Structs">
+      <UniqueIdentifier>{ad757a18-6b0a-4abc-8070-f4af1440ad5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DataTypes\Enums">
+      <UniqueIdentifier>{8e847710-aa29-4755-b9e9-f8c514be7a22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ICObjects">
+      <UniqueIdentifier>{2445203d-031d-425f-8d77-a9ce5babebd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ICObjects\Entities">
+      <UniqueIdentifier>{37dff0e6-e14e-4fac-8774-41c2f9cd52a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ICObjects">
+      <UniqueIdentifier>{3565a311-e51d-400b-8482-e7da982dd171}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ICObjects\Entities">
+      <UniqueIdentifier>{33ac971e-4b68-4083-bd50-8bc04a2bfa24}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -56,22 +71,25 @@
     <ClCompile Include="IC_visualDebugger.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="IC_inputSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IC_inputStructs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="IC_game.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="IC_exampleGame.cpp">
       <Filter>Source Files\Examples</Filter>
     </ClCompile>
+    <ClCompile Include="IC_inputSystem.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="IC_objectSystem.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="IC_object.cpp">
+      <Filter>Source Files\ICObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IC_graphicsStructs.h">
-      <Filter>Header Files\Structs</Filter>
+      <Filter>Header Files\DataTypes\Structs</Filter>
     </ClInclude>
     <ClInclude Include="IC_graphicsManager.h">
       <Filter>Header Files\Graphics</Filter>
@@ -83,22 +101,28 @@
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="IC_debugStructs.h">
-      <Filter>Header Files\Structs</Filter>
-    </ClInclude>
-    <ClInclude Include="IC_inputSystem.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\DataTypes\Structs</Filter>
     </ClInclude>
     <ClInclude Include="IC_inputStructs.h">
-      <Filter>Header Files\Structs</Filter>
+      <Filter>Header Files\DataTypes\Structs</Filter>
     </ClInclude>
     <ClInclude Include="IC_inputEnums.h">
-      <Filter>Header Files\Enums</Filter>
+      <Filter>Header Files\DataTypes\Enums</Filter>
     </ClInclude>
     <ClInclude Include="IC_game.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="IC_exampleGame.h">
       <Filter>Header Files\Examples</Filter>
+    </ClInclude>
+    <ClInclude Include="IC_inputSystem.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="IC_objectSystem.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="IC_object.h">
+      <Filter>Header Files\ICObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

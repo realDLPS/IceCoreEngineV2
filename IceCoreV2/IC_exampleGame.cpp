@@ -31,8 +31,6 @@ void IC_exampleGame::Tick(float deltaTime)
     GfxMgr()->SetCameraZoom(GfxMgr()->GetCameraZoom() + GetMouseWheelMove() * 0.2f);
     GfxMgr()->SetCameraRotation(GfxMgr()->GetCameraRotation() + InpSys()->GetAxisValue("Rotate") * -0.03f);
     GfxMgr()->SetCameraPosition(GfxMgr()->GetCameraPosition() + rotVec2(Vector2Normalize(Vec2(InpSys()->GetAxisValue("MoveRight"), InpSys()->GetAxisValue("MoveUp"))), GfxMgr()->GetCameraRotation()) * 300.0f * GetFrameTime());
-
-	IC_game::Tick(deltaTime); // Call the base tick function
 }
 
 void IC_exampleGame::BeginPlay()
@@ -49,7 +47,7 @@ void IC_exampleGame::BeginPlay()
 
 
     // Rotation
-    IC_mapping rotate = IC_mapping({ IC_binding(MOUSE_AXIS_X, 1.0f), IC_binding(GAMEPAD_AXIS_RIGHT_X, 1.0f), IC_binding(KEY_RIGHT, 1.0f), IC_binding(KEY_LEFT, -1.0f) });
+    IC_mapping rotate = IC_mapping({ IC_binding(MOUSE_AXIS_X, 1.0f), IC_binding(GAMEPAD_AXIS_RIGHT_X, 25.0f), IC_binding(KEY_RIGHT, 15.0f), IC_binding(KEY_LEFT, -15.0f) });
 
     GetInputSystem()->AddMapping("Rotate", rotate, true);
 
@@ -73,4 +71,8 @@ void IC_exampleGame::BeginPlay()
 
     HideCursor();
     DisableCursor();
+}
+
+void IC_exampleGame::EndPlay()
+{
 }
