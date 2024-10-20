@@ -18,6 +18,7 @@ class IC_assetManager
 
 public:
 	IC_assetManager() {};
+	~IC_assetManager() { UnloadTexture(missingTexture); UnloadSound(missingSound); };
 
 	// Unloads all assets before loading them again.
 	// Loads common and level assets (once implemented).
