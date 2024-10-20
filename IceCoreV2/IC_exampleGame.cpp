@@ -75,4 +75,5 @@ void IC_exampleGame::BeginPlay()
 
 void IC_exampleGame::EndPlay()
 {
+
 }

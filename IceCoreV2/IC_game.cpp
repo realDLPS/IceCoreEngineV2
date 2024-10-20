@@ -82,6 +82,11 @@ IC_visualDebugger* IC_game::GetVisualDebugger()
 	return visualDebugger.get();
 }
 
+IC_objectSystem* IC_game::GetObjectSystem()
+{
+	return objectSystem.get();
+}
+
 void IC_game::ICPrint(const IC_debugString& DebugString, bool Log)
 {
 	if(visualDebugger)

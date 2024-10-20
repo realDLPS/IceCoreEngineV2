@@ -60,7 +60,12 @@ public:
 	// Returns a nullptr if debugging is disabled, abbr: VisDbg
 	IC_visualDebugger* GetVisualDebugger(); 
 	// Shorthand for GetVisualDebugger()
-	inline IC_visualDebugger* VisDbg() { return GetVisualDebugger(); } 
+	inline IC_visualDebugger* VisDbg() { return GetVisualDebugger(); }
+
+	// Returns pointer to the object system, abbr: ObjSys
+	IC_objectSystem* GetObjectSystem();
+	// Shorthand for GetObjectSystem()
+	inline IC_objectSystem* ObjSys() { return GetObjectSystem(); }
 
 
 
