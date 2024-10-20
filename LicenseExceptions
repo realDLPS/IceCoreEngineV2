@@ -6,9 +6,12 @@ MIT License:
 IceCoreV2/main.cpp
 IceCoreV2/IC_exampleGame.h
 IceCoreV2/IC_exampleGame.cpp
+Assets/UIStyles/icecore.rgs
 
 CC0:
-Assets/Circle.png
-Assets/Explosion.png
-Assets/Fire.png
-Assets/Smoke.png
+Assets/Common/Circle.png
+Assets/Common/Explosion.png
+Assets/Common/Fire.png
+Assets/Common/Smoke.png
+Assets/MissingTexture.png
+Assets/MissingSound.wav
