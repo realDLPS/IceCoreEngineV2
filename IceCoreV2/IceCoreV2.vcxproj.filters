@@ -80,6 +80,9 @@
     <ClCompile Include="IC_game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="IC_assetManager.cpp">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IC_graphicsStructs.h">
@@ -117,6 +120,9 @@
     </ClInclude>
     <ClInclude Include="IC_game.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IC_assetManager.h">
+      <Filter>Header Files\Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

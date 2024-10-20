@@ -10,15 +10,20 @@ void IC_game::Init(bool debug, bool useWindowDefaults)
 		SetTargetFPS(120);
 	}
 
-	graphicsManager = std::make_unique<IC_graphicsManager>();
-	inputSystem = std::make_unique<IC_inputSystem>();
-	objectSystem = std::make_unique<IC_objectSystem>();
-	objectSystem.get()->game = this;
+	InitAudioDevice();
 
 	if (debug)
 	{
 		visualDebugger = std::make_unique<IC_visualDebugger>();
 	}
+
+	graphicsManager = std::make_unique<IC_graphicsManager>();
+	inputSystem = std::make_unique<IC_inputSystem>();
+	objectSystem = std::make_unique<IC_objectSystem>();
+	objectSystem.get()->game = this;
+	assetManager = std::make_unique<IC_assetManager>();
+	assetManager.get()->game = this;
+	assetManager.get()->LoadCommonAssets();
 
 	// Call begin play
 	BeginPlay();
@@ -52,7 +57,6 @@ void IC_game::Init(bool debug, bool useWindowDefaults)
 	}
 	EndPlay();
 
-
 	Unload();
 	CloseWindow();
 }
@@ -65,6 +69,9 @@ void IC_game::Unload()
 
 	objectSystem.get()->Unload();
 	objectSystem.reset();
+
+	assetManager.get()->UnloadAssets();
+	assetManager.reset();
 }
 
 IC_graphicsManager* IC_game::GetGraphicsManager()
@@ -85,6 +92,11 @@ IC_visualDebugger* IC_game::GetVisualDebugger()
 IC_objectSystem* IC_game::GetObjectSystem()
 {
 	return objectSystem.get();
+}
+
+IC_assetManager* IC_game::GetAssetManager()
+{
+	return assetManager.get();
 }
 
 void IC_game::ICPrint(const IC_debugString& DebugString, bool Log)

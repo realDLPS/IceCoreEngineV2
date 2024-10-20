@@ -152,6 +152,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="IC_assetManager.cpp" />
     <ClCompile Include="IC_exampleGame.cpp" />
     <ClCompile Include="IC_game.cpp" />
     <ClCompile Include="IC_graphicsManager.cpp" />
@@ -163,6 +164,7 @@
     <ClCompile Include="vectorHelpers.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="IC_assetManager.h" />
     <ClInclude Include="IC_debugStructs.h" />
     <ClInclude Include="IC_exampleGame.h" />
     <ClInclude Include="IC_game.h" />

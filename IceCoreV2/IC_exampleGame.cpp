@@ -20,10 +20,10 @@ bool IC_exampleGame::ToggleCursor(float value)
 
 void IC_exampleGame::Tick(float deltaTime)
 {
-    VisDbg()->AddDebugString(IC_debugString(std::string("FPS: ") + std::to_string(GetFPS()), 0.0f), false);
-    VisDbg()->AddDebugString(IC_debugString(std::string("Camera rotation: ") + std::to_string(GfxMgr()->GetCameraRotation()), 0.0f), false);
+    ICPrint(IC_debugString(std::string("FPS: ") + std::to_string(GetFPS()), 0.0f), false);
+    ICPrint(IC_debugString(std::string("Camera rotation: ") + std::to_string(GfxMgr()->GetCameraRotation()), 0.0f), false);
 
-    GfxMgr()->AddToDrawQueue(IC_drawable(IC_sprite(circle), Vec2(0), Vec2(1.f), 0.f));
+    GfxMgr()->AddToDrawQueue(IC_drawable(IC_sprite(Tex("Circle")), Vec2(0), Vec2(1.f), 0.f));
     GfxMgr()->AddToDrawQueue(IC_drawable(explosionSprite, Vec2(-200.f, 200.f), Vec2(1.f), 0.0f, int(GetTime() * 32) % 16));
     GfxMgr()->AddToDrawQueue(IC_drawable(fireSprite, Vec2(-200.f), Vec2(1.f), 0.0f, int(GetTime() * 24) % 25));
     GfxMgr()->AddToDrawQueue(IC_drawable(smokeSprite, Vec2(200.f), Vec2(1.f), 0.0f, int(GetTime() * 24) % 45));
@@ -53,19 +53,14 @@ void IC_exampleGame::BeginPlay()
 
     // Showing cursor
     IC_mapping showCursor = IC_mapping({ IC_binding(KEY_C, 1.0f) });
-    showCursor.AddDelegate(ToggleCursor);
+    showCursor.AddDelegate(std::bind_front(&IC_exampleGame::ToggleCursor, this));
 
     GetInputSystem()->AddMapping("ShowCursor", showCursor, false);
 #pragma endregion
 
-    circle = LoadTexture("Assets/Circle.png");
-    explosion = LoadTexture("Assets/Explosion.png");
-    explosionSprite = IC_sprite(explosion, 4, 4, 16);
-    fire = LoadTexture("Assets/Fire.png");
-    fireSprite = IC_sprite(fire, 1, 25, 25);
-    smoke = LoadTexture("Assets/Smoke.png");
-    smokeSprite = IC_sprite(smoke, 7, 7, 45);
-
+    explosionSprite = IC_sprite(Tex("Explosion"), 4, 4, 16);
+    fireSprite = IC_sprite(Tex("Fire"), 1, 25, 25);
+    smokeSprite = IC_sprite(Tex("Smoke"), 7, 7, 45);
 
     ICPrint(IC_debugString("Hello", 5.0f, RED), false);
 

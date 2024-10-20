@@ -10,6 +10,7 @@
 #include "IC_visualDebugger.h"
 #include "IC_inputSystem.h"
 #include "IC_objectSystem.h"
+#include "IC_assetManager.h"
 
 // This game class creates other IceCore classes for you and gives you access to them.
 // Also abstracts some raylib things away to be more similar to Unreal Engine.
@@ -25,6 +26,7 @@ private:
 	std::unique_ptr<IC_graphicsManager> graphicsManager;
 	std::unique_ptr<IC_inputSystem> inputSystem;
 	std::unique_ptr<IC_objectSystem> objectSystem;
+	std::unique_ptr<IC_assetManager> assetManager;
 
 	std::unique_ptr<IC_visualDebugger> visualDebugger;
 
@@ -66,7 +68,16 @@ public:
 	IC_objectSystem* GetObjectSystem();
 	// Shorthand for GetObjectSystem()
 	inline IC_objectSystem* ObjSys() { return GetObjectSystem(); }
-
+	// Returns pointer to the asset manager, abbr: AstMgr
+	IC_assetManager* GetAssetManager();
+	// Shorthand for GetAssetManager()
+	inline IC_assetManager* AstMgr() { return GetAssetManager(); }
+	// Gets a texture from the asset manager by name.
+	// Shorthand for GetAssetManager()->GetTexture(name)
+	inline Texture2D Tex(std::string name) { return AstMgr()->GetTexture(name); }
+	// Gets a sound from the asset manager by name.
+	// Shorthand for GetAssetManager()->GetSound(name)
+	inline Sound Sfx(std::string name) { return AstMgr()->GetSound(name); }
 
 
 	// Wrapper function for the visual debugger 
