@@ -2,6 +2,8 @@
 *.dsym
 main
 .vscode
-x64/
+/IceCoreV2/x64/
+/IceCoreV2/IceCoreV2/
+/Packaged/
 x32/
 .vs/
