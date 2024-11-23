@@ -9,8 +9,7 @@ void IC_visualDebugger::AddDebugString(const IC_debugString& DebugString, bool L
 {
 	if (Log)
 	{
-		printf(DebugString.str.c_str());
-		printf("\n");
+		LogDebugString(DebugString);
 	}
 
 	debugStrings.insert(debugStrings.begin(), DebugString);
@@ -18,6 +17,12 @@ void IC_visualDebugger::AddDebugString(const IC_debugString& DebugString, bool L
 	{
 		debugStrings.pop_back();
 	}
+}
+
+void IC_visualDebugger::LogDebugString(const IC_debugString& DebugString)
+{
+	printf(DebugString.str.c_str());
+	printf("\n");
 }
 
 void IC_visualDebugger::DrawDebugStrings()

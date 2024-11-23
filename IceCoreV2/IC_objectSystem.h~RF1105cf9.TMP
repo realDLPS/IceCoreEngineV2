@@ -28,7 +28,7 @@ public:
 	SpawnedClass* SpawnObject(bool canEverTick = true, bool ticking = false, float maxTickFrequency = 0.0f, bool persistent = false, bool autoFinish = true);
 
 	// Call to finish spawning an object.
-	// Only needs to be called if autoFinish was set to false on the SpawnObject call.
+	// Only needs to be called if autoFinish was set to false.
 	void FinishSpawn(int id, bool persistent);
 
 private:

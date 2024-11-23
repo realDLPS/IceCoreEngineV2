@@ -31,7 +31,6 @@ Sound IC_assetManager::GetSound(std::string name)
 		return commonSounds[name];
 	}
 
-	game->ICLog("Warning: Sound with name " + name + " does not exist.");
 	return missingSound;
 }
 

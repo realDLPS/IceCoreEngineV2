@@ -72,3 +72,8 @@ void IC_exampleGame::EndPlay()
 {
 
 }
+
+void IC_exampleGame::DrawUI(float deltaTime)
+{
+    // Nothing drawn yet
+}

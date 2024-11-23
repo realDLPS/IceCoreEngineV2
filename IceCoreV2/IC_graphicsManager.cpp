@@ -109,12 +109,30 @@ void IC_graphicsManager::DrawDrawable(IC_drawable drawable)
 	int y = drawable.frame / drawable.sprite.rowCount;
 	frame.x = x * drawable.sprite.frameWidth;
 	frame.y = y * drawable.sprite.frameHeight;
-
-    DrawTex(
-        drawable.sprite.texture, 
-        frame, 
-        WorldToViewSpace(drawable.position), 
-        drawable.rotation + cameraRotation,
-        drawable.scale * GetScreenSizeScaling() * cameraZoom * Vec2(xScale, yScale), 
-        WHITE);
+    if (!drawable.sprite.UseSlicing)
+    {
+        DrawTex(
+            drawable.sprite.texture,
+            frame,
+            drawable.worldSpace ? WorldToViewSpace(drawable.position) : drawable.position,
+            drawable.rotation + cameraRotation,
+            drawable.scale * GetScreenSizeScaling() * cameraZoom * Vec2(xScale, yScale),
+            WHITE);
+    }
+    else
+    {
+        NPatchInfo nPatchInfo;
+        nPatchInfo.source = frame;
+		nPatchInfo.left = drawable.sprite.Left;
+		nPatchInfo.top = drawable.sprite.Top;
+		nPatchInfo.right = drawable.sprite.Right;
+		nPatchInfo.bottom = drawable.sprite.Bottom;
+		nPatchInfo.layout = drawable.sprite.SlicingType;
+		DrawTexNPatch(drawable.sprite.texture, 
+            nPatchInfo, 
+            WorldToViewSpace(drawable.position), 
+            drawable.rotation + cameraRotation, 
+            drawable.scale * GetScreenSizeScaling() * cameraZoom * Vec2(xScale, yScale),
+            WHITE);
+    }
 }

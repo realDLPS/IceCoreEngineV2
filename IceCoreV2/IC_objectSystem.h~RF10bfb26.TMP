@@ -23,13 +23,8 @@ public:
 	IC_objectSystem() {};
 
 	// Expects class to be derived from IC_object.
-	// Pass false to autoFinish if you want to change object variables before BeginPlay is called. Remember to call FinishSpawn if you set autoFinish to false.
 	template <class SpawnedClass>
 	SpawnedClass* SpawnObject(bool canEverTick = true, bool ticking = false, float maxTickFrequency = 0.0f, bool persistent = false, bool autoFinish = true);
-
-	// Call to finish spawning an object.
-	// Only needs to be called if autoFinish was set to false on the SpawnObject call.
-	void FinishSpawn(int id, bool persistent);
 
 private:
 	// All objects that are level specific and the subset of these objects that are ticking.
@@ -68,7 +63,7 @@ private:
 };
 
 template<class SpawnedClass>
-inline SpawnedClass* IC_objectSystem::SpawnObject(bool canEverTick, bool ticking, float maxTickFrequency, bool persistent, bool autoFinish)
+inline SpawnedClass* IC_objectSystem::SpawnObject(bool canEverTick, bool ticking, float maxTickFrequency, bool persistent)
 {
 	static_assert(std::is_base_of<IC_object, SpawnedClass>::value, "SpawnedClass must be derived from IC_object.");
 
@@ -110,11 +105,7 @@ inline SpawnedClass* IC_objectSystem::SpawnObject(bool canEverTick, bool ticking
 	castObject->game = game;
 	castObject->objectSystem = this;
 
-	if (autoFinish)
-	{
-		castObject->inPlay = true;
-		castObject->BeginPlay();
-	}
+	castObject->BeginPlay();
 
 	return spawnedObject;
 }

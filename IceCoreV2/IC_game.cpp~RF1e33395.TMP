@@ -48,7 +48,6 @@ void IC_game::Init(bool debug, bool useWindowDefaults)
 
 		// UI will be drawn here
 		uiManager->Draw(GetDeltaTime());
-		DrawUI(GetDeltaTime());
 
 		if (debug)
 		{

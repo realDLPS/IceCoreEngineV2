@@ -21,4 +21,5 @@ protected:
 	void Tick(float deltaTime) override;
     void BeginPlay() override;
     void EndPlay() override;
+    void DrawUI(float deltaTime) override;
 };

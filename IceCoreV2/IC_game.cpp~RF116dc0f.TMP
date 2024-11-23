@@ -24,8 +24,6 @@ void IC_game::Init(bool debug, bool useWindowDefaults)
 	assetManager = std::make_unique<IC_assetManager>();
 	assetManager.get()->game = this;
 	assetManager.get()->LoadCommonAssets();
-	uiManager = std::make_unique<IC_uiManager>();
-	uiManager.get()->game = this;
 
 	// Call begin play
 	BeginPlay();
@@ -38,6 +36,8 @@ void IC_game::Init(bool debug, bool useWindowDefaults)
 
 		Tick(GetDeltaTime());
 
+
+
 		BeginDrawing();
 
 		graphicsManager->Draw();
@@ -47,8 +47,6 @@ void IC_game::Init(bool debug, bool useWindowDefaults)
 		// Debug lines and such will be drawn here
 
 		// UI will be drawn here
-		uiManager->Draw(GetDeltaTime());
-		DrawUI(GetDeltaTime());
 
 		if (debug)
 		{
@@ -68,7 +66,6 @@ void IC_game::Unload()
 	graphicsManager.reset();
 	inputSystem.reset();
 	visualDebugger.reset();
-	uiManager.reset();
 
 	objectSystem.get()->Unload();
 	objectSystem.reset();
@@ -102,24 +99,11 @@ IC_assetManager* IC_game::GetAssetManager()
 	return assetManager.get();
 }
 
-IC_uiManager* IC_game::GetUiManager()
-{
-	return uiManager.get();
-}
-
 void IC_game::ICPrint(const IC_debugString& DebugString, bool Log)
 {
 	if(visualDebugger)
 	{
 		visualDebugger->AddDebugString(DebugString, Log);
-	}
-}
-
-void IC_game::ICLog(const std::string& DebugString)
-{
-	if(visualDebugger)
-	{
-		visualDebugger->LogDebugString(DebugString);
 	}
 }
 

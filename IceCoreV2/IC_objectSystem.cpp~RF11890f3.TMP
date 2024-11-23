@@ -11,17 +11,15 @@ void IC_objectSystem::FinishSpawn(int id, bool persistent)
 			const auto& object = persistentObjects[id];
 			if(object->inPlay) 
 			{ 
-				game->ICLog("Warning: Persistent object with id " + std::to_string(id) + " is already in play. BeginPlay was not called.");
+				game->ICLog("Warning: Object with id " + std::to_string(id) + " is already in play. BeginPlay was not called.");
 				return; 
 			}
 			object->inPlay = true;
 			object->BeginPlay();
-			return;
 		}
 		else
 		{
 			game->ICLog("Warning: Object with id " + std::to_string(id) + " does not exist.");
-			return;
 		}
 	}
 	else
@@ -36,12 +34,6 @@ void IC_objectSystem::FinishSpawn(int id, bool persistent)
 			}
 			object->inPlay = true;
 			object->BeginPlay();
-			return;
-		}
-		else
-		{
-			game->ICLog("Warning: Object with id " + std::to_string(id) + " does not exist.");
-			return;
 		}
 	}
 }
@@ -99,11 +91,6 @@ void IC_objectSystem::Unload()
 void IC_objectSystem::RequestDestroy(IC_object* object)
 {
 	int id = object->id;
-	if (id == -1)
-	{
-		game->ICLog("Warning: Attempted to destroy an object with no id.");
-		return;
-	}
 	if (object->persistent)
 	{
 		if (object->canEverTick)

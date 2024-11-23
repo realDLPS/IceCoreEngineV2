@@ -1,0 +1,48 @@
+#pragma once
+
+// Raylib
+#include "raylib.h"
+#include "raymath.h"
+
+// Standard libraries
+#include <vector>
+//#include <cmath>
+
+// Other includes
+#include "IC_graphicsStructs.h"
+#include "vectorHelpers.h"
+
+#include "IC_object.h"
+#include "IC_uiEnums.h"
+
+class IC_uiManager;
+
+class IC_uiObject : IC_object
+{
+	friend class IC_uiManager;
+
+public:
+	IC_uiObject();
+
+	bool Active = true;
+	IC_uiVisibility Visibility = uiVis::Visible;
+	IC_uiAlignment Alignment = uiAlign::TopLeft;
+	IC_uiAlignment Anchor = uiAnchor::TopLeft;
+	// Offset from anchor
+	Vector2 Offset = Vec2(0.0f);
+	// Scale
+	Vector2 Scale = Vec2(1.0f);
+	// Should the scale be treated as a percentage of the parent size.
+	bool RelativeScale = false;
+	// Rotation
+	float Rotation = 0.0f;
+	// Child ui objects
+	std::vector<IC_uiObject*> Children;
+
+	// Always call with the delta time of the current frame
+	// If not using auto draw you are expected to call this every frame.
+	virtual void Draw(float deltaTime) = 0;
+
+	void EnableAutoDraw();
+	private:
+};

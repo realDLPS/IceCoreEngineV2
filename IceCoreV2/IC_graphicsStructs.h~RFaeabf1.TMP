@@ -10,7 +10,7 @@ public:
     IC_sprite(Texture2D Texture) { texture = Texture; frameWidth = float(texture.width); frameHeight = float(texture.height); };
     // Line, row and frame count may not be smaller than 1
     // Frame count may not be larger than line*row
-	IC_sprite(Texture2D Texture, int LineCount, int RowCount, int FrameCount, bool worldSpace = true)
+	IC_sprite(Texture2D Texture, int LineCount, int RowCount, int FrameCount)
     {
         texture = Texture; lineCount = LineCount; rowCount = RowCount; frameCount = FrameCount; frameWidth = float(texture.width) / float(rowCount); frameHeight = float(texture.height) / float(lineCount); printf(TextFormat("FrameWidth: %f, FrameHeight: %f \n", frameWidth, frameHeight));
     };
@@ -31,10 +31,6 @@ public:
     // For example can keep button corners from streching.
     bool UseSlicing = false;
     int SlicingType = 0; // 0 = 3x3, 1 = 1x3, 2 = 3x1
-    int Left = 0;
-    int Top = 0;
-    int Right = 0;
-    int Bottom = 0;
 };
 
 struct IC_drawable
@@ -74,5 +70,4 @@ public:
     Vector2 scale = Vector2();
     float rotation = 0.0f;
     int frame = 0;
-    bool worldSpace = true;
 };

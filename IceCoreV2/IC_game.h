@@ -11,6 +11,7 @@
 #include "IC_inputSystem.h"
 #include "IC_objectSystem.h"
 #include "IC_assetManager.h"
+#include "IC_uiManager.h"
 
 // This game class creates other IceCore classes for you and gives you access to them.
 // Also abstracts some raylib things away to be more similar to Unreal Engine.
@@ -27,6 +28,7 @@ private:
 	std::unique_ptr<IC_inputSystem> inputSystem;
 	std::unique_ptr<IC_objectSystem> objectSystem;
 	std::unique_ptr<IC_assetManager> assetManager;
+	std::unique_ptr<IC_uiManager> uiManager;
 
 	std::unique_ptr<IC_visualDebugger> visualDebugger;
 
@@ -74,6 +76,10 @@ public:
 	inline IC_assetManager* AstMgr() { return GetAssetManager(); }
 	// Gets a texture from the asset manager by name.
 	// Shorthand for GetAssetManager()->GetTexture(name)
+	IC_uiManager* GetUiManager();
+	// Shorthand for GetUiManager()
+	inline IC_uiManager* UiMgr() { return GetUiManager(); }
+
 	inline Texture2D Tex(std::string name) { return AstMgr()->GetTexture(name); }
 	// Gets a sound from the asset manager by name.
 	// Shorthand for GetAssetManager()->GetSound(name)
@@ -83,7 +89,8 @@ public:
 	// Wrapper function for the visual debugger 
 	// Checks if debugging is enabled before trying to add a debug string.
 	void ICPrint(const IC_debugString& DebugString, bool Log);
-
+	// Adds a debug string to the log.
+	void ICLog(const std::string& DebugString);
 
 
 	// Get frame time affected by time dilation.
@@ -105,7 +112,8 @@ protected:
 	virtual void BeginPlay() = 0;
 	// Called each frame.
 	virtual void Tick(float deltaTime) = 0;
-
+	// Called each frame after AutoDraw ui have been drawn.
+	virtual void DrawUI(float deltaTime) = 0;
 	// Called when the game is being closed.
 	virtual void EndPlay() = 0;
 };

@@ -1,0 +1,9 @@
+#pragma once
+
+#define uiVis IC_uiVisibility
+
+enum IC_uiVisibility
+{
+	Visible = 0,
+	Hidden = 1
+};

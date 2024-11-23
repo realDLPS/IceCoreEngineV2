@@ -49,5 +49,11 @@ private: // Private methods
 
         DrawTexturePro(texture, frame, dest, Vec2(dest.width / 2, dest.height / 2), rotation, tint);
     }
+    void DrawTexNPatch(Texture2D texture, NPatchInfo nPatchInfo, Vector2 position, float rotation, Vector2 scale, Color tint) // Customized texture drawing function to use Vector2 for scale instead of float
+    {
+        Rectangle dest = { position.x, position.y, (float)texture.width * scale.x, (float)texture.height * scale.y };
+
+        DrawTextureNPatch(texture, nPatchInfo, dest, Vec2(dest.width / 2, dest.height / 2), rotation, tint);
+    }
     void DrawQueue();
 };

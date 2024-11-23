@@ -27,6 +27,8 @@ public:
     // Calculated automatically
     float frameHeight = 0.0f;
 
+    bool WorldSpace = true;
+
     // Used for better scaling
     // For example can keep button corners from streching.
     bool UseSlicing = false;
@@ -74,5 +76,4 @@ public:
     Vector2 scale = Vector2();
     float rotation = 0.0f;
     int frame = 0;
-    bool worldSpace = true;
 };

@@ -159,7 +159,6 @@
     <ClCompile Include="IC_inputSystem.cpp" />
     <ClCompile Include="IC_object.cpp" />
     <ClCompile Include="IC_objectSystem.cpp" />
-    <ClCompile Include="IC_uiButton.cpp" />
     <ClCompile Include="IC_uiManager.cpp" />
     <ClCompile Include="IC_uiObject.cpp" />
     <ClCompile Include="IC_visualDebugger.cpp" />

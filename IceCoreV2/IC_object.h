@@ -12,7 +12,7 @@ class IC_object
 	friend class IC_objectSystem;
 
 public:
-	IC_object() {};
+	IC_object();
 
 	// Can be changed at any time to enable of disable ticking.
 	// Even if false this object will be added to the tick list.
@@ -29,7 +29,7 @@ public:
 	// Only used if affectedByTimeDilation is false.
 	float customTimeDilation = 1.0f;
 
-	// Gets time dilation for this object.
+	// Gets delta time multiplied by time dilation for this object.
 	float GetObjectDeltaTime();
 
 
@@ -51,6 +51,9 @@ protected:
 
 	// Called after destroy is called on this object.
 	virtual void EndPlay() = 0;
+
+	// Returns pointer to the game.
+	IC_game* GetGame();
 
 private:
 	
@@ -80,6 +83,9 @@ private:
 
 	// Set by the object system.
 	IC_objectSystem* objectSystem = nullptr;
+
+	// Set to true when BeginPlay is called.
+	bool inPlay = false;
 
 	// Set to true when destroy is called.
 	bool pendingDestroy = false;

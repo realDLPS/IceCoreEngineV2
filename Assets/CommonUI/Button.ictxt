@@ -1,0 +1,6 @@
+useSlicing = true;
+slicingType = 0; // 0 = 3x3, 1 = 1x3, 2 = 3x1
+left = 0;
+top = 0;
+right = 0;
+bottom = 0;

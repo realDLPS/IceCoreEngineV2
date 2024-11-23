@@ -1,0 +1,9 @@
+#include "IC_uiManager.h"
+
+IC_uiManager::IC_uiManager()
+{
+}
+
+void IC_uiManager::Draw(float deltaTime)
+{
+}

@@ -48,6 +48,12 @@
     <Filter Include="Source Files\Systems">
       <UniqueIdentifier>{76a99c1e-20af-4559-a5f7-93f2a6ed03fe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ICObjects\UI">
+      <UniqueIdentifier>{8d89d6ba-5672-4220-abe1-57a54f8136be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ICObjects\UI">
+      <UniqueIdentifier>{b860bd9c-a3b6-4479-a8b0-a2ce6c3ec006}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -82,6 +88,15 @@
     </ClCompile>
     <ClCompile Include="IC_assetManager.cpp">
       <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="IC_uiManager.cpp">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="IC_uiObject.cpp">
+      <Filter>Source Files\ICObjects\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="IC_uiButton.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +138,18 @@
     </ClInclude>
     <ClInclude Include="IC_assetManager.h">
       <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="IC_uiManager.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="IC_uiObject.h">
+      <Filter>Header Files\ICObjects\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="IC_uiEnums.h">
+      <Filter>Header Files\DataTypes\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="IC_uiButton.h">
+      <Filter>Header Files\ICObjects\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
