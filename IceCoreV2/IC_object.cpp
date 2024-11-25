@@ -2,10 +2,6 @@
 
 #include "IC_game.h"
 
-IC_object::IC_object()
-{
-}
-
 float IC_object::GetObjectDeltaTime()
 {
 	if (affectedByTimeDilation)
@@ -30,6 +26,11 @@ void IC_object::Destroy()
 bool IC_object::IsBeingDestroyed()
 {
 	return pendingDestroy;
+}
+
+int IC_object::GetId()
+{
+	return id;
 }
 
 IC_game* IC_object::GetGame()

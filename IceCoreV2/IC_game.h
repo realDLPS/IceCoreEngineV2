@@ -74,12 +74,12 @@ public:
 	IC_assetManager* GetAssetManager();
 	// Shorthand for GetAssetManager()
 	inline IC_assetManager* AstMgr() { return GetAssetManager(); }
-	// Gets a texture from the asset manager by name.
-	// Shorthand for GetAssetManager()->GetTexture(name)
+	inline IC_uiStyle GetUiStyle() { return assetManager.get()->uiStyle; }
 	IC_uiManager* GetUiManager();
 	// Shorthand for GetUiManager()
 	inline IC_uiManager* UiMgr() { return GetUiManager(); }
-
+	// Gets a texture from the asset manager by name.
+	// Shorthand for GetAssetManager()->GetTexture(name)
 	inline Texture2D Tex(std::string name) { return AstMgr()->GetTexture(name); }
 	// Gets a sound from the asset manager by name.
 	// Shorthand for GetAssetManager()->GetSound(name)

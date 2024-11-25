@@ -40,9 +40,8 @@ public: // Public methods
     // Viewport
     float GetScreenSizeScaling();
     Vector2 WorldToViewSpace(Vector2 worldPosition);
-
-private: // Private methods
     void DrawDrawable(IC_drawable drawable);
+private: // Private methods
     void DrawTex(Texture2D texture, Rectangle frame, Vector2 position, float rotation, Vector2 scale, Color tint) // Customized texture drawing function to use Vector2 for scale instead of float
     {
         Rectangle dest = { position.x, position.y, (float)texture.width*scale.x, (float)texture.height*scale.y };

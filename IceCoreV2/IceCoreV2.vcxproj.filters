@@ -96,7 +96,7 @@
       <Filter>Source Files\ICObjects\UI</Filter>
     </ClCompile>
     <ClCompile Include="IC_uiButton.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\ICObjects\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -115,8 +115,8 @@ void IC_graphicsManager::DrawDrawable(IC_drawable drawable)
             drawable.sprite.texture,
             frame,
             drawable.worldSpace ? WorldToViewSpace(drawable.position) : drawable.position,
-            drawable.rotation + cameraRotation,
-            drawable.scale * GetScreenSizeScaling() * cameraZoom * Vec2(xScale, yScale),
+            drawable.rotation + drawable.worldSpace ? cameraRotation : 0.0f,
+            drawable.worldSpace ? drawable.scale * GetScreenSizeScaling() * cameraZoom * Vec2(xScale, yScale) : drawable.scale,
             WHITE);
     }
     else
@@ -128,11 +128,12 @@ void IC_graphicsManager::DrawDrawable(IC_drawable drawable)
 		nPatchInfo.right = drawable.sprite.Right;
 		nPatchInfo.bottom = drawable.sprite.Bottom;
 		nPatchInfo.layout = drawable.sprite.SlicingType;
+        // Jankiest code ever to offset the texture to the expected position
 		DrawTexNPatch(drawable.sprite.texture, 
             nPatchInfo, 
-            WorldToViewSpace(drawable.position), 
-            drawable.rotation + cameraRotation, 
-            drawable.scale * GetScreenSizeScaling() * cameraZoom * Vec2(xScale, yScale),
+            drawable.worldSpace ? WorldToViewSpace(drawable.position) : drawable.position + Vec2(frame.width, frame.height) * Vec2(0.5f, 0.5f) * drawable.scale,
+            drawable.rotation + drawable.worldSpace ? cameraRotation : 0.0f,
+            drawable.worldSpace ? drawable.scale * GetScreenSizeScaling() * cameraZoom * Vec2(xScale, yScale) : drawable.scale,
             WHITE);
     }
 }

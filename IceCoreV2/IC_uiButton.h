@@ -5,8 +5,11 @@
 class IC_uiButton : public IC_uiObject
 {
 public:
-	IC_uiButton();
-	~IC_uiButton();
+	IC_uiButton() = default;
+	~IC_uiButton() = default;
 
 	void Draw(float deltaTime) override;
+	void Tick(float deltaTime) override;
+	void BeginPlay() override;
+	void EndPlay() override;
 };

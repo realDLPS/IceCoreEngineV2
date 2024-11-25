@@ -34,4 +34,6 @@ private:
 
 	// UI objects registered for auto draw.
 	std::set<IC_uiObject*> uiObjects;
+
+	void Unload();
 };

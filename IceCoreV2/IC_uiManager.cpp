@@ -21,3 +21,11 @@ void IC_uiManager::Draw(float deltaTime)
 		uiObject->Draw(deltaTime);
 	}
 }
+
+void IC_uiManager::Unload()
+{
+	while (!uiObjects.empty())
+	{
+		(*uiObjects.begin())->Destroy();
+	}
+}

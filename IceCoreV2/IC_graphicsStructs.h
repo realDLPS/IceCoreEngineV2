@@ -15,7 +15,7 @@ public:
         texture = Texture; lineCount = LineCount; rowCount = RowCount; frameCount = FrameCount; frameWidth = float(texture.width) / float(rowCount); frameHeight = float(texture.height) / float(lineCount); printf(TextFormat("FrameWidth: %f, FrameHeight: %f \n", frameWidth, frameHeight));
     };
 
-    Texture2D texture;
+    Texture2D texture = Texture2D();
 
     // Used for sprite sheets
     int lineCount = 1;
@@ -75,4 +75,16 @@ public:
     float rotation = 0.0f;
     int frame = 0;
     bool worldSpace = true;
+};
+
+struct IC_uiStyle
+{
+public:
+    IC_uiStyle() {};
+
+	Color backgroundColor = Color{ 0, 0, 0, 0 };
+	Color borderColor = Color{ 0, 0, 0, 0 };
+	Color textColor = Color{ 0, 0, 0, 0 };
+
+    IC_sprite button = IC_sprite();
 };

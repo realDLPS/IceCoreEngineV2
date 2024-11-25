@@ -1,5 +1,6 @@
 *.exe
 *.dsym
+*.TMP
 main
 .vscode
 /IceCoreV2/x64/

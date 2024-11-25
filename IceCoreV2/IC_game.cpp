@@ -68,6 +68,8 @@ void IC_game::Unload()
 	graphicsManager.reset();
 	inputSystem.reset();
 	visualDebugger.reset();
+
+	uiManager.get()->Unload();
 	uiManager.reset();
 
 	objectSystem.get()->Unload();

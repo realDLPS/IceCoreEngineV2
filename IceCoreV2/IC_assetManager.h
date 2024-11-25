@@ -5,7 +5,13 @@
 // Standard library
 #include <string>
 #include <unordered_map>
+#include <map>
 #include <vector>
+#include <sstream>
+#include <algorithm>
+
+// Other
+#include "IC_graphicsStructs.h"
 
 // Forward declarations
 class IC_game;
@@ -35,6 +41,8 @@ private:
 	Texture2D missingTexture = LoadTexture("Assets/MissingTexture.png");
 	Sound missingSound = LoadSound("Assets/MissingSound.wav");
 
+	IC_uiStyle uiStyle = IC_uiStyle();
+
 	const std::string textureExtensions[12] = { ".png", ".bmp", ".tga", ".jpg", ".psd", ".qoi", ".dds", ".hdr", ".ktx", ".astc", ".pkm", ".pvr" };
 	const std::string soundExtensions[7] = { ".wav", ".ogg", ".mp3", ".flac", ".xm", ".mod", ".qoa" };
 
@@ -43,7 +51,7 @@ private:
 
 	void LoadTextures(std::string assetFolder, bool common = false);
 	void LoadSounds(std::string assetFolder, bool common = false);
-
+	void LoadUIStyle(std::string assetFolder);
 	// Loads all assets found in the Assets/Common folder.
 	void LoadCommonAssets();
 

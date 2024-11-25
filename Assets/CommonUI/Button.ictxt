@@ -1,6 +1,6 @@
-useSlicing = true;
-slicingType = 0; // 0 = 3x3, 1 = 1x3, 2 = 3x1
-left = 0;
-top = 0;
-right = 0;
-bottom = 0;
+useSlicing = true #0 false and 1 true
+slicingType = 0 #0 = 3x3, 1 = 1x3, 2 = 3x1
+left = 18 #Margin from the left.
+top = 18 #You know how this works.
+right = 18 #Same thing.
+bottom = 18 #And again.

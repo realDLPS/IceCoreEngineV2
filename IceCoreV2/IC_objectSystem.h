@@ -72,49 +72,52 @@ inline SpawnedClass* IC_objectSystem::SpawnObject(bool canEverTick, bool ticking
 {
 	static_assert(std::is_base_of<IC_object, SpawnedClass>::value, "SpawnedClass must be derived from IC_object.");
 
-	SpawnedClass* spawnedObject = new SpawnedClass();
+	//SpawnedClass* spawnedObject = new SpawnedClass();
 
-	IC_object* castObject = static_cast<IC_object*>(spawnedObject);
+	std::unique_ptr<IC_object> spawnedObject = std::make_unique<SpawnedClass>();
+	auto spawnedObjectPtr = spawnedObject.get();
+
+	//IC_object* castObject = static_cast<IC_object*>(spawnedObject);
 
 	if (persistent)
 	{
-		castObject->id = spawnedPersistentCount;
+		spawnedObject.get()->id = spawnedPersistentCount;
 		spawnedPersistentCount++;
 
 		// Insert all persistent objects into the persistent object set.
-		persistentObjects.insert(std::unique_ptr<IC_object>(castObject));
+		persistentObjects.insert({ spawnedObjectPtr->id, move(spawnedObject) });
 		if (canEverTick)
 		{
 			// Also add it to the persistent ticking object set if it can ever tick.
-			persistentTickingObjects.insert(castObject);
+			persistentTickingObjects.insert({ spawnedObjectPtr->id, spawnedObjectPtr });
 		}
 	}
 	else
 	{
-		castObject->id = spawnedCount;
+		spawnedObject.get()->id = spawnedCount;
 		spawnedCount++;
 		// Insert all non-persistent objects into the non-persistent object set.
-		objects.insert(std::unique_ptr<IC_object>(castObject));
+		objects.insert({ spawnedObjectPtr->id, move(spawnedObject) });
 		if (canEverTick)
 		{
 			// Also add it to the non-persistent ticking object set if it can ever tick.
-			tickingObjects.insert(castObject);
+			tickingObjects.insert({ spawnedObjectPtr->id, spawnedObjectPtr });
 		}
 	}
 
 	// Set variables for the spawned object.
-	castObject->canEverTick = canEverTick;
-	castObject->ticking = ticking;
-	castObject->maxTickFrequency = maxTickFrequency;
-	castObject->persistent = persistent;
-	castObject->game = game;
-	castObject->objectSystem = this;
+	spawnedObjectPtr->canEverTick = canEverTick;
+	spawnedObjectPtr->ticking = ticking;
+	spawnedObjectPtr->maxTickFrequency = maxTickFrequency;
+	spawnedObjectPtr->persistent = persistent;
+	spawnedObjectPtr->game = game;
+	spawnedObjectPtr->objectSystem = this;
 
 	if (autoFinish)
 	{
-		castObject->inPlay = true;
-		castObject->BeginPlay();
+		spawnedObjectPtr->inPlay = true;
+		spawnedObjectPtr->BeginPlay();
 	}
 
-	return spawnedObject;
+	return static_cast<SpawnedClass*>(spawnedObjectPtr);
 }

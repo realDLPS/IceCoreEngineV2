@@ -40,7 +40,7 @@ void IC_assetManager::LoadTextures(std::string assetFolder, bool common)
 	FilePathList paths = LoadDirectoryFilesEx(assetFolder.c_str(), NULL, true);
 
 	// Loop over all paths
-	for (int i = 0; i < paths.count; i++)
+	for (size_t i = 0; i < paths.count; i++)
 	{
 		std::string path = paths.paths[i];
 
@@ -88,7 +88,7 @@ void IC_assetManager::LoadSounds(std::string assetFolder, bool common)
 	FilePathList paths = LoadDirectoryFilesEx(assetFolder.c_str(), NULL, true);
 
 	// Loop over all paths
-	for (int i = 0; i < paths.count; i++)
+	for (size_t i = 0; i < paths.count; i++)
 	{
 		std::string path = paths.paths[i];
 
@@ -132,9 +132,135 @@ void IC_assetManager::LoadSounds(std::string assetFolder, bool common)
 	}
 }
 
+void IC_assetManager::LoadUIStyle(std::string assetFolder)
+{
+	FilePathList paths = LoadDirectoryFilesEx(assetFolder.c_str(), NULL, false);
+
+	// Key is file name, value is file path
+	std::map<std::string, std::string> pathsMap;
+
+	// Adding all paths to the set for clarity
+	for (size_t i = 0; i < paths.count; i++)
+	{
+		std::string fullPath = paths.paths[i];
+
+		auto fileNameStart = fullPath.find_last_of('\\');
+
+		if(fileNameStart != std::string::npos)
+		{
+			std::string fileName = fullPath.substr(fileNameStart + 1);
+			std::string path = fullPath.substr(0, fileNameStart + 1);
+
+			pathsMap.insert({ fileName, path });
+		}
+	}
+
+	// Loading button
+	if (pathsMap.contains("Button.png") && pathsMap.contains("Button.ictxt"))
+	{
+		IC_sprite buttonSprite = IC_sprite(LoadTexture((pathsMap.at("Button.png") + "Button.png").c_str()));
+
+		char* temp = LoadFileText((pathsMap.at("Button.ictxt") + "Button.ictxt").c_str());
+		std::string buttonConfig = temp;
+		UnloadFileText(temp);
+
+		std::istringstream stream(buttonConfig);
+		std::string line;
+
+		std::map<std::string, std::string> buttonConfigMap;
+
+		while (std::getline(stream, line))
+		{
+			// Remove whitespace
+			line.erase(std::remove_if(line.begin(), line.end(), isspace), line.end());
+			// Remove end comments
+			if (auto pos = line.find('#'); pos != std::string::npos)
+			{
+				line.erase(pos);
+			}
+
+			if (auto pos = line.find('='); pos != std::string::npos)
+			{
+				std::string key = line.substr(0, pos);
+				std::string value = line.substr(pos + 1);
+				buttonConfigMap.insert({ key, value });
+			}
+			else
+			{
+				game->ICLog("Warning: Invalid config for button in: " + assetFolder + "Button.ictxt");
+				break;
+			}
+		}
+
+		if (buttonConfigMap.contains("useSlicing"))
+		{
+			if (buttonConfigMap["useSlicing"] == "true")
+			{
+				buttonSprite.UseSlicing = true;
+			}
+			else
+			{
+				buttonSprite.UseSlicing = false;
+			}
+		}
+		else
+		{
+			game->ICLog("Warning: Invalid config for button in: " + assetFolder + "Button.ictxt. Missing useSlicing");
+		}
+
+		if (buttonConfigMap.contains("slicingType"))
+		{
+			buttonSprite.SlicingType = std::stoi(buttonConfigMap["slicingType"]);
+		}
+		else
+		{
+			game->ICLog("Warning: Invalid config for button in: " + assetFolder + "Button.ictxt. Missing slicingType");
+		}
+
+		if(buttonConfigMap.contains("left"))
+		{
+			buttonSprite.Left = std::stoi(buttonConfigMap["left"]);
+		}
+		else
+		{
+			game->ICLog("Warning: Invalid config for button in: " + assetFolder + "Button.ictxt. Missing left margin");
+		}
+
+		if (buttonConfigMap.contains("top"))
+		{
+			buttonSprite.Top = std::stoi(buttonConfigMap["top"]);
+		}
+		else
+		{
+			game->ICLog("Warning: Invalid config for button in: " + assetFolder + "Button.ictxt. Missing top margin");
+		}
+
+		if (buttonConfigMap.contains("right"))
+		{
+			buttonSprite.Right = std::stoi(buttonConfigMap["right"]);
+		}
+		else
+		{
+			game->ICLog("Warning: Invalid config for button in: " + assetFolder + "Button.ictxt. Missing right margin");
+		}
+
+		if (buttonConfigMap.contains("bottom"))
+		{
+			buttonSprite.Bottom = std::stoi(buttonConfigMap["bottom"]);
+		}
+		else
+		{
+			game->ICLog("Warning: Invalid config for button in: " + assetFolder + "Button.ictxt. Missing bottom margin");
+		}
+
+		uiStyle.button = buttonSprite;
+	}
+}
+
 void IC_assetManager::LoadCommonAssets()
 {
 	LoadTextures("Assets/Common/", true);
+	LoadUIStyle("Assets/CommonUI/");
 }
 
 void IC_assetManager::UnloadAssets()

@@ -1,5 +1,7 @@
 #include "IC_exampleGame.h"
 
+#include "IC_uiButton.h"
+
 bool IC_exampleGame::ToggleCursor(float value)
 {
     if (value == 1.0f) // Is this a press?
@@ -63,6 +65,29 @@ void IC_exampleGame::BeginPlay()
     smokeSprite = IC_sprite(Tex("Smoke"), 7, 7, 45);
 
     ICPrint(IC_debugString("Hello", 5.0f, RED), false);
+
+    // Very painful way of creating a "button", it really isn't a button yet, but hey it renders!
+    IC_uiButton* testButton = ObjSys()->SpawnObject<IC_uiButton>(true, true, 1.0f / 60.0f, true, false);
+    testButton->Anchor = IC_uiAlignment::TopCenter;
+    testButton->Alignment = IC_uiAlignment::TopCenter;
+    testButton->Scaling = IC_uiScaling::LiteralScaled;
+    testButton->Offset = Vec2(0, 10);
+    testButton->Scale = Vec2(500, 200);
+    testButton->EnableAutoDraw();
+    ObjSys()->FinishSpawn(testButton->GetId(), true);
+
+    // Creating a child button that will be attached to the parent button
+    IC_uiButton* testChildButton = ObjSys()->SpawnObject<IC_uiButton>(true, true, 1.0f / 60.0f, true, false);
+    testChildButton->Anchor = IC_uiAlignment::BottomCenter;
+    testChildButton->Alignment = IC_uiAlignment::TopCenter;
+    testChildButton->Scaling = IC_uiScaling::LiteralScaled;
+    testChildButton->Offset = Vec2(0, 10);
+    testChildButton->Scale = Vec2(200, 50);
+    testChildButton->EnableAutoDraw();
+	ObjSys()->FinishSpawn(testChildButton->GetId(), true);
+
+    testButton->AddChild(testChildButton);
+    
 
     HideCursor();
     DisableCursor();

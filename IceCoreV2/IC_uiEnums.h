@@ -11,6 +11,15 @@ enum class IC_uiVisibility
 	Hidden = 1
 };
 
+enum class IC_uiScaling
+{
+	Literal = 0, // Scale is a pixel value on screen
+	Relative = 1, // Scale is a percentage of the parent size
+	LiteralScaledMin = 2, // Scale is a pixel value on screen if the screen were 1920x1080, but scaled scaled according to smallest dimension
+	LiteralScaledMax = 3, // Scale is a pixel value on screen if the screen were 1920x1080, but scaled scaled according to largest dimension
+	LiteralScaled = 4 // Independently scaled on both dimensions, pixel value is as if the screen were 1920x1080
+};
+
 // How the UI is aligned compared to its anchor.
 enum class IC_uiAlignment
 {

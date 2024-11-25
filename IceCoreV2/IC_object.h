@@ -12,7 +12,9 @@ class IC_object
 	friend class IC_objectSystem;
 
 public:
-	IC_object();
+	IC_object() = default;
+
+	virtual ~IC_object() = default;
 
 	// Can be changed at any time to enable of disable ticking.
 	// Even if false this object will be added to the tick list.
@@ -40,6 +42,8 @@ public:
 	void Destroy();
 
 	bool IsBeingDestroyed();
+
+	int GetId();
 
 protected:
 	// Called after the object system is done with this object.

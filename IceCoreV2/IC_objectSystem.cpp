@@ -82,13 +82,13 @@ void IC_objectSystem::ChangeLevel()
 
 void IC_objectSystem::Unload()
 {
-	for (const auto& object : objects)
+	while (!objects.empty())
 	{
-		object.second->Destroy();
+		objects.begin()->second->Destroy();
 	}
-	for (const auto& persistentObject : persistentObjects)
+	while (!persistentObjects.empty())
 	{
-		persistentObject.second->Destroy();
+		persistentObjects.begin()->second->Destroy();
 	}
 	objects.clear();
 	persistentObjects.clear();
