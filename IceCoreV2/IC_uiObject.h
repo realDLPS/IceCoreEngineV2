@@ -26,10 +26,16 @@ public:
 
 	~IC_uiObject();
 
-	bool Active = true;
 	IC_uiVisibility Visibility = uiVis::Visible;
+	IC_uiState State = uiState::Idle;
+
+	// How the ui object is aligned compared to its anchor.
 	IC_uiAlignment Alignment = uiAlign::TopLeft;
+	// How the ui is anchored to its parent
 	IC_uiAlignment Anchor = uiAnchor::TopLeft;
+
+	
+
 	// Offset from anchor based on alignment
 	Vector2 Offset = Vec2(0.0f);
 	// Scale

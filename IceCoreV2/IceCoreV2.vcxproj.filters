@@ -98,6 +98,9 @@
     <ClCompile Include="IC_uiButton.cpp">
       <Filter>Source Files\ICObjects\UI</Filter>
     </ClCompile>
+    <ClCompile Include="IC_uiText.cpp">
+      <Filter>Source Files\ICObjects\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IC_graphicsStructs.h">
@@ -149,6 +152,9 @@
       <Filter>Header Files\DataTypes\Enums</Filter>
     </ClInclude>
     <ClInclude Include="IC_uiButton.h">
+      <Filter>Header Files\ICObjects\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="IC_uiText.h">
       <Filter>Header Files\ICObjects\UI</Filter>
     </ClInclude>
   </ItemGroup>

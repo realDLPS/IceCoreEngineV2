@@ -80,9 +80,9 @@ void IC_exampleGame::BeginPlay()
     IC_uiButton* testChildButton = ObjSys()->SpawnObject<IC_uiButton>(true, true, 1.0f / 60.0f, true, false);
     testChildButton->Anchor = IC_uiAlignment::BottomCenter;
     testChildButton->Alignment = IC_uiAlignment::TopCenter;
-    testChildButton->Scaling = IC_uiScaling::LiteralScaled;
+    testChildButton->Scaling = IC_uiScaling::Relative;
     testChildButton->Offset = Vec2(0, 10);
-    testChildButton->Scale = Vec2(200, 50);
+    testChildButton->Scale = Vec2(0.75, 0.3);
     testChildButton->EnableAutoDraw();
 	ObjSys()->FinishSpawn(testChildButton->GetId(), true);
 
@@ -91,6 +91,7 @@ void IC_exampleGame::BeginPlay()
 
     HideCursor();
     DisableCursor();
+    SetTargetFPS(10000);
 }
 
 void IC_exampleGame::EndPlay()

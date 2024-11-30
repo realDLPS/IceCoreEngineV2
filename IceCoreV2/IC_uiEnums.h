@@ -3,6 +3,7 @@
 #define uiVis IC_uiVisibility
 #define uiAlign IC_uiAlignment
 #define uiAnchor IC_uiAlignment
+#define uiState IC_uiState
 
 // Different visibility options for UI.
 enum class IC_uiVisibility
@@ -34,35 +35,16 @@ enum class IC_uiAlignment
 	BottomRight = 8
 };
 
-// Interactive UI states
-
-// What state the button is in
-enum class IC_buttonState
+// Provides all states that any UI can be in
+// Some states are not applicable to all UI
+enum class IC_uiState
 {
-	Idle = 0,
-	Hover = 1,
-	Pressed = 2
-};
-
-// What state the slider is in
-enum class IC_sliderState
-{
-	Idle = 0,
-	Hover = 1,
-	Pressed = 2
-};
-
-// What state the checkbox is in
-enum class IC_checkboxState
-{
-	Unchecked = 0,
-	Checked = 1,
-	Indeterminate = 2
-};
-
-// What state the radio button is in
-enum class IC_radioState
-{
-	Unchecked = 0,
-	Checked = 1
+	Idle = 0, // Base state of UI.
+	Hover = 1, // UI is being hovered by the mouse.
+	Pressed = 2, // UI is being pressed by the mouse.
+	Disabled = 3, // UI is disabled and takes no interaction.
+	Focused = 4, // UI is focused in someway, like a text box.
+	Unchecked = 5, // Something like a check box or radio button isn't checked.
+	Checked = 6, // Something like a check box or radio button is checked.
+	Indeterminate = 7 // Something like a check box hasn't been checked or unchecked yet.
 };

@@ -81,6 +81,8 @@ void IC_assetManager::LoadTextures(std::string assetFolder, bool common)
 		}
 		
 	}
+
+	UnloadDirectoryFiles(paths);
 }
 
 void IC_assetManager::LoadSounds(std::string assetFolder, bool common)
@@ -130,6 +132,8 @@ void IC_assetManager::LoadSounds(std::string assetFolder, bool common)
 		}
 
 	}
+
+	UnloadDirectoryFiles(paths);
 }
 
 void IC_assetManager::LoadUIStyle(std::string assetFolder)
@@ -255,6 +259,8 @@ void IC_assetManager::LoadUIStyle(std::string assetFolder)
 
 		uiStyle.button = buttonSprite;
 	}
+
+	UnloadDirectoryFiles(paths);
 }
 
 void IC_assetManager::LoadCommonAssets()
