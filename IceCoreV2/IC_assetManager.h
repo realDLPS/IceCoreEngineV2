@@ -34,6 +34,8 @@ public:
 	Texture2D GetTexture(std::string name);
 	Sound GetSound(std::string name);
 
+	static std::map<std::string, std::string> ParseStringToConfig(std::string configString);
+
 private:
 	// Set by the game.
 	IC_game* game = nullptr;

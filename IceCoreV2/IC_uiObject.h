@@ -64,12 +64,9 @@ public:
 	Vector2 GetScreenPosition();
 	// Automatically calculates the size of this ui object on the screen in pixels.
 	Vector2 GetScreenSize();
-protected:
-	// Always call with the delta time of the current frame
-	// If not using auto draw you are expected to call this every frame.
-	virtual void Draw(float deltaTime) = 0;
-private:
-	bool AutoDraw = false;
+
+	// Gets scaling based on the screen size
+	Vector2 GetScreenScaling();
 
 	// (0, 0) if top left
 	// (1, 1) if bottom right
@@ -81,4 +78,10 @@ private:
 	// (0.5, 0.5) if center
 	// So on
 	Vector2 GetAlignmentMultiplier();
+protected:
+	// Always call with the delta time of the current frame
+	// If not using auto draw you are expected to call this every frame.
+	virtual void Draw(float deltaTime) = 0;
+private:
+	bool AutoDraw = false;
 };

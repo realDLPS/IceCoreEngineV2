@@ -6,16 +6,18 @@
 
 #include <string>
 
-class IC_uiButton : public IC_uiObject
+class IC_uiText : public IC_uiObject
 {
 public:
-	IC_uiButton() = default;
-	~IC_uiButton() = default;
+	IC_uiText() = default;
+	~IC_uiText() = default;
 
 	void Draw(float deltaTime) override;
 	void Tick(float deltaTime) override;
 	void BeginPlay() override;
 	void EndPlay() override;
 
-	std::string text = "Button";
+	std::string Text = "Button";
+	int FontSize = 20;
+	int Spacing = 0;
 };

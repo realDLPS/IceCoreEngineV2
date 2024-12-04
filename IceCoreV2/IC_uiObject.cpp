@@ -59,7 +59,7 @@ Vector2 IC_uiObject::GetScreenPosition()
 	Vector2 AlignmentMultiplier = GetAlignmentMultiplier();
 
 	// Multiplied by -1 to move the alignment in the expected way.
-	// For example if you choose the alignedment to be center you would expect the ui object to move
+	// For example if you choose the alignment to be center you would expect the ui object to move
 	Vector2 AlignmentOffset = GetScreenSize() * AlignmentMultiplier * -1;
 
 	if (!Parent)
@@ -78,7 +78,7 @@ Vector2 IC_uiObject::GetScreenPosition()
 
 Vector2 IC_uiObject::GetScreenSize()
 {
-	Vector2 ScreenScaling = Vec2(float(GetScreenWidth()) / 1920, float(GetScreenHeight()) / 1080);
+	Vector2 ScreenScaling = GetScreenScaling();
 	if(!Parent)
 	{
 		switch (Scaling)
@@ -112,6 +112,11 @@ Vector2 IC_uiObject::GetScreenSize()
 	default:
 		return Scale;
 	}
+}
+
+Vector2 IC_uiObject::GetScreenScaling()
+{
+	return Vec2(float(GetScreenWidth()) / 1920, float(GetScreenHeight()) / 1080);;
 }
 
 Vector2 IC_uiObject::GetAnchorMultiplier()

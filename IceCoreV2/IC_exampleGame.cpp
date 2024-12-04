@@ -1,6 +1,7 @@
 #include "IC_exampleGame.h"
 
 #include "IC_uiButton.h"
+#include "IC_uiText.h"
 
 bool IC_exampleGame::ToggleCursor(float value)
 {
@@ -88,6 +89,20 @@ void IC_exampleGame::BeginPlay()
 
     testButton->AddChild(testChildButton);
     
+    // Creating some text
+    IC_uiText* testText = ObjSys()->SpawnObject<IC_uiText>(true, true, 1.0f / 60.0f, true, false);
+	testText->Anchor = IC_uiAlignment::Center;
+	testText->Alignment = IC_uiAlignment::Center;
+	testText->Scaling = IC_uiScaling::LiteralScaled;
+	testText->Offset = Vec2(0, 0);
+	testText->Scale = Vec2(0);
+	testText->EnableAutoDraw();
+    testText->Text = "Testing";
+    testText->FontSize = 125;
+    testText->Spacing = 2;
+	ObjSys()->FinishSpawn(testText->GetId(), true);
+
+    testButton->AddChild(testText);
 
     HideCursor();
     DisableCursor();

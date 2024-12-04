@@ -35,6 +35,34 @@ Sound IC_assetManager::GetSound(std::string name)
 	return missingSound;
 }
 
+std::map<std::string, std::string> IC_assetManager::ParseStringToConfig(std::string configString)
+{
+	std::istringstream stream(configString);
+	std::string line;
+
+	std::map<std::string, std::string> configMap;
+
+	while (std::getline(stream, line))
+	{
+		// Remove whitespace
+		line.erase(std::remove_if(line.begin(), line.end(), isspace), line.end());
+		// Remove end comments
+		if (auto pos = line.find('#'); pos != std::string::npos)
+		{
+			line.erase(pos);
+		}
+
+		if (auto pos = line.find('='); pos != std::string::npos)
+		{
+			std::string key = line.substr(0, pos);
+			std::string value = line.substr(pos + 1);
+			configMap.insert({ key, value });
+		}
+	}
+
+	return configMap;
+}
+
 void IC_assetManager::LoadTextures(std::string assetFolder, bool common)
 {
 	FilePathList paths = LoadDirectoryFilesEx(assetFolder.c_str(), NULL, true);
@@ -162,39 +190,13 @@ void IC_assetManager::LoadUIStyle(std::string assetFolder)
 	// Loading button
 	if (pathsMap.contains("Button.png") && pathsMap.contains("Button.ictxt"))
 	{
-		IC_sprite buttonSprite = IC_sprite(LoadTexture((pathsMap.at("Button.png") + "Button.png").c_str()));
+		IC_sprite buttonSprite = IC_sprite(LoadTexture((pathsMap["Button.png"] + "Button.png").c_str()));
 
 		char* temp = LoadFileText((pathsMap.at("Button.ictxt") + "Button.ictxt").c_str());
 		std::string buttonConfig = temp;
 		UnloadFileText(temp);
 
-		std::istringstream stream(buttonConfig);
-		std::string line;
-
-		std::map<std::string, std::string> buttonConfigMap;
-
-		while (std::getline(stream, line))
-		{
-			// Remove whitespace
-			line.erase(std::remove_if(line.begin(), line.end(), isspace), line.end());
-			// Remove end comments
-			if (auto pos = line.find('#'); pos != std::string::npos)
-			{
-				line.erase(pos);
-			}
-
-			if (auto pos = line.find('='); pos != std::string::npos)
-			{
-				std::string key = line.substr(0, pos);
-				std::string value = line.substr(pos + 1);
-				buttonConfigMap.insert({ key, value });
-			}
-			else
-			{
-				game->ICLog("Warning: Invalid config for button in: " + assetFolder + "Button.ictxt");
-				break;
-			}
-		}
+		std::map<std::string, std::string> buttonConfigMap = ParseStringToConfig(buttonConfig);
 
 		if (buttonConfigMap.contains("useSlicing"))
 		{
@@ -258,6 +260,36 @@ void IC_assetManager::LoadUIStyle(std::string assetFolder)
 		}
 
 		uiStyle.button = buttonSprite;
+	}
+
+	if (pathsMap.contains("Font.ictxt"))
+	{
+		char* temp = LoadFileText((pathsMap.at("Font.ictxt") + "Font.ictxt").c_str());
+		std::string fontConfig = temp;
+		UnloadFileText(temp);
+
+		std::map<std::string, std::string> fontConfigMap = ParseStringToConfig(fontConfig);
+
+		// Just some default
+		int fontSize = 128;
+
+		if (fontConfigMap.contains("size"))
+		{
+			fontSize = std::stoi(fontConfigMap["size"]);
+		}
+		else
+		{
+			game->ICLog("Warning: Invalid config for font in: " + assetFolder + "Font.ictxt. Missing size, assuming font size to be 128");
+		}
+
+		if (fontConfigMap.contains("font"))
+		{
+			uiStyle.font = LoadFontEx((pathsMap[fontConfigMap["font"]] + fontConfigMap["font"]).c_str(), fontSize, NULL, 0);
+		}
+		else
+		{
+			game->ICLog("Warning: Invalid config for font in: " + assetFolder + "Font.ictxt. Missing font");
+		}
 	}
 
 	UnloadDirectoryFiles(paths);

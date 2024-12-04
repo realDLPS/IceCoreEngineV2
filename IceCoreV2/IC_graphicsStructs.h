@@ -87,4 +87,6 @@ public:
 	Color textColor = Color{ 0, 0, 0, 0 };
 
     IC_sprite button = IC_sprite();
+
+    Font font = Font();
 };

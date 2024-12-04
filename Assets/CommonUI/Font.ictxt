@@ -1,0 +1,2 @@
+font = Roboto-Regular.ttf # Some font file you wish to use.
+size = 128 # size of the font, larger values look better when scaled high
