@@ -32,7 +32,7 @@ void IC_exampleGame::Tick(float deltaTime)
     GfxMgr()->AddToDrawQueue(IC_drawable(smokeSprite, Vec2(200.f), Vec2(1.f), 0.0f, int(GetTime() * 24) % 45));
 
     GfxMgr()->SetCameraZoom(GfxMgr()->GetCameraZoom() + GetMouseWheelMove() * 0.2f);
-    GfxMgr()->SetCameraRotation(GfxMgr()->GetCameraRotation() + InpSys()->GetAxisValue("Rotate") * -0.03f);
+    GfxMgr()->SetCameraRotation(GfxMgr()->GetCameraRotation() + InpSys()->GetAxisValue("Rotate") * -1.0f);
     GfxMgr()->SetCameraPosition(GfxMgr()->GetCameraPosition() + rotVec2(Vector2Normalize(Vec2(InpSys()->GetAxisValue("MoveRight"), InpSys()->GetAxisValue("MoveUp"))), GfxMgr()->GetCameraRotation()) * 300.0f * GetFrameTime());
 }
 
@@ -50,7 +50,7 @@ void IC_exampleGame::BeginPlay()
 
 
     // Rotation
-    IC_mapping rotate = IC_mapping({ IC_binding(MOUSE_AXIS_X, 1.0f), IC_binding(GAMEPAD_AXIS_RIGHT_X, 25.0f), IC_binding(KEY_RIGHT, 15.0f), IC_binding(KEY_LEFT, -15.0f) });
+    IC_mapping rotate = IC_mapping({ IC_binding(MOUSE_AXIS_X, 0.05f), IC_binding(GAMEPAD_AXIS_RIGHT_X, 180.0f, true), IC_binding(KEY_RIGHT, 180.0f, true), IC_binding(KEY_LEFT, -180.0f, true) });
 
     GetInputSystem()->AddMapping("Rotate", rotate, true);
 
@@ -106,7 +106,7 @@ void IC_exampleGame::BeginPlay()
 
     HideCursor();
     DisableCursor();
-    SetTargetFPS(10000);
+    SetTargetFPS(360);
 }
 
 void IC_exampleGame::EndPlay()
@@ -116,5 +116,7 @@ void IC_exampleGame::EndPlay()
 
 void IC_exampleGame::DrawUI(float deltaTime)
 {
-    // Nothing drawn yet
+    // Bare minimum, going to be moved into the specific UI classes later
+    nk_begin(nkCtx, "Test", nk_rect(50, 50, 200, 200), 0);
+    nk_end(nkCtx);
 }

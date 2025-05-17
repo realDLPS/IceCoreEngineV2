@@ -1,51 +1,130 @@
 #include "IC_inputSystem.h"
 
-void IC_inputSystem::UpdateInputs()
+void IC_inputSystem::UpdateInputs(float deltaTime)
 {
+	currentDeltaTime = deltaTime;
+
 	IC_inputState currentInputState = GetInputState();
 
 	consumedInputs = {}; // Clear consumed inputs
+	scrollConsumed = false; // Clear scroll consumed
 
+	// Has ui consumed the input?
+	bool uiConsumedInput = false;
 
-	for (auto const& mapping : actionMappings)
+	// Handling UI
+	if (InputMode == EInputMode::UI || InputMode == EInputMode::GameAndUI)
 	{
-		for (auto const& binding : mapping.second.bindings)
+		nk_input_begin(nkCtx);
+
+		nk_input_motion(nkCtx, GetMouseX(), GetMouseY()); // Send mouse position
+
+		if (InputMode == EInputMode::UI || nk_item_is_any_active(nkCtx))
 		{
-			if (!CheckIsBindingConsumed(binding))
+			// Scroll value is always sent in UI mode
+			// Scroll value is only sent in GameAndUI mode if something is hovered
+			nk_input_scroll(nkCtx, nk_vec2(0.0f, GetMouseWheelMove()));
+			scrollConsumed = true;
+
+			// Sending mouse clicks
+			nk_input_button(nkCtx, NK_BUTTON_LEFT, GetMouseX(), GetMouseY(), IsMouseButtonDown(MouseButton::MOUSE_BUTTON_LEFT));
+			if (IsMouseButtonDown(MouseButton::MOUSE_BUTTON_LEFT)) ConsumeMouseButton(MouseButton::MOUSE_BUTTON_LEFT); uiConsumedInput = true;
+
+			nk_input_button(nkCtx, NK_BUTTON_RIGHT, GetMouseX(), GetMouseY(), IsMouseButtonDown(MouseButton::MOUSE_BUTTON_RIGHT));
+			if (IsMouseButtonDown(MouseButton::MOUSE_BUTTON_RIGHT)) ConsumeMouseButton(MouseButton::MOUSE_BUTTON_RIGHT); uiConsumedInput = true;
+
+			nk_input_button(nkCtx, NK_BUTTON_MIDDLE, GetMouseX(), GetMouseY(), IsMouseButtonDown(MouseButton::MOUSE_BUTTON_MIDDLE));
+			if (IsMouseButtonDown(MouseButton::MOUSE_BUTTON_MIDDLE)) ConsumeMouseButton(MouseButton::MOUSE_BUTTON_MIDDLE); uiConsumedInput = true;
+		}
+		// This other check is stolen from nk_item_is_any_active to check is anything active (not just hovered)
+		if (InputMode == EInputMode::UI || (nkCtx->last_widget_state & NK_WIDGET_STATE_MODIFIED)) 
+		{
+			uiConsumedInput = true; // Either in UI mode or a widget is active so input is consumed.
+			
+			// Sending keys over if necessary
+			nk_input_key(nkCtx, NK_KEY_SHIFT, (IsKeyPressed(KeyboardKey::KEY_LEFT_SHIFT) || IsKeyPressed(KeyboardKey::KEY_RIGHT_SHIFT)));
+			nk_input_key(nkCtx, NK_KEY_CTRL, (IsKeyPressed(KeyboardKey::KEY_LEFT_CONTROL) || IsKeyPressed(KeyboardKey::KEY_RIGHT_CONTROL)));
+			nk_input_key(nkCtx, NK_KEY_DEL, (IsKeyPressed(KeyboardKey::KEY_DELETE)));
+			nk_input_key(nkCtx, NK_KEY_ENTER, (IsKeyPressed(KeyboardKey::KEY_ENTER) || IsKeyPressed(KeyboardKey::KEY_KP_ENTER)));
+			nk_input_key(nkCtx, NK_KEY_TAB, (IsKeyPressed(KeyboardKey::KEY_TAB)));
+			nk_input_key(nkCtx, NK_KEY_BACKSPACE, (IsKeyPressed(KeyboardKey::KEY_BACKSPACE)));
+			
+
+			nk_input_key(nkCtx, NK_KEY_COPY, (IsKeyPressed(KeyboardKey::KEY_C) && ((IsKeyPressed(KeyboardKey::KEY_LEFT_CONTROL) || IsKeyPressed(KeyboardKey::KEY_RIGHT_CONTROL)))));
+			nk_input_key(nkCtx, NK_KEY_CUT, (IsKeyPressed(KeyboardKey::KEY_X) && ((IsKeyPressed(KeyboardKey::KEY_LEFT_CONTROL) || IsKeyPressed(KeyboardKey::KEY_RIGHT_CONTROL)))));
+			nk_input_key(nkCtx, NK_KEY_PASTE, (IsKeyPressed(KeyboardKey::KEY_V) && ((IsKeyPressed(KeyboardKey::KEY_LEFT_CONTROL) || IsKeyPressed(KeyboardKey::KEY_RIGHT_CONTROL)))));
+			nk_input_key(nkCtx, NK_KEY_TEXT_UNDO, (IsKeyPressed(KeyboardKey::KEY_Z) && ((IsKeyPressed(KeyboardKey::KEY_LEFT_CONTROL) || IsKeyPressed(KeyboardKey::KEY_RIGHT_CONTROL)))));
+			nk_input_key(nkCtx, NK_KEY_TEXT_REDO, (IsKeyPressed(KeyboardKey::KEY_Y) && ((IsKeyPressed(KeyboardKey::KEY_LEFT_CONTROL) || IsKeyPressed(KeyboardKey::KEY_RIGHT_CONTROL)))));
+			nk_input_key(nkCtx, NK_KEY_TEXT_SELECT_ALL, (IsKeyPressed(KeyboardKey::KEY_A) && ((IsKeyPressed(KeyboardKey::KEY_LEFT_CONTROL) || IsKeyPressed(KeyboardKey::KEY_RIGHT_CONTROL)))));
+			nk_input_key(nkCtx, NK_KEY_TEXT_WORD_LEFT, (IsKeyPressed(KeyboardKey::KEY_LEFT) && ((IsKeyPressed(KeyboardKey::KEY_LEFT_CONTROL) || IsKeyPressed(KeyboardKey::KEY_RIGHT_CONTROL)))));
+			nk_input_key(nkCtx, NK_KEY_TEXT_WORD_RIGHT, (IsKeyPressed(KeyboardKey::KEY_RIGHT) && ((IsKeyPressed(KeyboardKey::KEY_LEFT_CONTROL) || IsKeyPressed(KeyboardKey::KEY_RIGHT_CONTROL)))));
+
+			nk_input_key(nkCtx, NK_KEY_UP, (IsKeyPressed(KeyboardKey::KEY_UP)));
+			nk_input_key(nkCtx, NK_KEY_DOWN, (IsKeyPressed(KeyboardKey::KEY_DOWN)));
+			nk_input_key(nkCtx, NK_KEY_LEFT, (IsKeyPressed(KeyboardKey::KEY_LEFT)));
+			nk_input_key(nkCtx, NK_KEY_RIGHT, (IsKeyPressed(KeyboardKey::KEY_RIGHT)));
+			nk_input_key(nkCtx, NK_KEY_TEXT_LINE_START, (IsKeyPressed(KeyboardKey::KEY_HOME)));
+			nk_input_key(nkCtx, NK_KEY_TEXT_LINE_END, (IsKeyPressed(KeyboardKey::KEY_END)));
+
+			int inputChar = GetCharPressed();
+
+			while (inputChar != 0)
 			{
-				float evaluation = EvaluateBindingAsAction(binding);
-
-				// If the evaluation is 0 nothing has changed, and so we can skip to the next binding.
-				if (evaluation == 0.0f) { continue; }
-
-				for (auto const& delegate : mapping.second.delegates)
-				{
-					if (delegate(evaluation)) // Delegates return true if they consume the input.
-					{
-						ConsumeBinding(binding);
-						goto consumed;
-					}
-				}
-
+				nk_glyph glyph;
+				int byteCount = nk_utf_encode((nk_rune)inputChar, glyph, NK_UTF_SIZE);
+				if (byteCount < NK_UTF_SIZE) glyph[byteCount] = '\0';
+				nk_input_glyph(nkCtx, glyph);
+				inputChar = GetKeyPressed();
 			}
 		}
-		// We goto here if a delegate consumes the input, as a mapping shouldn't have it's delegates called 
-		// multiple times in a single update.
-		//
-		// Unless someone figures out how I can break multiple for loops at once without using another variable
-		// this will be used. I am far too happy about using goto properly in this day and age.
-	consumed:
-		continue;
+
+		nk_input_end(nkCtx);
 	}
 
+	if (!uiConsumedInput)
+	{
+		for (auto const& mapping : actionMappings)
+		{
+			for (auto const& binding : mapping.second.bindings)
+			{
+				if (!CheckIsBindingConsumed(binding))
+				{
+					float evaluation = EvaluateBindingAsAction(binding);
+
+					// If the evaluation is 0 nothing has changed, and so we can skip to the next binding.
+					if (evaluation == 0.0f) { continue; }
+
+					for (auto const& delegate : mapping.second.delegates)
+					{
+						if (delegate(evaluation)) // Delegates return true if they consume the input.
+						{
+							ConsumeBinding(binding);
+							goto consumed;
+						}
+					}
+
+				}
+			}
+			// We goto here if a delegate consumes the input, as a mapping shouldn't have it's delegates called 
+			// multiple times in a single update.
+			//
+			// Unless someone figures out how I can break multiple for loops at once without using another variable
+			// this will be used. I am far too happy about using goto properly in this day and age.
+		consumed:
+			continue;
+		}
+	}
 
 	for (auto const& mapping : axisMappings)
 	{
 		float evaluation = 0.0f;
 
-		for (auto const& binding : mapping.second.bindings)
+		if (true/*!uiConsumedInput*/) // Will update all values to 0 if ui consumed input (currently disabled for testing)
 		{
-			evaluation += EvaluateBindingAsAxis(binding);
+			for (auto const& binding : mapping.second.bindings)
+			{
+				evaluation += EvaluateBindingAsAxis(binding);
+			}
 		}
 
 		for (auto const& delegate : mapping.second.delegates)
@@ -97,6 +176,11 @@ IC_inputState IC_inputSystem::GetInputState()
 	}
 	
     return inputState;
+}
+
+void IC_inputSystem::ChangeInputMode(EInputMode newMode)
+{
+	InputMode = newMode;
 }
 
 void IC_inputSystem::AddMapping(std::string name, IC_mapping mapping, bool axis)
@@ -181,10 +265,10 @@ void IC_inputSystem::ConsumeBinding(IC_binding binding)
 	switch (binding.bindingType)
 	{
 	case 0:
-		consumedInputs.insert(binding.key);
+		ConsumeKey(binding.key);
 		return;
 	case 1:
-		consumedInputs.insert(binding.mouseButton + 1000);
+		ConsumeMouseButton(binding.mouseButton);
 		return;
 	case 4:
 		return;
@@ -201,22 +285,37 @@ void IC_inputSystem::ConsumeBinding(IC_binding binding)
 	}
 }
 
+void IC_inputSystem::ConsumeKey(KeyboardKey key)
+{
+	consumedInputs.insert(key);
+}
+
+void IC_inputSystem::ConsumeMouseButton(MouseButton button)
+{
+	consumedInputs.insert(button + 1000);
+}
+
 float IC_inputSystem::EvaluateBindingAsAxis(IC_binding binding)
 {
 	switch (binding.bindingType)
 	{
 	case 0:
-		return (IsKeyDown(binding.key) ? 1.0f : 0.0f) * binding.multiplier;
+		if (CheckIsBindingConsumed(binding)) { return 0.0f; } // Binding consumed
+		return (IsKeyDown(binding.key) ? (binding.useDeltaScaling ? currentDeltaTime : 1.0f) : 0.0f) * binding.multiplier;
 	case 1:
-		return (IsMouseButtonDown(binding.mouseButton) ? 1.0f : 0.0f) * binding.multiplier;
+		if (CheckIsBindingConsumed(binding)) { return 0.0f; } // Binding consumed
+		return (IsMouseButtonDown(binding.mouseButton) ? (binding.useDeltaScaling ? currentDeltaTime : 1.0f) : 0.0f) * binding.multiplier;
 	case 2:
 		if (!IsGamepadAvailable) { return 0.0f; } // No gamepad
-		return (IsGamepadButtonDown(0, binding.gamepadButton) ? 1.0f : 0.0f) * binding.multiplier;
+		if (CheckIsBindingConsumed(binding)) { return 0.0f; } // Binding consumed
+		return (IsGamepadButtonDown(0, binding.gamepadButton) ? (binding.useDeltaScaling ? currentDeltaTime : 1.0f) : 0.0f) * binding.multiplier;
 	case 4:
+		if (scrollConsumed) { return 0.0f; } // Scroll has been consumed
 		return binding.mouseAxis == 0 ? GetMouseDelta().x * binding.multiplier : GetMouseDelta().y * binding.multiplier;
 	case 3:
 		if (!IsGamepadAvailable) { return 0.0f; } // No gamepad
-		return GetGamepadAxisMovement(0, binding.gamepadAxis) * binding.multiplier;
+		if (CheckIsBindingConsumed(binding)) { return 0.0f; } // Binding consumed
+		return GetGamepadAxisMovement(0, binding.gamepadAxis) * binding.multiplier * (binding.useDeltaScaling ? currentDeltaTime : 1.0f);
 	default:
 		return 0.0f;
 	}

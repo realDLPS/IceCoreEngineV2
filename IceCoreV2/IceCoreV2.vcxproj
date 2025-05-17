@@ -172,6 +172,7 @@
     <ClInclude Include="IC_debugStructs.h" />
     <ClInclude Include="IC_exampleGame.h" />
     <ClInclude Include="IC_game.h" />
+    <ClInclude Include="IC_globalVariables.h" />
     <ClInclude Include="IC_inputEnums.h" />
     <ClInclude Include="IC_inputStructs.h" />
     <ClInclude Include="IC_inputSystem.h" />
@@ -183,6 +184,9 @@
     <ClInclude Include="IC_uiObject.h" />
     <ClInclude Include="IC_uiText.h" />
     <ClInclude Include="IC_visualDebugger.h" />
+    <ClInclude Include="nuklear.h" />
+    <ClInclude Include="raylib-nuklear-font.h" />
+    <ClInclude Include="raylib-nuklear.h" />
     <ClInclude Include="vectorHelpers.h" />
     <ClInclude Include="IC_graphicsManager.h" />
     <ClInclude Include="IC_graphicsStructs.h" />

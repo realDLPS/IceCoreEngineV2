@@ -21,11 +21,11 @@ typedef std::function<bool (float value)> IC_inputDelegate;
 // Something like a keyboard key, mouse button, controller button, mouse x-axis or controller stick.
 struct IC_binding
 {
-	IC_binding(KeyboardKey key, float multiplier = 1.0f) {this->bindingType = 0; this->key = key; this->multiplier = multiplier;};
-	IC_binding(MouseButton mouseButton, float multiplier = 1.0f) {this->bindingType = 1; this->mouseButton = mouseButton; this->multiplier = multiplier;};
-	IC_binding(GamepadButton gamepadButton, float multiplier = 1.0f) {this->bindingType = 2; this->gamepadButton = gamepadButton; this->multiplier = multiplier;};
-	IC_binding(GamepadAxis gamepadAxis, float multiplier = 1.0f) {this->bindingType = 3; this->gamepadAxis = gamepadAxis; this->multiplier = multiplier;}
-	IC_binding(MouseAxis mouseAxis, float multiplier = 1.0f) {this->bindingType = 4; this->mouseAxis = mouseAxis; this->multiplier = multiplier;}
+	IC_binding(KeyboardKey key, float multiplier = 1.0f, bool useDeltaScaling = false) { this->bindingType = 0; this->key = key; this->multiplier = multiplier; this->useDeltaScaling = useDeltaScaling;};
+	IC_binding(MouseButton mouseButton, float multiplier = 1.0f, bool useDeltaScaling = false) {this->bindingType = 1; this->mouseButton = mouseButton; this->multiplier = multiplier; this->useDeltaScaling = useDeltaScaling;};
+	IC_binding(GamepadButton gamepadButton, float multiplier = 1.0f, bool useDeltaScaling = false) {this->bindingType = 2; this->gamepadButton = gamepadButton; this->multiplier = multiplier; this->useDeltaScaling = useDeltaScaling;};
+	IC_binding(GamepadAxis gamepadAxis, float multiplier = 1.0f, bool useDeltaScaling = false) {this->bindingType = 3; this->gamepadAxis = gamepadAxis; this->multiplier = multiplier; this->useDeltaScaling = useDeltaScaling;}
+	IC_binding(MouseAxis mouseAxis, float multiplier = 1.0f, bool useDeltaScaling = false) {this->bindingType = 4; this->mouseAxis = mouseAxis; this->multiplier = multiplier; this->useDeltaScaling = useDeltaScaling;}
 
 	// Set by constructors.
 	uint8_t bindingType = 0; // 0 = key, 1 = mouse button, 2 = gamepad button, 3 = gamepad axis, 4 = mouse axis
@@ -33,6 +33,9 @@ struct IC_binding
 	// The value of a binding is multiplied by this value.
 	float multiplier = 1.0f;
 	
+	// Enabling delta scaling means that buttons will use the delta time instead of a solid value of 1 when in use as an axis
+	bool useDeltaScaling = false;
+
 	KeyboardKey key = KEY_NULL;
 	MouseButton mouseButton = MOUSE_BUTTON_LEFT;
 	GamepadButton gamepadButton = GAMEPAD_BUTTON_UNKNOWN;

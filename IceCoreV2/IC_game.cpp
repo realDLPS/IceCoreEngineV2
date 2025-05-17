@@ -1,3 +1,4 @@
+#define RAYLIB_NUKLEAR_IMPLEMENTATION
 #include "IC_game.h"
 
 void IC_game::Init(bool debug, bool useWindowDefaults)
@@ -24,8 +25,10 @@ void IC_game::Init(bool debug, bool useWindowDefaults)
 	assetManager = std::make_unique<IC_assetManager>();
 	assetManager.get()->game = this;
 	assetManager.get()->LoadCommonAssets();
+	nkCtx = InitNuklear(12);
 	uiManager = std::make_unique<IC_uiManager>();
 	uiManager.get()->game = this;
+	uiTexture = LoadRenderTexture(GetScreenWidth(), GetScreenHeight());
 
 	// Call begin play
 	BeginPlay();
@@ -33,10 +36,25 @@ void IC_game::Init(bool debug, bool useWindowDefaults)
 	// Raylib loop
 	while (!WindowShouldClose())
 	{
-		inputSystem->UpdateInputs();
+		if (uiTexture.texture.width != GetScreenWidth() || uiTexture.texture.height != GetScreenHeight())
+		{
+			// Updating ui render texture if screen size changes
+			UnloadRenderTexture(uiTexture);
+			uiTexture = LoadRenderTexture(GetScreenWidth(), GetScreenHeight());
+		}
+		nkCtx->delta_time_seconds = GetFrameTime();
+		inputSystem->UpdateInputs(GetDeltaTime());
 		objectSystem->Update();
-
 		Tick(GetDeltaTime());
+
+		DrawUI(GetDeltaTime()); // Tell the game to draw any UI
+
+		// Draw anything the game wanted to draw into a render texture
+		BeginTextureMode(uiTexture);
+		ClearBackground(BLANK);
+		DrawNuklear(nkCtx);
+		EndTextureMode();
+
 
 		BeginDrawing();
 
@@ -47,8 +65,10 @@ void IC_game::Init(bool debug, bool useWindowDefaults)
 		// Debug lines and such will be drawn here
 
 		// UI will be drawn here
-		uiManager->Draw(GetDeltaTime());
-		DrawUI(GetDeltaTime());
+		//uiManager->Draw(GetDeltaTime());
+		
+		// Draw the ui texture onto the screen
+		DrawTextureRec(uiTexture.texture, { 0, 0, (float)uiTexture.texture.width, -(float)uiTexture.texture.height }, Vec2(0.0f), WHITE);
 
 		if (debug)
 		{

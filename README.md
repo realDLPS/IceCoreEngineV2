@@ -8,6 +8,11 @@
 # IceCore Engine
 A simplistic 2D game engine I am creating for my own needs and as a learning exercise.
 
+### Libraries used
+Raylib, basically nothing in this engine would work without Raylib so big thank you to Raysan!
+### Libraries being tested
+Raylib Nuklear & Nuklear, my current top choice for a UI library.
+
 ### Personal goals
 - Learn engine programming
 - Create and publish a game using this engine on Steam

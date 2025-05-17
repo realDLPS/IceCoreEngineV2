@@ -1,5 +1,6 @@
 #pragma once
 
+#include "raylib-nuklear.h"
 #include "raylib.h"
 
 // Standard library
@@ -12,6 +13,8 @@
 #include "IC_objectSystem.h"
 #include "IC_assetManager.h"
 #include "IC_uiManager.h"
+
+#include "IC_globalVariables.h"
 
 // This game class creates other IceCore classes for you and gives you access to them.
 // Also abstracts some raylib things away to be more similar to Unreal Engine.
@@ -38,6 +41,9 @@ private:
 
 	// Can be used to pause the game without messing with time dilation.
 	bool paused = false;
+
+	// Render texture for the UI
+	RenderTexture2D uiTexture;
 public:
 	// Call to start the game.
 	// Creates IceCore classes and starts ticking.
@@ -105,7 +111,7 @@ public:
 
 	// Pausing or unpausing the game.
 	void SetPaused(bool newPaused);
-	// Self-explanatory
+	// Gets whether or not the game is paused
 	bool GetPaused();
 protected:
 	// Called at the start of the game.
