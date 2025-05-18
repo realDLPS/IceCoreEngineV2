@@ -28,13 +28,13 @@ void IC_inputSystem::UpdateInputs(float deltaTime)
 
 			// Sending mouse clicks
 			nk_input_button(nkCtx, NK_BUTTON_LEFT, GetMouseX(), GetMouseY(), IsMouseButtonDown(MouseButton::MOUSE_BUTTON_LEFT));
-			if (IsMouseButtonDown(MouseButton::MOUSE_BUTTON_LEFT)) ConsumeMouseButton(MouseButton::MOUSE_BUTTON_LEFT); uiConsumedInput = true;
+			if (IsMouseButtonDown(MouseButton::MOUSE_BUTTON_LEFT)) { ConsumeMouseButton(MouseButton::MOUSE_BUTTON_LEFT); uiConsumedInput = true; }
 
 			nk_input_button(nkCtx, NK_BUTTON_RIGHT, GetMouseX(), GetMouseY(), IsMouseButtonDown(MouseButton::MOUSE_BUTTON_RIGHT));
-			if (IsMouseButtonDown(MouseButton::MOUSE_BUTTON_RIGHT)) ConsumeMouseButton(MouseButton::MOUSE_BUTTON_RIGHT); uiConsumedInput = true;
+			if (IsMouseButtonDown(MouseButton::MOUSE_BUTTON_RIGHT)) { ConsumeMouseButton(MouseButton::MOUSE_BUTTON_RIGHT); uiConsumedInput = true; }
 
 			nk_input_button(nkCtx, NK_BUTTON_MIDDLE, GetMouseX(), GetMouseY(), IsMouseButtonDown(MouseButton::MOUSE_BUTTON_MIDDLE));
-			if (IsMouseButtonDown(MouseButton::MOUSE_BUTTON_MIDDLE)) ConsumeMouseButton(MouseButton::MOUSE_BUTTON_MIDDLE); uiConsumedInput = true;
+			if (IsMouseButtonDown(MouseButton::MOUSE_BUTTON_MIDDLE)) { ConsumeMouseButton(MouseButton::MOUSE_BUTTON_MIDDLE); uiConsumedInput = true; }
 		}
 		// This other check is stolen from nk_item_is_any_active to check is anything active (not just hovered)
 		if (InputMode == EInputMode::UI || (nkCtx->last_widget_state & NK_WIDGET_STATE_MODIFIED)) 
@@ -119,7 +119,7 @@ void IC_inputSystem::UpdateInputs(float deltaTime)
 	{
 		float evaluation = 0.0f;
 
-		if (true/*!uiConsumedInput*/) // Will update all values to 0 if ui consumed input (currently disabled for testing)
+		if (!uiConsumedInput) // Will update all values to 0 if ui consumed input
 		{
 			for (auto const& binding : mapping.second.bindings)
 			{
@@ -228,6 +228,11 @@ float IC_inputSystem::EvaluateBindingAsAction(IC_binding binding)
 	case 2:
 		if (!IsGamepadAvailable) { return 0.0f; } // No gamepad
 		return IsGamepadButtonPressed(0, binding.gamepadButton) ? 1.0f : (IsGamepadButtonReleased(0, binding.gamepadButton) ? -1.0f : 0.0f);
+	case 5:
+		if (binding.scrollType == 0) { return GetMouseWheelMove() != 0.0f ? 1.0f : 0.0f; } // Mouse wheel has moved
+		if (binding.scrollType == 1) { return GetMouseWheelMove() > 0.0f ? 1.0f : 0.0f; } // Mouse wheel has moved up
+		if (binding.scrollType == 2) { return GetMouseWheelMove() < 0.0f ? 1.0f : 0.0f; } // Mouse wheel has moved down
+		return 0.0f;
 	case 3:
 		if (!IsGamepadAvailable) { return 0.0f; } // No gamepad
 		bool wasPressed = previousInputState.gamepadAxis[binding.gamepadAxis] > 0.0f;
@@ -310,12 +315,16 @@ float IC_inputSystem::EvaluateBindingAsAxis(IC_binding binding)
 		if (CheckIsBindingConsumed(binding)) { return 0.0f; } // Binding consumed
 		return (IsGamepadButtonDown(0, binding.gamepadButton) ? (binding.useDeltaScaling ? currentDeltaTime : 1.0f) : 0.0f) * binding.multiplier;
 	case 4:
-		if (scrollConsumed) { return 0.0f; } // Scroll has been consumed
 		return binding.mouseAxis == 0 ? GetMouseDelta().x * binding.multiplier : GetMouseDelta().y * binding.multiplier;
 	case 3:
 		if (!IsGamepadAvailable) { return 0.0f; } // No gamepad
 		if (CheckIsBindingConsumed(binding)) { return 0.0f; } // Binding consumed
 		return GetGamepadAxisMovement(0, binding.gamepadAxis) * binding.multiplier * (binding.useDeltaScaling ? currentDeltaTime : 1.0f);
+	case 5:
+		if (binding.scrollType == 0) { return GetMouseWheelMove() * binding.multiplier * (binding.useDeltaScaling ? currentDeltaTime : 1.0f); } // Mouse wheel has moved
+		if (binding.scrollType == 1) { return std::fmax(GetMouseWheelMove(), 0.0f) * binding.multiplier * (binding.useDeltaScaling ? currentDeltaTime : 1.0f); } // Mouse wheel has moved up
+		if (binding.scrollType == 2) { return std::fmin(GetMouseWheelMove(), 0.0f) * binding.multiplier * (binding.useDeltaScaling ? currentDeltaTime : 1.0f); } // Mouse wheel has moved down
+		return 0.0f;
 	default:
 		return 0.0f;
 	}

@@ -94,7 +94,7 @@ public:
 
 	// Wrapper function for the visual debugger 
 	// Checks if debugging is enabled before trying to add a debug string.
-	void ICPrint(const IC_debugString& DebugString, bool Log);
+	void ICPrint(const IC_debugString& DebugString, bool Log = false);
 	// Adds a debug string to the log.
 	void ICLog(const std::string& DebugString);
 

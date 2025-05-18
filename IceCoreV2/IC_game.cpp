@@ -55,7 +55,6 @@ void IC_game::Init(bool debug, bool useWindowDefaults)
 		DrawNuklear(nkCtx);
 		EndTextureMode();
 
-
 		BeginDrawing();
 
 		graphicsManager->Draw();

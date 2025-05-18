@@ -26,15 +26,22 @@ struct IC_binding
 	IC_binding(GamepadButton gamepadButton, float multiplier = 1.0f, bool useDeltaScaling = false) {this->bindingType = 2; this->gamepadButton = gamepadButton; this->multiplier = multiplier; this->useDeltaScaling = useDeltaScaling;};
 	IC_binding(GamepadAxis gamepadAxis, float multiplier = 1.0f, bool useDeltaScaling = false) {this->bindingType = 3; this->gamepadAxis = gamepadAxis; this->multiplier = multiplier; this->useDeltaScaling = useDeltaScaling;}
 	IC_binding(MouseAxis mouseAxis, float multiplier = 1.0f, bool useDeltaScaling = false) {this->bindingType = 4; this->mouseAxis = mouseAxis; this->multiplier = multiplier; this->useDeltaScaling = useDeltaScaling;}
+	// mouseScroll: 0 = generic (both directions considered), 1 = up (only up is considered), 2 = down (only down is considered)
+	IC_binding(uint8_t mouseScroll, float multiplier = 1.0f, bool useDeltaScaling = false) { this->bindingType = 5; this->multiplier = multiplier; this->useDeltaScaling = useDeltaScaling; this->scrollType = mouseScroll; }
 
 	// Set by constructors.
-	uint8_t bindingType = 0; // 0 = key, 1 = mouse button, 2 = gamepad button, 3 = gamepad axis, 4 = mouse axis
-	
-	// The value of a binding is multiplied by this value.
-	float multiplier = 1.0f;
+	uint8_t bindingType = 0; // 0 = key, 1 = mouse button, 2 = gamepad button, 3 = gamepad axis, 4 = mouse axis, 5 = mouse scroll
 	
 	// Enabling delta scaling means that buttons will use the delta time instead of a solid value of 1 when in use as an axis
 	bool useDeltaScaling = false;
+
+	// Mouse scroll type
+	uint8_t scrollType = 0; // 0 = generic (both directions considered), 1 = up (only up is considered), 2 = down (only down is considered)
+
+	// The value of a binding is multiplied by this value.
+	float multiplier = 1.0f;
+	
+	
 
 	KeyboardKey key = KEY_NULL;
 	MouseButton mouseButton = MOUSE_BUTTON_LEFT;
