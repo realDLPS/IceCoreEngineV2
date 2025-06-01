@@ -57,6 +57,9 @@
     <Filter Include="Header Files\Dependencies">
       <UniqueIdentifier>{ffb45650-a4a8-4635-b42c-d3aec2c7b494}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Config Files">
+      <UniqueIdentifier>{23c8836e-3cb6-4183-914b-1b7ef5c604f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -171,6 +174,9 @@
     </ClInclude>
     <ClInclude Include="IC_globalVariables.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IC_fontConfig.h">
+      <Filter>Config Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

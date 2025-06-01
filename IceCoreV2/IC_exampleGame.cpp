@@ -34,6 +34,8 @@ void IC_exampleGame::Tick(float deltaTime)
     GfxMgr()->SetCameraZoom(GfxMgr()->GetCameraZoom() + InpSys()->GetAxisValue("Zoom"));
     GfxMgr()->SetCameraRotation(GfxMgr()->GetCameraRotation() + InpSys()->GetAxisValue("Rotate") * -1.0f);
     GfxMgr()->SetCameraPosition(GfxMgr()->GetCameraPosition() + rotVec2(Vector2Normalize(Vec2(InpSys()->GetAxisValue("MoveRight"), InpSys()->GetAxisValue("MoveUp"))), GfxMgr()->GetCameraRotation()) * 300.0f * GetFrameTime());
+
+    GfxMgr()->AddToDrawQueue(IC_drawable(IC_sprite(AstMgr()->GetFont().texture), Vec2(200.f, -200.f), Vec2(0.2f)));
 }
 
 void IC_exampleGame::BeginPlay()
@@ -61,7 +63,7 @@ void IC_exampleGame::BeginPlay()
     GetInputSystem()->AddMapping("ShowCursor", showCursor, false);
 
     // Zooming
-    IC_mapping zoom = IC_mapping(IC_binding(1, 0.2f, false));
+    IC_mapping zoom = IC_mapping(IC_binding(0, 0.2f, false));
     GetInputSystem()->AddMapping("Zoom", zoom, true);
 #pragma endregion
 
@@ -121,6 +123,9 @@ void IC_exampleGame::EndPlay()
 void IC_exampleGame::DrawUI(float deltaTime)
 {
     // Bare minimum, going to be moved into the specific UI classes later
-    nk_begin(nkCtx, "Test", nk_rect(50, 50, 200, 200), 0);
+    nk_begin(nkCtx, "Test", nk_rect(50, 50, GetScreenWidth()/5.f, GetScreenHeight()/5.f), NK_WINDOW_NO_SCROLLBAR);
+    nk_layout_row_dynamic(nkCtx, 100, 1);
+    const char* label = reinterpret_cast<const char*>(u8"ABCDEFÅÄÖ");
+    nk_button_label(nkCtx, label);
     nk_end(nkCtx);
 }

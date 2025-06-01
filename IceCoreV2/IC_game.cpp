@@ -25,7 +25,7 @@ void IC_game::Init(bool debug, bool useWindowDefaults)
 	assetManager = std::make_unique<IC_assetManager>();
 	assetManager.get()->game = this;
 	assetManager.get()->LoadCommonAssets();
-	nkCtx = InitNuklear(12);
+	nkCtx = InitNuklearEx(assetManager.get()->GetFont(), 36.f);
 	uiManager = std::make_unique<IC_uiManager>();
 	uiManager.get()->game = this;
 	uiTexture = LoadRenderTexture(GetScreenWidth(), GetScreenHeight());

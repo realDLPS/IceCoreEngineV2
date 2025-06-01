@@ -33,6 +33,7 @@ public:
 	// Returns the texture with the specified name.
 	Texture2D GetTexture(std::string name);
 	Sound GetSound(std::string name);
+	Font GetFont();
 
 	static std::map<std::string, std::string> ParseStringToConfig(std::string configString);
 

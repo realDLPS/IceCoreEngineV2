@@ -171,6 +171,7 @@
     <ClInclude Include="IC_assetManager.h" />
     <ClInclude Include="IC_debugStructs.h" />
     <ClInclude Include="IC_exampleGame.h" />
+    <ClInclude Include="IC_fontConfig.h" />
     <ClInclude Include="IC_game.h" />
     <ClInclude Include="IC_globalVariables.h" />
     <ClInclude Include="IC_inputEnums.h" />

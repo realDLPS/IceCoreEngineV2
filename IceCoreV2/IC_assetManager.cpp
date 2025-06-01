@@ -2,6 +2,8 @@
 
 #include "IC_game.h"
 
+#include "IC_fontConfig.h"
+
 void IC_assetManager::ReloadAllAssets()
 {
 	UnloadAssets();
@@ -35,6 +37,11 @@ Sound IC_assetManager::GetSound(std::string name)
 	return missingSound;
 }
 
+Font IC_assetManager::GetFont()
+{
+	return uiStyle.font;
+}
+
 std::map<std::string, std::string> IC_assetManager::ParseStringToConfig(std::string configString)
 {
 	std::istringstream stream(configString);
@@ -45,7 +52,7 @@ std::map<std::string, std::string> IC_assetManager::ParseStringToConfig(std::str
 	while (std::getline(stream, line))
 	{
 		// Remove whitespace
-		line.erase(std::remove_if(line.begin(), line.end(), isspace), line.end());
+		line.erase(std::remove_if(line.begin(), line.end(), [](unsigned char c) { return c == ' ' || c == '\t' || c == '\r' || c == '\n'; }), line.end());
 		// Remove end comments
 		if (auto pos = line.find('#'); pos != std::string::npos)
 		{
@@ -284,7 +291,9 @@ void IC_assetManager::LoadUIStyle(std::string assetFolder)
 
 		if (fontConfigMap.contains("font"))
 		{
-			uiStyle.font = LoadFontEx((pathsMap[fontConfigMap["font"]] + fontConfigMap["font"]).c_str(), fontSize, NULL, 0);
+			std::vector<int> codePoints = std::vector(CODEPOINTSCPP.begin(), CODEPOINTSCPP.end());
+
+			uiStyle.font = LoadFontEx((pathsMap[fontConfigMap["font"]] + fontConfigMap["font"]).c_str(), fontSize, codePoints.data(), CODEPOINTCOUNT);
 		}
 		else
 		{
