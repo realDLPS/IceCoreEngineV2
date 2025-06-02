@@ -124,6 +124,9 @@
     <PostBuildEvent>
       <Command>xcopy /Y /E /I "$(ProjectDir)..\Assets" "$(TargetDir)Assets"</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>RD /S /Q "$(TargetDir)/Assets"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -157,8 +160,10 @@
     <ClCompile Include="IC_game.cpp" />
     <ClCompile Include="IC_graphicsManager.cpp" />
     <ClCompile Include="IC_inputSystem.cpp" />
+    <ClCompile Include="IC_localisationSystem.cpp" />
     <ClCompile Include="IC_object.cpp" />
     <ClCompile Include="IC_objectSystem.cpp" />
+    <ClCompile Include="IC_textStructs.cpp" />
     <ClCompile Include="IC_uiButton.cpp" />
     <ClCompile Include="IC_uiManager.cpp" />
     <ClCompile Include="IC_uiObject.cpp" />
@@ -170,6 +175,7 @@
   <ItemGroup>
     <ClInclude Include="IC_assetManager.h" />
     <ClInclude Include="IC_debugStructs.h" />
+    <ClInclude Include="IC_delegates.h" />
     <ClInclude Include="IC_exampleGame.h" />
     <ClInclude Include="IC_fontConfig.h" />
     <ClInclude Include="IC_game.h" />
@@ -177,8 +183,10 @@
     <ClInclude Include="IC_inputEnums.h" />
     <ClInclude Include="IC_inputStructs.h" />
     <ClInclude Include="IC_inputSystem.h" />
+    <ClInclude Include="IC_localisationSystem.h" />
     <ClInclude Include="IC_object.h" />
     <ClInclude Include="IC_objectSystem.h" />
+    <ClInclude Include="IC_textStructs.h" />
     <ClInclude Include="IC_uiButton.h" />
     <ClInclude Include="IC_uiEnums.h" />
     <ClInclude Include="IC_uiManager.h" />

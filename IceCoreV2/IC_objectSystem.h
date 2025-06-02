@@ -40,9 +40,6 @@ private:
 	std::unordered_map<int, std::unique_ptr<IC_object>> persistentObjects = std::unordered_map<int, std::unique_ptr<IC_object>>();
 	std::unordered_map<int, IC_object*> persistentTickingObjects = std::unordered_map<int, IC_object*>();
 
-	// Set by the game.
-	IC_game* game = nullptr;
-
 	// Called by the game each frame.
 	void Update();
 
@@ -110,7 +107,6 @@ inline SpawnedClass* IC_objectSystem::SpawnObject(bool canEverTick, bool ticking
 	spawnedObjectPtr->ticking = ticking;
 	spawnedObjectPtr->maxTickFrequency = maxTickFrequency;
 	spawnedObjectPtr->persistent = persistent;
-	spawnedObjectPtr->game = game;
 	spawnedObjectPtr->objectSystem = this;
 
 	if (autoFinish)

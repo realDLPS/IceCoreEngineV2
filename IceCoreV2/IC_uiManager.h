@@ -29,9 +29,8 @@ public:
 
 protected:
 	void Draw(float deltaTime);
-private:
-	IC_game* game = nullptr;
 
+private:
 	// UI objects registered for auto draw.
 	std::set<IC_uiObject*> uiObjects;
 

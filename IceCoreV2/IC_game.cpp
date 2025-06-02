@@ -3,6 +3,9 @@
 
 void IC_game::Init(bool debug, bool useWindowDefaults)
 {
+	// Set the global game variable
+	game = this;
+
 	if (useWindowDefaults)
 	{
 		SetConfigFlags(FLAG_WINDOW_RESIZABLE);
@@ -21,13 +24,12 @@ void IC_game::Init(bool debug, bool useWindowDefaults)
 	graphicsManager = std::make_unique<IC_graphicsManager>();
 	inputSystem = std::make_unique<IC_inputSystem>();
 	objectSystem = std::make_unique<IC_objectSystem>();
-	objectSystem.get()->game = this;
+	localisationSystem = std::make_unique<IC_localisationSystem>();
+	localisationSystem.get()->LoadLocale(); // The default locale is set to "en"
 	assetManager = std::make_unique<IC_assetManager>();
-	assetManager.get()->game = this;
 	assetManager.get()->LoadCommonAssets();
 	nkCtx = InitNuklearEx(assetManager.get()->GetFont(), 36.f);
 	uiManager = std::make_unique<IC_uiManager>();
-	uiManager.get()->game = this;
 	uiTexture = LoadRenderTexture(GetScreenWidth(), GetScreenHeight());
 
 	// Call begin play
@@ -126,6 +128,11 @@ IC_assetManager* IC_game::GetAssetManager()
 IC_uiManager* IC_game::GetUiManager()
 {
 	return uiManager.get();
+}
+
+IC_localisationSystem* IC_game::GetLocalisationSystem()
+{
+	return localisationSystem.get();
 }
 
 void IC_game::ICPrint(const IC_debugString& DebugString, bool Log)

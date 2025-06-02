@@ -58,7 +58,7 @@ void IC_exampleGame::BeginPlay()
 
     // Showing cursor
     IC_mapping showCursor = IC_mapping({ IC_binding(KEY_C, 1.0f) });
-    showCursor.AddDelegate(std::bind_front(&IC_exampleGame::ToggleCursor, this));
+    showCursor.AddDelegate(IC_delegate(ToggleCursor));
 
     GetInputSystem()->AddMapping("ShowCursor", showCursor, false);
 
@@ -89,7 +89,7 @@ void IC_exampleGame::BeginPlay()
     testChildButton->Alignment = IC_uiAlignment::TopCenter;
     testChildButton->Scaling = IC_uiScaling::Relative;
     testChildButton->Offset = Vec2(0, 10);
-    testChildButton->Scale = Vec2(0.75, 0.3);
+    testChildButton->Scale = Vec2(0.75f, 0.3f);
     testChildButton->EnableAutoDraw();
 	ObjSys()->FinishSpawn(testChildButton->GetId(), true);
 
@@ -125,7 +125,9 @@ void IC_exampleGame::DrawUI(float deltaTime)
     // Bare minimum, going to be moved into the specific UI classes later
     nk_begin(nkCtx, "Test", nk_rect(50, 50, GetScreenWidth()/5.f, GetScreenHeight()/5.f), NK_WINDOW_NO_SCROLLBAR);
     nk_layout_row_dynamic(nkCtx, 100, 1);
-    const char* label = reinterpret_cast<const char*>(u8"ABCDEFÅÄÖ");
-    nk_button_label(nkCtx, label);
+    if (nk_button_label(nkCtx, IC_text(U8("ABCDEFÅÄÖ"), "TestLabel").c_str()))
+    {
+        game->GetLocalisationSystem()->SetLocale(game->GetLocalisationSystem()->GetLocale() == "en" ? "fi" : "en");
+    }
     nk_end(nkCtx);
 }

@@ -8,15 +8,9 @@
 #include <functional>
 
 // Other includes
+#include "IC_delegates.h"
 #include "vectorHelpers.h"
 #include "IC_inputEnums.h"
-
-// So, for now this "delegate" typedef can be here, but if more are introduced I may move them to their own header file.
-
-// Return true if the input was consumed.
-// In case this is an action mapping, -1 is released and 1 is pressed.
-// In case this is an axis mapping the value can basically be anything.
-typedef std::function<bool (float value)> IC_inputDelegate;
 
 // Something like a keyboard key, mouse button, controller button, mouse x-axis or controller stick.
 struct IC_binding

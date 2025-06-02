@@ -14,6 +14,34 @@ Vector2 Vec2(float x)
 	v.y = x;
 	return v;
 }
+Vector2 Vec2(double x, double y)
+{
+	Vector2 v;
+	v.x = (float)x;
+	v.y = (float)y;
+	return v;
+}
+Vector2 Vec2(double x)
+{
+	Vector2 v;
+	v.x = (float)x;
+	v.y = (float)x;
+	return v;
+}
+Vector2 Vec2(int x, int y)
+{
+	Vector2 v;
+	v.x = (float)x;
+	v.y = (float)y;
+	return v;
+}
+Vector2 Vec2(int x)
+{
+	Vector2 v;
+	v.x = (float)x;
+	v.y = (float)x;
+	return v;
+}
 Vector2 operator*(const Vector2& lhs, const float& rhs)
 {
 	return Vec2(lhs.x * rhs, lhs.y * rhs);

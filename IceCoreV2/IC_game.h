@@ -13,8 +13,11 @@
 #include "IC_objectSystem.h"
 #include "IC_assetManager.h"
 #include "IC_uiManager.h"
+#include "IC_localisationSystem.h"
+#include "IC_textStructs.h"
 
 #include "IC_globalVariables.h"
+#include "IC_delegates.h"
 
 // This game class creates other IceCore classes for you and gives you access to them.
 // Also abstracts some raylib things away to be more similar to Unreal Engine.
@@ -32,6 +35,7 @@ private:
 	std::unique_ptr<IC_objectSystem> objectSystem;
 	std::unique_ptr<IC_assetManager> assetManager;
 	std::unique_ptr<IC_uiManager> uiManager;
+	std::unique_ptr<IC_localisationSystem> localisationSystem;
 
 	std::unique_ptr<IC_visualDebugger> visualDebugger;
 
@@ -43,7 +47,7 @@ private:
 	bool paused = false;
 
 	// Render texture for the UI
-	RenderTexture2D uiTexture;
+	RenderTexture2D uiTexture = RenderTexture2D();
 public:
 	// Call to start the game.
 	// Creates IceCore classes and starts ticking.
@@ -76,14 +80,19 @@ public:
 	IC_objectSystem* GetObjectSystem();
 	// Shorthand for GetObjectSystem()
 	inline IC_objectSystem* ObjSys() { return GetObjectSystem(); }
+
+	IC_localisationSystem* GetLocalisationSystem();
+
 	// Returns pointer to the asset manager, abbr: AstMgr
 	IC_assetManager* GetAssetManager();
 	// Shorthand for GetAssetManager()
 	inline IC_assetManager* AstMgr() { return GetAssetManager(); }
+
 	inline IC_uiStyle GetUiStyle() { return assetManager.get()->uiStyle; }
 	IC_uiManager* GetUiManager();
 	// Shorthand for GetUiManager()
 	inline IC_uiManager* UiMgr() { return GetUiManager(); }
+
 	// Gets a texture from the asset manager by name.
 	// Shorthand for GetAssetManager()->GetTexture(name)
 	inline Texture2D Tex(std::string name) { return AstMgr()->GetTexture(name); }

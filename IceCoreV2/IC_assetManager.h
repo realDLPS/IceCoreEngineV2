@@ -38,9 +38,6 @@ public:
 	static std::map<std::string, std::string> ParseStringToConfig(std::string configString);
 
 private:
-	// Set by the game.
-	IC_game* game = nullptr;
-
 	Texture2D missingTexture = LoadTexture("Assets/MissingTexture.png");
 	Sound missingSound = LoadSound("Assets/MissingSound.wav");
 

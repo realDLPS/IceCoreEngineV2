@@ -83,9 +83,6 @@ private:
 	int id = -1;
 
 	// Set by the object system.
-	IC_game* game = nullptr;
-
-	// Set by the object system.
 	IC_objectSystem* objectSystem = nullptr;
 
 	// Set to true when BeginPlay is called.

@@ -60,6 +60,12 @@
     <Filter Include="Config Files">
       <UniqueIdentifier>{23c8836e-3cb6-4183-914b-1b7ef5c604f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\DataTypes">
+      <UniqueIdentifier>{00b85098-3f87-484f-b5f2-085346a58fa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DataTypes\Structs">
+      <UniqueIdentifier>{544fd300-a1e5-41b5-8bf3-ca810c330f45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -106,6 +112,12 @@
     </ClCompile>
     <ClCompile Include="IC_uiText.cpp">
       <Filter>Source Files\ICObjects\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="IC_localisationSystem.cpp">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="IC_textStructs.cpp">
+      <Filter>Source Files\DataTypes\Structs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +189,15 @@
     </ClInclude>
     <ClInclude Include="IC_fontConfig.h">
       <Filter>Config Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IC_localisationSystem.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="IC_textStructs.h">
+      <Filter>Header Files\DataTypes\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="IC_delegates.h">
+      <Filter>Header Files\DataTypes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
