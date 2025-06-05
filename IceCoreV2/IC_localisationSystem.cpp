@@ -80,6 +80,7 @@ bool IC_localisationSystem::SetLocale(std::string newLocale)
 		LoadLocale();
 		return false;
 	}
+	++generation;
 	return true;
 }
 
@@ -88,13 +89,19 @@ std::string IC_localisationSystem::GetLocale()
 	return locale;
 }
 
-bool IC_localisationSystem::GetLocalised(std::string key, std::string& out)
+bool IC_localisationSystem::GetLocalised(std::string key, std::string*& out)
 {
-	if (!translations.contains(key))
+	auto iterator = translations.find(key);
+	if (iterator == translations.end())
 	{
-		out = "";
+		out = nullptr;
 		return false;
 	}
-	out = translations.at(key);
+	out = &iterator->second;
 	return true;
+}
+
+int IC_localisationSystem::GetGeneration()
+{
+	return generation;
 }

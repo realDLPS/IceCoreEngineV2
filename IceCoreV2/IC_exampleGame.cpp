@@ -125,9 +125,22 @@ void IC_exampleGame::DrawUI(float deltaTime)
     // Bare minimum, going to be moved into the specific UI classes later
     nk_begin(nkCtx, "Test", nk_rect(50, 50, GetScreenWidth()/5.f, GetScreenHeight()/5.f), NK_WINDOW_NO_SCROLLBAR);
     nk_layout_row_dynamic(nkCtx, 100, 1);
-    if (nk_button_label(nkCtx, IC_text(U8("ABCDEFÅÄÖ"), "TestLabel").c_str()))
+
+    // Here you can see usage of the TEXTc macro
+    // See TEXTcCache macro in use below
+    const char* test = TEXTc("TestLabel");
+    if (nk_button_label(nkCtx, test))
     {
         game->GetLocalisationSystem()->SetLocale(game->GetLocalisationSystem()->GetLocale() == "en" ? "fi" : "en");
     }
+    nk_end(nkCtx);
+
+    nk_begin(nkCtx, "Test2", nk_rect(50, 65 + GetScreenHeight() / 5.f, GetScreenWidth() / 5.f, GetScreenHeight() / 3.f), NK_WINDOW_NO_SCROLLBAR);
+    nk_layout_row_dynamic(nkCtx, 300, 1);
+
+    // And here is usage of the TEXTcCache
+    // In my quick testing this is roughly 3x faster than just constantly calling TEXTc
+    TEXTcCache("TestText", testText)
+    nk_label_wrap(nkCtx, testText);
     nk_end(nkCtx);
 }

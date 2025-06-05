@@ -5,11 +5,17 @@
 
 std::string IC_text::str()
 {
-	std::string out;
-	if (game->GetLocalisationSystem()->GetLocalised(identifier, out))
+	if (stringPointer == nullptr || game->GetLocalisationSystem()->GetGeneration() != gen)
 	{
-		return out;
+		if (game->GetLocalisationSystem()->GetLocalised(identifier, stringPointer))
+		{
+			gen = game->GetLocalisationSystem()->GetGeneration();
+		}
+		else
+		{
+			stringPointer = nullptr;
+			return "id_" + identifier; // No value found so just returning the identifier
+		}
 	}
-	// No localised value was found so returning the preview
-	return preview;
+	return *stringPointer;
 }

@@ -32,7 +32,9 @@ public:
 
 	// Returns true if the key exists
 	// The localised string is set into the out string
-	bool GetLocalised(std::string key, std::string& out);
+	bool GetLocalised(std::string key, std::string*& out);
+
+	int GetGeneration();
 private:
 	// Key is the key in the csv
 	// Value is what is returned
@@ -41,4 +43,7 @@ private:
 
 	// Delegates to call when locale is changed
 	std::vector<IC_localeChangeDelegate> localeChangeDelegates;
+
+	// How many times language has been changed
+	uint16_t generation = 0;
 };
