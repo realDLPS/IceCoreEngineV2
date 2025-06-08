@@ -70,6 +70,141 @@ std::map<std::string, std::string> IC_assetManager::ParseStringToConfig(std::str
 	return configMap;
 }
 
+std::string IC_assetManager::LoadFileAsText(std::string path)
+{
+	char* temp = LoadFileText(path.c_str());
+	std::string str = temp;
+	UnloadFileText(temp);
+	return str;
+}
+
+bool IC_assetManager::LoadFont(std::string name, float size)
+{
+	Font* font;
+	auto iter_0 = raylibFonts.find(name);
+	if (iter_0 == raylibFonts.end()) // Font hasn't been loaded
+	{
+		auto pathsMap = LoadDirFileList("Assets/Fonts/", NULL, true);
+
+		if (pathsMap.contains(name + ".ictxt"))
+		{
+			auto fontConfig = ParseStringToConfig(LoadFileAsText(pathsMap[name + ".ictxt"]));
+
+			int loadSize = 64; // Default size
+			if (fontConfig.contains("size"))
+			{
+				loadSize = std::stoi(fontConfig["size"]);
+			}
+
+			if (!fontConfig.contains("font"))
+			{
+				game->ICLog("Missing font parameter in font config for font " + name);
+				return false;
+			}
+
+			std::vector<int> codePoints = std::vector(CODEPOINTSCPP.begin(), CODEPOINTSCPP.end());
+
+			Font* tempFont = new Font();
+
+			*tempFont = LoadFontEx(pathsMap[fontConfig["font"]].c_str(), loadSize, codePoints.data(), CODEPOINTCOUNT);
+
+			raylibFonts.emplace(name, tempFont);
+			font = tempFont;
+		}
+		else
+		{
+			game->ICLog("Missing font config for font " + name);
+			return false;
+		}
+	}
+	else
+	{
+		font = iter_0->second;
+	}
+
+	IC_font newIC_Font = IC_font();
+
+	newIC_Font.nkFont = NuklearFontFromRaylibFont(font, size);
+
+	if (fonts.contains(name))
+	{
+		auto& sizes = fonts[name];
+		if (sizes.contains(size))
+		{
+			// Font already exists with the correct size
+			return true;
+		}
+
+		sizes.emplace(size, std::move(newIC_Font));
+		return true;
+	}
+	else
+	{
+		fonts[name].emplace(size, std::move(newIC_Font));
+		return true;
+	}
+
+	return false;
+}
+
+IC_font IC_assetManager::GetICFont(std::string name, float size)
+{
+	auto iter_0 = fonts.find(name);
+	if (iter_0 != fonts.end())
+	{
+		auto& sizes = iter_0->second;
+
+		auto iter_1 = sizes.find(size);
+		if (iter_1 != sizes.end())
+		{
+			return iter_1->second;
+		}
+	}
+
+	// Font doesn't exist yet
+	LoadFont(name, size);
+
+	// Reload
+	iter_0 = fonts.find(name);
+	if (iter_0 != fonts.end())
+	{
+		auto& sizes = iter_0->second;
+
+		auto iter_1 = sizes.find(size);
+		if (iter_1 != sizes.end())
+		{
+			return iter_1->second;
+		}
+	}
+}
+
+std::map<std::string, std::string> IC_assetManager::LoadDirFileList(const char* path, const char* filter, bool scanSubdirs)
+{
+	FilePathList paths = LoadDirectoryFilesEx(path, filter, scanSubdirs);
+
+	// Key is file name, value is file path
+	std::map<std::string, std::string> pathsMap;
+
+	// Adding all paths to the set for clarity
+	for (size_t i = 0; i < paths.count; i++)
+	{
+		std::string fullPath = paths.paths[i];
+
+		auto fileNameStart = fullPath.find_last_of('\\');
+
+		if (fileNameStart != std::string::npos)
+		{
+			std::string fileName = fullPath.substr(fileNameStart + 1);
+			//std::string path = fullPath.substr(0, fileNameStart + 1);
+
+			pathsMap.insert({ fileName, fullPath });
+		}
+	}
+
+	UnloadDirectoryFiles(paths);
+	return pathsMap;
+}
+
 void IC_assetManager::LoadTextures(std::string assetFolder, bool common)
 {
 	FilePathList paths = LoadDirectoryFilesEx(assetFolder.c_str(), NULL, true);
@@ -173,35 +308,14 @@ void IC_assetManager::LoadSounds(std::string assetFolder, bool common)
 
 void IC_assetManager::LoadUIStyle(std::string assetFolder)
 {
-	FilePathList paths = LoadDirectoryFilesEx(assetFolder.c_str(), NULL, false);
-
-	// Key is file name, value is file path
-	std::map<std::string, std::string> pathsMap;
-
-	// Adding all paths to the set for clarity
-	for (size_t i = 0; i < paths.count; i++)
-	{
-		std::string fullPath = paths.paths[i];
-
-		auto fileNameStart = fullPath.find_last_of('\\');
-
-		if(fileNameStart != std::string::npos)
-		{
-			std::string fileName = fullPath.substr(fileNameStart + 1);
-			std::string path = fullPath.substr(0, fileNameStart + 1);
-
-			pathsMap.insert({ fileName, path });
-		}
-	}
+	std::map<std::string, std::string> pathsMap = LoadDirFileList(assetFolder.c_str(), NULL, false);
 
 	// Loading button
 	if (pathsMap.contains("Button.png") && pathsMap.contains("Button.ictxt"))
 	{
-		IC_sprite buttonSprite = IC_sprite(LoadTexture((pathsMap["Button.png"] + "Button.png").c_str()));
+		IC_sprite buttonSprite = IC_sprite(LoadTexture((pathsMap["Button.png"]).c_str()));
 
-		char* temp = LoadFileText((pathsMap.at("Button.ictxt") + "Button.ictxt").c_str());
-		std::string buttonConfig = temp;
-		UnloadFileText(temp);
+		std::string buttonConfig = LoadFileAsText(pathsMap["Button.ictxt"]);
 
 		std::map<std::string, std::string> buttonConfigMap = ParseStringToConfig(buttonConfig);
 
@@ -271,7 +385,7 @@ void IC_assetManager::LoadUIStyle(std::string assetFolder)
 
 	if (pathsMap.contains("Font.ictxt"))
 	{
-		char* temp = LoadFileText((pathsMap.at("Font.ictxt") + "Font.ictxt").c_str());
+		char* temp = LoadFileText((pathsMap.at("Font.ictxt")).c_str());
 		std::string fontConfig = temp;
 		UnloadFileText(temp);
 
@@ -300,8 +414,6 @@ void IC_assetManager::LoadUIStyle(std::string assetFolder)
 			game->ICLog("Warning: Invalid config for font in: " + assetFolder + "Font.ictxt. Missing font");
 		}
 	}
-
-	UnloadDirectoryFiles(paths);
 }
 
 void IC_assetManager::LoadCommonAssets()

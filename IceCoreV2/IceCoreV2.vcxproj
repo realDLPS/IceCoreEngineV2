@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClCompile Include="IC_assetManager.cpp" />
     <ClCompile Include="IC_exampleGame.cpp" />
+    <ClCompile Include="IC_font.cpp" />
     <ClCompile Include="IC_game.cpp" />
     <ClCompile Include="IC_graphicsManager.cpp" />
     <ClCompile Include="IC_inputSystem.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="IC_debugStructs.h" />
     <ClInclude Include="IC_delegates.h" />
     <ClInclude Include="IC_exampleGame.h" />
+    <ClInclude Include="IC_font.h" />
     <ClInclude Include="IC_fontConfig.h" />
     <ClInclude Include="IC_game.h" />
     <ClInclude Include="IC_globalVariables.h" />

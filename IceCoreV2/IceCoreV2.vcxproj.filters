@@ -119,6 +119,9 @@
     <ClCompile Include="IC_textStructs.cpp">
       <Filter>Source Files\DataTypes\Structs</Filter>
     </ClCompile>
+    <ClCompile Include="IC_font.cpp">
+      <Filter>Source Files\DataTypes\Structs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IC_graphicsStructs.h">
@@ -198,6 +201,9 @@
     </ClInclude>
     <ClInclude Include="IC_delegates.h">
       <Filter>Header Files\DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="IC_font.h">
+      <Filter>Header Files\DataTypes\Structs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
