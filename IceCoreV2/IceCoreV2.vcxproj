@@ -125,7 +125,7 @@
       <Command>xcopy /Y /E /I "$(ProjectDir)..\Assets" "$(TargetDir)Assets"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>RD /S /Q "$(TargetDir)/Assets"</Command>
+      <Command>RD /S /Q "$(TargetDir)/Assets/"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

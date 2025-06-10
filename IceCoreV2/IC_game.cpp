@@ -28,7 +28,7 @@ void IC_game::Init(bool debug, bool useWindowDefaults)
 	localisationSystem.get()->LoadLocale(); // The default locale is set to "en"
 	assetManager = std::make_unique<IC_assetManager>();
 	assetManager.get()->LoadCommonAssets();
-	nkCtx = InitNuklearEx(assetManager.get()->GetFont(), 36.f);
+	nkCtx = InitNuklearEx(assetManager.get()->GetFont("DEFAULT"), DEFAULTFONTSIZE);
 	uiManager = std::make_unique<IC_uiManager>();
 	uiTexture = LoadRenderTexture(GetScreenWidth(), GetScreenHeight());
 

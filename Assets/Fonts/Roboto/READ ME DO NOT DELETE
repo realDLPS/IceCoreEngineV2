@@ -1,0 +1,1 @@
+Roboto-Regular is used as the default font when a font is missing, you can override this by editing the file MissingFont.ictxt in Assets/ but you should always keep a default font present.

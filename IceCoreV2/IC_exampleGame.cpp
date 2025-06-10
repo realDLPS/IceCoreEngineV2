@@ -34,8 +34,6 @@ void IC_exampleGame::Tick(float deltaTime)
     GfxMgr()->SetCameraZoom(GfxMgr()->GetCameraZoom() + InpSys()->GetAxisValue("Zoom"));
     GfxMgr()->SetCameraRotation(GfxMgr()->GetCameraRotation() + InpSys()->GetAxisValue("Rotate") * -1.0f);
     GfxMgr()->SetCameraPosition(GfxMgr()->GetCameraPosition() + rotVec2(Vector2Normalize(Vec2(InpSys()->GetAxisValue("MoveRight"), InpSys()->GetAxisValue("MoveUp"))), GfxMgr()->GetCameraRotation()) * 300.0f * GetFrameTime());
-
-    GfxMgr()->AddToDrawQueue(IC_drawable(IC_sprite(AstMgr()->GetFont().texture), Vec2(200.f, -200.f), Vec2(0.2f)));
 }
 
 void IC_exampleGame::BeginPlay()
@@ -70,6 +68,7 @@ void IC_exampleGame::BeginPlay()
     explosionSprite = IC_sprite(Tex("Explosion"), 4, 4, 16);
     fireSprite = IC_sprite(Tex("Fire"), 1, 25, 25);
     smokeSprite = IC_sprite(Tex("Smoke"), 7, 7, 45);
+    SetTextureFilter(Tex("Smoke"), TEXTURE_FILTER_BILINEAR); // Fairly reasonable way to set filtering
 
     ICPrint(IC_debugString("Hello", 5.0f, RED), false);
 

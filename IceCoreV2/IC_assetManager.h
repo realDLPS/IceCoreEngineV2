@@ -16,6 +16,7 @@
 #include "IC_font.h"
 
 // Size is rounded to reduce amount of variants that get created
+// You can use the name DEFAULT to get the default font
 #define ICFONT(name, size) game->AstMgr()->GetICFont(name, std::round(size * 2.f) / 2.f).nkFont
 
 // Forward declarations
@@ -38,7 +39,6 @@ public:
 	// Returns the texture with the specified name.
 	Texture2D GetTexture(std::string name);
 	Sound GetSound(std::string name);
-	Font GetFont();
 
 	static std::map<std::string, std::string> ParseStringToConfig(std::string configString);
 
@@ -53,11 +53,13 @@ public:
 
 	IC_font GetICFont(std::string name, float size);
 
+	Font GetFont(std::string name);
+
 private:
 	Texture2D missingTexture = LoadTexture("Assets/MissingTexture.png");
 	Sound missingSound = LoadSound("Assets/MissingSound.wav");
+	std::string defaultFont = "";
 
-	IC_uiStyle uiStyle = IC_uiStyle();
 	std::unordered_map<std::string, std::unordered_map<float, IC_font>> fonts;
 	std::map<std::string, Font*> raylibFonts;
 
@@ -74,7 +76,7 @@ private:
 
 	void LoadTextures(std::string assetFolder, bool common = false);
 	void LoadSounds(std::string assetFolder, bool common = false);
-	void LoadUIStyle(std::string assetFolder);
+	void LoadDefaultFont(std::string path);
 	// Loads all assets found in the Assets/Common folder.
 	void LoadCommonAssets();
 

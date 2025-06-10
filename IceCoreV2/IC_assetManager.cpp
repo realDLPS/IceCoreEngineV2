@@ -37,11 +37,6 @@ Sound IC_assetManager::GetSound(std::string name)
 	return missingSound;
 }
 
-Font IC_assetManager::GetFont()
-{
-	return uiStyle.font;
-}
-
 std::map<std::string, std::string> IC_assetManager::ParseStringToConfig(std::string configString)
 {
 	std::istringstream stream(configString);
@@ -108,6 +103,8 @@ bool IC_assetManager::LoadFont(std::string name, float size)
 
 			*tempFont = LoadFontEx(pathsMap[fontConfig["font"]].c_str(), loadSize, codePoints.data(), CODEPOINTCOUNT);
 
+			SetTextureFilter(tempFont->texture, FONTFILTERING);
+
 			raylibFonts.emplace(name, tempFont);
 			font = tempFont;
 		}
@@ -149,33 +146,69 @@ bool IC_assetManager::LoadFont(std::string name, float size)
 
 IC_font IC_assetManager::GetICFont(std::string name, float size)
 {
-	auto iter_0 = fonts.find(name);
-	if (iter_0 != fonts.end())
+	if (name != "DEFAULT")
 	{
-		auto& sizes = iter_0->second;
-
-		auto iter_1 = sizes.find(size);
-		if (iter_1 != sizes.end())
+		auto iter_0 = fonts.find(name);
+		if (iter_0 != fonts.end())
 		{
-			return iter_1->second;
+			auto& sizes = iter_0->second;
+
+			auto iter_1 = sizes.find(size);
+			if (iter_1 != sizes.end())
+			{
+				return iter_1->second;
+			}
+		}
+
+		// Font doesn't exist yet
+		LoadFont(name, size);
+
+		// Reload
+		iter_0 = fonts.find(name);
+		if (iter_0 != fonts.end())
+		{
+			auto& sizes = iter_0->second;
+
+			auto iter_1 = sizes.find(size);
+			if (iter_1 != sizes.end())
+			{
+				return iter_1->second;
+			}
+		}
+	}
+	
+
+	// Font still doesn't exist, trying to return default font
+
+	if (defaultFont != "")
+	{
+		LoadFont(defaultFont, size);
+		
+		auto default_iter = fonts.find(defaultFont);
+		if (default_iter != fonts.end())
+		{
+			auto& sizes = default_iter->second;
+
+			auto iter_1 = sizes.find(size);
+			if (iter_1 != sizes.end())
+			{
+				return iter_1->second;
+			}
 		}
 	}
 
-	// Font doesn't exist yet
-	LoadFont(name, size);
+	// Welp no font found, deal with it
+	throw std::runtime_error("No font found");
+}
 
-	// Reload
-	iter_0 = fonts.find(name);
-	if (iter_0 != fonts.end())
+Font IC_assetManager::GetFont(std::string name)
+{
+	auto iter = raylibFonts.find(name == "DEFAULT" ? defaultFont : name);
+	if (iter != raylibFonts.end())
 	{
-		auto& sizes = iter_0->second;
-
-		auto iter_1 = sizes.find(size);
-		if (iter_1 != sizes.end())
-		{
-			return iter_1->second;
-		}
+		return *iter->second;
 	}
+	return Font();
 }
 
 std::map<std::string, std::string> IC_assetManager::LoadDirFileList(const char* path, const char* filter, bool scanSubdirs)
@@ -306,120 +339,36 @@ void IC_assetManager::LoadSounds(std::string assetFolder, bool common)
 	UnloadDirectoryFiles(paths);
 }
 
-void IC_assetManager::LoadUIStyle(std::string assetFolder)
+void IC_assetManager::LoadDefaultFont(std::string path)
 {
-	std::map<std::string, std::string> pathsMap = LoadDirFileList(assetFolder.c_str(), NULL, false);
-
-	// Loading button
-	if (pathsMap.contains("Button.png") && pathsMap.contains("Button.ictxt"))
+	if (!FileExists(path.c_str()))
 	{
-		IC_sprite buttonSprite = IC_sprite(LoadTexture((pathsMap["Button.png"]).c_str()));
-
-		std::string buttonConfig = LoadFileAsText(pathsMap["Button.ictxt"]);
-
-		std::map<std::string, std::string> buttonConfigMap = ParseStringToConfig(buttonConfig);
-
-		if (buttonConfigMap.contains("useSlicing"))
-		{
-			if (buttonConfigMap["useSlicing"] == "true")
-			{
-				buttonSprite.UseSlicing = true;
-			}
-			else
-			{
-				buttonSprite.UseSlicing = false;
-			}
-		}
-		else
-		{
-			game->ICLog("Warning: Invalid config for button in: " + assetFolder + "Button.ictxt. Missing useSlicing");
-		}
-
-		if (buttonConfigMap.contains("slicingType"))
-		{
-			buttonSprite.SlicingType = std::stoi(buttonConfigMap["slicingType"]);
-		}
-		else
-		{
-			game->ICLog("Warning: Invalid config for button in: " + assetFolder + "Button.ictxt. Missing slicingType");
-		}
-
-		if(buttonConfigMap.contains("left"))
-		{
-			buttonSprite.Left = std::stoi(buttonConfigMap["left"]);
-		}
-		else
-		{
-			game->ICLog("Warning: Invalid config for button in: " + assetFolder + "Button.ictxt. Missing left margin");
-		}
-
-		if (buttonConfigMap.contains("top"))
-		{
-			buttonSprite.Top = std::stoi(buttonConfigMap["top"]);
-		}
-		else
-		{
-			game->ICLog("Warning: Invalid config for button in: " + assetFolder + "Button.ictxt. Missing top margin");
-		}
-
-		if (buttonConfigMap.contains("right"))
-		{
-			buttonSprite.Right = std::stoi(buttonConfigMap["right"]);
-		}
-		else
-		{
-			game->ICLog("Warning: Invalid config for button in: " + assetFolder + "Button.ictxt. Missing right margin");
-		}
-
-		if (buttonConfigMap.contains("bottom"))
-		{
-			buttonSprite.Bottom = std::stoi(buttonConfigMap["bottom"]);
-		}
-		else
-		{
-			game->ICLog("Warning: Invalid config for button in: " + assetFolder + "Button.ictxt. Missing bottom margin");
-		}
-
-		uiStyle.button = buttonSprite;
+		game->ICLog("WARNING: Missing config file MissingFont.ictxt in Assets/Fonts/ : unable to load default font");
+		return;
 	}
+	std::string configText = LoadFileAsText(path);
+	auto configMap = ParseStringToConfig(configText);
 
-	if (pathsMap.contains("Font.ictxt"))
+	if (!configMap.contains("font"))
 	{
-		char* temp = LoadFileText((pathsMap.at("Font.ictxt")).c_str());
-		std::string fontConfig = temp;
-		UnloadFileText(temp);
-
-		std::map<std::string, std::string> fontConfigMap = ParseStringToConfig(fontConfig);
-
-		// Just some default
-		int fontSize = 128;
-
-		if (fontConfigMap.contains("size"))
-		{
-			fontSize = std::stoi(fontConfigMap["size"]);
-		}
-		else
-		{
-			game->ICLog("Warning: Invalid config for font in: " + assetFolder + "Font.ictxt. Missing size, assuming font size to be 128");
-		}
-
-		if (fontConfigMap.contains("font"))
-		{
-			std::vector<int> codePoints = std::vector(CODEPOINTSCPP.begin(), CODEPOINTSCPP.end());
-
-			uiStyle.font = LoadFontEx((pathsMap[fontConfigMap["font"]] + fontConfigMap["font"]).c_str(), fontSize, codePoints.data(), CODEPOINTCOUNT);
-		}
-		else
-		{
-			game->ICLog("Warning: Invalid config for font in: " + assetFolder + "Font.ictxt. Missing font");
-		}
+		game->ICLog("WARNING: Invalid config file MissingFont.ictxt, missing name of font to load");
+		return;
 	}
+	
+	if (!LoadFont(configMap["font"], DEFAULTFONTSIZE))
+	{
+		game->ICLog("WARNING: Failed to load default font");
+		return;
+	}
+	defaultFont = configMap["font"];
+	return;
 }
 
 void IC_assetManager::LoadCommonAssets()
 {
 	LoadTextures("Assets/Common/", true);
-	LoadUIStyle("Assets/CommonUI/");
+	LoadSounds("Assets/Common/", true);
+	LoadDefaultFont("Assets/Fonts/MissingFont.ictxt");
 }
 
 void IC_assetManager::UnloadAssets()

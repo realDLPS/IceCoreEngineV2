@@ -17,6 +17,7 @@
 #include "IC_textStructs.h"
 
 #include "IC_globalVariables.h"
+#include "IC_fontConfig.h"
 #include "IC_delegates.h"
 
 // This game class creates other IceCore classes for you and gives you access to them.
@@ -88,7 +89,6 @@ public:
 	// Shorthand for GetAssetManager()
 	inline IC_assetManager* AstMgr() { return GetAssetManager(); }
 
-	inline IC_uiStyle GetUiStyle() { return assetManager.get()->uiStyle; }
 	IC_uiManager* GetUiManager();
 	// Shorthand for GetUiManager()
 	inline IC_uiManager* UiMgr() { return GetUiManager(); }
