@@ -54,6 +54,14 @@ void IC_uiObject::RemoveChild(IC_uiObject* child)
 	Children.erase(child);
 }
 
+void IC_uiObject::DrawChildren(float deltaTime)
+{
+	for (auto iter = Children.begin(); iter != Children.end(); ++iter)
+	{
+		(*iter)->Draw(deltaTime);
+	}
+}
+
 Vector2 IC_uiObject::GetScreenPosition()
 {
 	Vector2 AlignmentMultiplier = GetAlignmentMultiplier();

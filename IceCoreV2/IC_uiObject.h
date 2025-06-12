@@ -59,6 +59,8 @@ public:
 	void AddChild(IC_uiObject* child);
 	// Removes a child from this ui object
 	void RemoveChild(IC_uiObject* child);
+	// Draws all children
+	void DrawChildren(float deltaTime);
 
 	// Automatically calculates the screen position of this ui object relative to its parents.
 	Vector2 GetScreenPosition();

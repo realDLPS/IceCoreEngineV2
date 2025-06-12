@@ -3,7 +3,7 @@
 #include <array>
 
 constexpr float DEFAULTFONTSIZE = 16.0f;
-constexpr TextureFilter FONTFILTERING = TEXTURE_FILTER_ANISOTROPIC_16X;
+constexpr TextureFilter FONTFILTERING = TEXTURE_FILTER_TRILINEAR;
 
 constexpr int ASCIISTART = 32, ASCIIEND = 126;
 constexpr int ASCIICOUNT = ASCIIEND - ASCIISTART + 1;
