@@ -2,6 +2,8 @@
 
 #include "IC_game.h"
 
+#include "IC_exampleUIMacros.h"
+
 class IC_exampleGame : public IC_game
 {
 public:

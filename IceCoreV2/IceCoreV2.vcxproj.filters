@@ -107,12 +107,6 @@
     <ClCompile Include="IC_uiObject.cpp">
       <Filter>Source Files\ICObjects\UI</Filter>
     </ClCompile>
-    <ClCompile Include="IC_uiButton.cpp">
-      <Filter>Source Files\ICObjects\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="IC_uiText.cpp">
-      <Filter>Source Files\ICObjects\UI</Filter>
-    </ClCompile>
     <ClCompile Include="IC_localisationSystem.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
@@ -121,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="IC_font.cpp">
       <Filter>Source Files\DataTypes\Structs</Filter>
+    </ClCompile>
+    <ClCompile Include="IC_uiPrimitives.cpp">
+      <Filter>Source Files\ICObjects\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -172,12 +169,6 @@
     <ClInclude Include="IC_uiEnums.h">
       <Filter>Header Files\DataTypes\Enums</Filter>
     </ClInclude>
-    <ClInclude Include="IC_uiButton.h">
-      <Filter>Header Files\ICObjects\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="IC_uiText.h">
-      <Filter>Header Files\ICObjects\UI</Filter>
-    </ClInclude>
     <ClInclude Include="nuklear.h">
       <Filter>Header Files\Dependencies</Filter>
     </ClInclude>
@@ -204,6 +195,15 @@
     </ClInclude>
     <ClInclude Include="IC_font.h">
       <Filter>Header Files\DataTypes\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="IC_uiPrimitives.h">
+      <Filter>Header Files\ICObjects\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="IC_exampleUIMacros.h">
+      <Filter>Header Files\Examples</Filter>
+    </ClInclude>
+    <ClInclude Include="IC_uiConfig.h">
+      <Filter>Config Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

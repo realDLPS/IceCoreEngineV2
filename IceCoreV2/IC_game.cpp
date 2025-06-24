@@ -1,3 +1,4 @@
+#define NK_BUTTON_TRIGGER_ON_HOLD
 #define RAYLIB_NUKLEAR_IMPLEMENTATION
 #include "IC_game.h"
 

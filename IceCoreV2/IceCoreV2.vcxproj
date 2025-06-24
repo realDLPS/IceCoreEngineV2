@@ -165,10 +165,9 @@
     <ClCompile Include="IC_object.cpp" />
     <ClCompile Include="IC_objectSystem.cpp" />
     <ClCompile Include="IC_textStructs.cpp" />
-    <ClCompile Include="IC_uiButton.cpp" />
     <ClCompile Include="IC_uiManager.cpp" />
     <ClCompile Include="IC_uiObject.cpp" />
-    <ClCompile Include="IC_uiText.cpp" />
+    <ClCompile Include="IC_uiPrimitives.cpp" />
     <ClCompile Include="IC_visualDebugger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="vectorHelpers.cpp" />
@@ -178,6 +177,7 @@
     <ClInclude Include="IC_debugStructs.h" />
     <ClInclude Include="IC_delegates.h" />
     <ClInclude Include="IC_exampleGame.h" />
+    <ClInclude Include="IC_exampleUIMacros.h" />
     <ClInclude Include="IC_font.h" />
     <ClInclude Include="IC_fontConfig.h" />
     <ClInclude Include="IC_game.h" />
@@ -189,11 +189,11 @@
     <ClInclude Include="IC_object.h" />
     <ClInclude Include="IC_objectSystem.h" />
     <ClInclude Include="IC_textStructs.h" />
-    <ClInclude Include="IC_uiButton.h" />
+    <ClInclude Include="IC_uiConfig.h" />
     <ClInclude Include="IC_uiEnums.h" />
     <ClInclude Include="IC_uiManager.h" />
     <ClInclude Include="IC_uiObject.h" />
-    <ClInclude Include="IC_uiText.h" />
+    <ClInclude Include="IC_uiPrimitives.h" />
     <ClInclude Include="IC_visualDebugger.h" />
     <ClInclude Include="nuklear.h" />
     <ClInclude Include="raylib-nuklear-font.h" />

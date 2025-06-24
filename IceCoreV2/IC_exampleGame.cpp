@@ -1,8 +1,5 @@
 #include "IC_exampleGame.h"
 
-#include "IC_uiButton.h"
-#include "IC_uiText.h"
-
 bool IC_exampleGame::ToggleCursor(float value)
 {
     if (value == 1.0f) // Is this a press?
@@ -72,43 +69,6 @@ void IC_exampleGame::BeginPlay()
 
     ICPrint(IC_debugString("Hello", 5.0f, RED), false);
 
-    // Very painful way of creating a "button", it really isn't a button yet, but hey it renders!
-    IC_uiButton* testButton = ObjSys()->SpawnObject<IC_uiButton>(true, true, 1.0f / 60.0f, true, false);
-    testButton->Anchor = IC_uiAlignment::TopCenter;
-    testButton->Alignment = IC_uiAlignment::TopCenter;
-    testButton->Scaling = IC_uiScaling::LiteralScaled;
-    testButton->Offset = Vec2(0, 10);
-    testButton->Scale = Vec2(500, 200);
-    testButton->EnableAutoDraw();
-    ObjSys()->FinishSpawn(testButton->GetId(), true);
-
-    // Creating a child button that will be attached to the parent button
-    IC_uiButton* testChildButton = ObjSys()->SpawnObject<IC_uiButton>(true, true, 1.0f / 60.0f, true, false);
-    testChildButton->Anchor = IC_uiAlignment::BottomCenter;
-    testChildButton->Alignment = IC_uiAlignment::TopCenter;
-    testChildButton->Scaling = IC_uiScaling::Relative;
-    testChildButton->Offset = Vec2(0, 10);
-    testChildButton->Scale = Vec2(0.75f, 0.3f);
-    testChildButton->EnableAutoDraw();
-	ObjSys()->FinishSpawn(testChildButton->GetId(), true);
-
-    testButton->AddChild(testChildButton);
-    
-    // Creating some text
-    IC_uiText* testText = ObjSys()->SpawnObject<IC_uiText>(true, true, 1.0f / 60.0f, true, false);
-	testText->Anchor = IC_uiAlignment::Center;
-	testText->Alignment = IC_uiAlignment::Center;
-	testText->Scaling = IC_uiScaling::LiteralScaled;
-	testText->Offset = Vec2(0, 0);
-	testText->Scale = Vec2(0);
-	testText->EnableAutoDraw();
-    testText->Text = "Testing";
-    testText->FontSize = 125;
-    testText->Spacing = 2;
-	ObjSys()->FinishSpawn(testText->GetId(), true);
-
-    testButton->AddChild(testText);
-
     HideCursor();
     DisableCursor();
     SetTargetFPS(500);
@@ -125,13 +85,23 @@ void IC_exampleGame::DrawUI(float deltaTime)
     nk_begin(nkCtx, "Test", nk_rect(50, 50, GetScreenWidth()/5.f, GetScreenHeight()/5.f), NK_WINDOW_NO_SCROLLBAR);
     nk_layout_row_dynamic(nkCtx, 100, 1);
 
+
+    IC_buttonDelegate OnTestButton = [this](char value) 
+    { 
+        if (value == 3) 
+        { 
+            game->GetLocalisationSystem()->SetLocale(game->GetLocalisationSystem()->GetLocale() == "en" ? "fi" : "en"); 
+        }
+    };
+    nk_style_set_font(nkCtx, ICFONT("Roboto", 48.0f * (std::sin(GetTime()) + 5.f) / 6.f)); // Example of font size changing dynamically
+    UIBUTTON("TestLabel", OnTestButton, t1)
     // Here you can see usage of the TEXTc macro
     // See TEXTcCache macro in use below
-    nk_style_set_font(nkCtx, ICFONT("Roboto", 48.0f * (std::sin(GetTime())+5.f) / 6.f)); // Example of font size changing dynamically
+    /*
     if (nk_button_label(nkCtx, TEXTc("TestLabel")))
     {
         game->GetLocalisationSystem()->SetLocale(game->GetLocalisationSystem()->GetLocale() == "en" ? "fi" : "en");
-    }
+    }*/
     nk_end(nkCtx);
 
     nk_begin(nkCtx, "Test2", nk_rect(50, 65 + GetScreenHeight() / 5.f, GetScreenWidth() / 5.f, GetScreenHeight() / 3.f), NK_WINDOW_NO_SCROLLBAR);
