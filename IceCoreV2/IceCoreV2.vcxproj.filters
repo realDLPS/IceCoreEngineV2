@@ -48,12 +48,6 @@
     <Filter Include="Source Files\Systems">
       <UniqueIdentifier>{76a99c1e-20af-4559-a5f7-93f2a6ed03fe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\ICObjects\UI">
-      <UniqueIdentifier>{8d89d6ba-5672-4220-abe1-57a54f8136be}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\ICObjects\UI">
-      <UniqueIdentifier>{b860bd9c-a3b6-4479-a8b0-a2ce6c3ec006}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Dependencies">
       <UniqueIdentifier>{ffb45650-a4a8-4635-b42c-d3aec2c7b494}</UniqueIdentifier>
     </Filter>
@@ -101,12 +95,6 @@
     <ClCompile Include="IC_assetManager.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="IC_uiManager.cpp">
-      <Filter>Source Files\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="IC_uiObject.cpp">
-      <Filter>Source Files\ICObjects\UI</Filter>
-    </ClCompile>
     <ClCompile Include="IC_localisationSystem.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
@@ -115,9 +103,6 @@
     </ClCompile>
     <ClCompile Include="IC_font.cpp">
       <Filter>Source Files\DataTypes\Structs</Filter>
-    </ClCompile>
-    <ClCompile Include="IC_uiPrimitives.cpp">
-      <Filter>Source Files\ICObjects\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,12 +145,6 @@
     <ClInclude Include="IC_assetManager.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="IC_uiManager.h">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="IC_uiObject.h">
-      <Filter>Header Files\ICObjects\UI</Filter>
-    </ClInclude>
     <ClInclude Include="IC_uiEnums.h">
       <Filter>Header Files\DataTypes\Enums</Filter>
     </ClInclude>
@@ -195,9 +174,6 @@
     </ClInclude>
     <ClInclude Include="IC_font.h">
       <Filter>Header Files\DataTypes\Structs</Filter>
-    </ClInclude>
-    <ClInclude Include="IC_uiPrimitives.h">
-      <Filter>Header Files\ICObjects\UI</Filter>
     </ClInclude>
     <ClInclude Include="IC_exampleUIMacros.h">
       <Filter>Header Files\Examples</Filter>

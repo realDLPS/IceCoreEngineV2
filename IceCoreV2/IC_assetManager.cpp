@@ -103,6 +103,7 @@ bool IC_assetManager::LoadFont(std::string name, float size)
 
 			*tempFont = LoadFontEx(pathsMap[fontConfig["font"]].c_str(), loadSize, codePoints.data(), CODEPOINTCOUNT);
 
+			GenTextureMipmaps(&tempFont->texture);
 			SetTextureFilter(tempFont->texture, FONTFILTERING);
 
 			raylibFonts.emplace(name, tempFont);

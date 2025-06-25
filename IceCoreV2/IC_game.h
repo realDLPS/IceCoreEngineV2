@@ -12,7 +12,6 @@
 #include "IC_inputSystem.h"
 #include "IC_objectSystem.h"
 #include "IC_assetManager.h"
-#include "IC_uiManager.h"
 #include "IC_localisationSystem.h"
 #include "IC_textStructs.h"
 
@@ -35,7 +34,6 @@ private:
 	std::unique_ptr<IC_inputSystem> inputSystem;
 	std::unique_ptr<IC_objectSystem> objectSystem;
 	std::unique_ptr<IC_assetManager> assetManager;
-	std::unique_ptr<IC_uiManager> uiManager;
 	std::unique_ptr<IC_localisationSystem> localisationSystem;
 
 	std::unique_ptr<IC_visualDebugger> visualDebugger;
@@ -88,10 +86,6 @@ public:
 	IC_assetManager* GetAssetManager();
 	// Shorthand for GetAssetManager()
 	inline IC_assetManager* AstMgr() { return GetAssetManager(); }
-
-	IC_uiManager* GetUiManager();
-	// Shorthand for GetUiManager()
-	inline IC_uiManager* UiMgr() { return GetUiManager(); }
 
 	// Gets a texture from the asset manager by name.
 	// Shorthand for GetAssetManager()->GetTexture(name)

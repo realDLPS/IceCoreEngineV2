@@ -11,12 +11,12 @@
 
 #include "IC_globalVariables.h"
 
-// UI ID, automatically generates an ID for your ui elements
-#define UIID "uiElem_"##__COUNTER__
-
 // Internal macro that checks if a delegate is NULL before calling
 #define CALLDELEGATE(delegate, input) if(delegate != NULL) {delegate(input);}
 
+#pragma region Elements
+
+#pragma region Button
 /// Simple button
 ///
 /// Params
@@ -30,7 +30,7 @@ static bool id##_hovered = false;							\
 TEXTcCache(textid, id##_text)								\
 if(nk_button_label(nkCtx, textid == "" ? "" : id##_text))	\
 {															\
-	if(!id##_pressed)/*Wasn't pressed before*/				\
+	if(!id##_pressed)										\
 	{														\
 		CALLDELEGATE(delegate, 1)							\
 		id##_pressTime = GetTime();							\
@@ -65,3 +65,16 @@ else														\
 	}														\
 	id##_hovered = false;									\
 }
+#pragma endregion
+
+#pragma endregion
+
+#pragma region Styling
+
+#pragma region Font
+#define UISTARTFONT(font) nk_style_push_font(nkCtx, font);
+#define UIENDFONT() nk_style_pop_font(nkCtx);
+#pragma endregion
+
+
+#pragma endregion

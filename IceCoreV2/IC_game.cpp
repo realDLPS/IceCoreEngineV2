@@ -30,7 +30,6 @@ void IC_game::Init(bool debug, bool useWindowDefaults)
 	assetManager = std::make_unique<IC_assetManager>();
 	assetManager.get()->LoadCommonAssets();
 	nkCtx = InitNuklearEx(assetManager.get()->GetFont("DEFAULT"), DEFAULTFONTSIZE);
-	uiManager = std::make_unique<IC_uiManager>();
 	uiTexture = LoadRenderTexture(GetScreenWidth(), GetScreenHeight());
 
 	// Call begin play
@@ -91,9 +90,6 @@ void IC_game::Unload()
 	inputSystem.reset();
 	visualDebugger.reset();
 
-	uiManager.get()->Unload();
-	uiManager.reset();
-
 	objectSystem.get()->Unload();
 	objectSystem.reset();
 
@@ -124,11 +120,6 @@ IC_objectSystem* IC_game::GetObjectSystem()
 IC_assetManager* IC_game::GetAssetManager()
 {
 	return assetManager.get();
-}
-
-IC_uiManager* IC_game::GetUiManager()
-{
-	return uiManager.get();
 }
 
 IC_localisationSystem* IC_game::GetLocalisationSystem()

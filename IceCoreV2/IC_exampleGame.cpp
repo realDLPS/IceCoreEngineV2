@@ -88,20 +88,14 @@ void IC_exampleGame::DrawUI(float deltaTime)
 
     IC_buttonDelegate OnTestButton = [this](char value) 
     { 
-        if (value == 3) 
+        if (value == 1) 
         { 
             game->GetLocalisationSystem()->SetLocale(game->GetLocalisationSystem()->GetLocale() == "en" ? "fi" : "en"); 
         }
     };
-    nk_style_set_font(nkCtx, ICFONT("Roboto", 48.0f * (std::sin(GetTime()) + 5.f) / 6.f)); // Example of font size changing dynamically
-    UIBUTTON("TestLabel", OnTestButton, t1)
-    // Here you can see usage of the TEXTc macro
-    // See TEXTcCache macro in use below
-    /*
-    if (nk_button_label(nkCtx, TEXTc("TestLabel")))
-    {
-        game->GetLocalisationSystem()->SetLocale(game->GetLocalisationSystem()->GetLocale() == "en" ? "fi" : "en");
-    }*/
+    UISTARTFONT(ICFONT("Roboto", 48.0f * (std::sin(GetTime()) + 5.f) / 7.f)) // Example of font size changing dynamically
+    UIBUTTON("TestLabel", OnTestButton, b1)
+    UIENDFONT() // Ends the current font
     nk_end(nkCtx);
 
     nk_begin(nkCtx, "Test2", nk_rect(50, 65 + GetScreenHeight() / 5.f, GetScreenWidth() / 5.f, GetScreenHeight() / 3.f), NK_WINDOW_NO_SCROLLBAR);
@@ -110,7 +104,7 @@ void IC_exampleGame::DrawUI(float deltaTime)
     // And here is usage of the TEXTcCache macro
     // In my quick testing this is roughly 3x faster than just constantly calling TEXTc
     TEXTcCache("TestText", testText)
-    nk_style_set_font(nkCtx, ICFONT("Roboto", 18.0f));
+    nk_style_set_font(nkCtx, ICFONT("Roboto", 24.0f));
     nk_label_wrap(nkCtx, testText);
     nk_end(nkCtx);
 }
