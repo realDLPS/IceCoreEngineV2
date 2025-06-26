@@ -167,6 +167,7 @@
     <ClCompile Include="IC_textStructs.cpp" />
     <ClCompile Include="IC_visualDebugger.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="nuklearHelpers.cpp" />
     <ClCompile Include="vectorHelpers.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +191,7 @@
     <ClInclude Include="IC_uiEnums.h" />
     <ClInclude Include="IC_visualDebugger.h" />
     <ClInclude Include="nuklear.h" />
+    <ClInclude Include="nuklearHelpers.h" />
     <ClInclude Include="raylib-nuklear-font.h" />
     <ClInclude Include="raylib-nuklear.h" />
     <ClInclude Include="vectorHelpers.h" />

@@ -104,6 +104,9 @@
     <ClCompile Include="IC_font.cpp">
       <Filter>Source Files\DataTypes\Structs</Filter>
     </ClCompile>
+    <ClCompile Include="nuklearHelpers.cpp">
+      <Filter>Source Files\Helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IC_graphicsStructs.h">
@@ -180,6 +183,9 @@
     </ClInclude>
     <ClInclude Include="IC_uiConfig.h">
       <Filter>Config Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nuklearHelpers.h">
+      <Filter>Header Files\Helpers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

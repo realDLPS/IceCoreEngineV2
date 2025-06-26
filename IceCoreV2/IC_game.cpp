@@ -49,6 +49,7 @@ void IC_game::Init(bool debug, bool useWindowDefaults)
 		objectSystem->Update();
 		Tick(GetDeltaTime());
 
+		hoveredElementCount = 0; // Reset the hover count
 		DrawUI(GetDeltaTime()); // Tell the game to draw any UI
 
 		// Draw anything the game wanted to draw into a render texture

@@ -61,6 +61,8 @@ private:
 	// State of inputs on the last update
 	IC_inputState previousInputState;
 
+	bool wasPressedDuringHover[7] = { false };
+
 	// Consumed inputs
 	// Uses a stupid system to store different types of inputs in the same set:
 	// Keyboard is just the value

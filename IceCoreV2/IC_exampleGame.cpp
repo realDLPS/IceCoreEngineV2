@@ -82,9 +82,9 @@ void IC_exampleGame::EndPlay()
 void IC_exampleGame::DrawUI(float deltaTime)
 {
     // Bare minimum, going to be moved into the specific UI classes later
+    nkCtx->style.window.fixed_background = nk_style_item_color(nk_rgba(0, 0, 0, 0));
     nk_begin(nkCtx, "Test", nk_rect(50, 50, GetScreenWidth()/5.f, GetScreenHeight()/5.f), NK_WINDOW_NO_SCROLLBAR);
     nk_layout_row_dynamic(nkCtx, 100, 1);
-
 
     IC_buttonDelegate OnTestButton = [this](char value) 
     { 
@@ -94,7 +94,7 @@ void IC_exampleGame::DrawUI(float deltaTime)
         }
     };
     UISTARTFONT(ICFONT("Roboto", 48.0f * (std::sin(GetTime()) + 5.f) / 7.f)) // Example of font size changing dynamically
-    UIBUTTON("TestLabel", OnTestButton, b1)
+    UIBUTTON("TestLabel", OnTestButton, b1) HOVERABLE
     UIENDFONT() // Ends the current font
     nk_end(nkCtx);
 

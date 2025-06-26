@@ -7,12 +7,22 @@
 #include "IC_delegates.h"
 #include "IC_textStructs.h"
 
+#include "nuklearHelpers.h"
+
 #include "IC_uiConfig.h"
 
 #include "IC_globalVariables.h"
 
 // Internal macro that checks if a delegate is NULL before calling
 #define CALLDELEGATE(delegate, input) if(delegate != NULL) {delegate(input);}
+
+#pragma region Markers
+
+// Should the widget rendered before be considered for hovering?
+#define HOVERABLE if(nkCtx->last_widget_state == 82 || nkCtx->last_widget_state == 98) {++hoveredElementCount;}
+
+#pragma endregion
+
 
 #pragma region Elements
 

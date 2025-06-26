@@ -14,3 +14,7 @@ inline nk_context* nkCtx;
 
 class IC_game;
 inline IC_game* game = nullptr;
+
+
+// Hovered element count is here since this is the easiest way to track it across the entire game
+inline int hoveredElementCount = 0;

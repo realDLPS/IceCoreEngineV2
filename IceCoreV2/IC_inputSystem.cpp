@@ -19,22 +19,79 @@ void IC_inputSystem::UpdateInputs(float deltaTime)
 
 		nk_input_motion(nkCtx, GetMouseX(), GetMouseY()); // Send mouse position
 
-		if (InputMode == EInputMode::UI || nk_item_is_any_active(nkCtx))
+		if (InputMode == EInputMode::UI || (nk_item_is_any_active(nkCtx) && hoveredElementCount > 0))
 		{
 			// Scroll value is always sent in UI mode
 			// Scroll value is only sent in GameAndUI mode if something is hovered
 			nk_input_scroll(nkCtx, nk_vec2(0.0f, GetMouseWheelMove()));
 			scrollConsumed = true;
 
+
+			bool leftMouse = false;
+			if (!wasPressedDuringHover[0]) // Wasn't pressed during hover
+			{
+				// Checking if new click
+				if (currentInputState.mouseState[0] && !previousInputState.mouseState[0])
+				{
+					wasPressedDuringHover[0] = true;
+					leftMouse = true;
+				}
+			}
+			else
+			{
+				leftMouse = currentInputState.mouseState[0];
+			}
+
+			bool rightMouse = false;
+			if (!wasPressedDuringHover[1]) // Wasn't pressed during hover
+			{
+				// Checking if new click
+				if (currentInputState.mouseState[1] && !previousInputState.mouseState[1])
+				{
+					wasPressedDuringHover[1] = true;
+					rightMouse = true;
+				}
+			}
+			else
+			{
+				rightMouse = currentInputState.mouseState[1];
+			}
+
+			bool middleMouse = false;
+			if (!wasPressedDuringHover[2]) // Wasn't pressed during hover
+			{
+				// Checking if new click
+				if (currentInputState.mouseState[2] && !previousInputState.mouseState[2])
+				{
+					wasPressedDuringHover[2] = true;
+					middleMouse = true;
+				}
+			}
+			else
+			{
+				middleMouse = currentInputState.mouseState[2];
+			}
+
+
 			// Sending mouse clicks
-			nk_input_button(nkCtx, NK_BUTTON_LEFT, GetMouseX(), GetMouseY(), IsMouseButtonDown(MouseButton::MOUSE_BUTTON_LEFT));
-			if (IsMouseButtonDown(MouseButton::MOUSE_BUTTON_LEFT)) { ConsumeMouseButton(MouseButton::MOUSE_BUTTON_LEFT); uiConsumedInput = true; }
+			nk_input_button(nkCtx, NK_BUTTON_LEFT, GetMouseX(), GetMouseY(), leftMouse); // Checks if this click was this frame
+			if (leftMouse) { ConsumeMouseButton(MouseButton::MOUSE_BUTTON_LEFT); uiConsumedInput = true; }
 
-			nk_input_button(nkCtx, NK_BUTTON_RIGHT, GetMouseX(), GetMouseY(), IsMouseButtonDown(MouseButton::MOUSE_BUTTON_RIGHT));
-			if (IsMouseButtonDown(MouseButton::MOUSE_BUTTON_RIGHT)) { ConsumeMouseButton(MouseButton::MOUSE_BUTTON_RIGHT); uiConsumedInput = true; }
+			nk_input_button(nkCtx, NK_BUTTON_RIGHT, GetMouseX(), GetMouseY(), rightMouse);
+			if (rightMouse) { ConsumeMouseButton(MouseButton::MOUSE_BUTTON_RIGHT); uiConsumedInput = true; }
 
-			nk_input_button(nkCtx, NK_BUTTON_MIDDLE, GetMouseX(), GetMouseY(), IsMouseButtonDown(MouseButton::MOUSE_BUTTON_MIDDLE));
-			if (IsMouseButtonDown(MouseButton::MOUSE_BUTTON_MIDDLE)) { ConsumeMouseButton(MouseButton::MOUSE_BUTTON_MIDDLE); uiConsumedInput = true; }
+			nk_input_button(nkCtx, NK_BUTTON_MIDDLE, GetMouseX(), GetMouseY(), middleMouse);
+			if (middleMouse) { ConsumeMouseButton(MouseButton::MOUSE_BUTTON_MIDDLE); uiConsumedInput = true; }
+		}
+		else
+		{
+			// Reset values
+			nk_input_scroll(nkCtx, nk_vec2(0.0f, 0.0f));
+			nk_input_button(nkCtx, NK_BUTTON_LEFT, GetMouseX(), GetMouseY(), false);
+			nk_input_button(nkCtx, NK_BUTTON_RIGHT, GetMouseX(), GetMouseY(), false);
+			nk_input_button(nkCtx, NK_BUTTON_MIDDLE, GetMouseX(), GetMouseY(), false);
+
+			std::fill_n(wasPressedDuringHover, 7, false);
 		}
 		// This other check is stolen from nk_item_is_any_active to check is anything active (not just hovered)
 		if (InputMode == EInputMode::UI || (nkCtx->last_widget_state & NK_WIDGET_STATE_MODIFIED)) 
