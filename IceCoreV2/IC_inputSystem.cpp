@@ -74,7 +74,7 @@ void IC_inputSystem::UpdateInputs(float deltaTime)
 
 
 			// Sending mouse clicks
-			nk_input_button(nkCtx, NK_BUTTON_LEFT, GetMouseX(), GetMouseY(), leftMouse); // Checks if this click was this frame
+			nk_input_button(nkCtx, NK_BUTTON_LEFT, GetMouseX(), GetMouseY(), leftMouse);
 			if (leftMouse) { ConsumeMouseButton(MouseButton::MOUSE_BUTTON_LEFT); uiConsumedInput = true; }
 
 			nk_input_button(nkCtx, NK_BUTTON_RIGHT, GetMouseX(), GetMouseY(), rightMouse);

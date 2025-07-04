@@ -6,7 +6,7 @@ MIT License:
 IceCoreV2/main.cpp
 IceCoreV2/IC_exampleGame.h
 IceCoreV2/IC_exampleGame.cpp
-Assets/UIStyles/icecore.rgs
+IceCoreV2/IC_exampleUIMacros.h
 
 CC0:
 Assets/Common/Circle.png
@@ -15,4 +15,3 @@ Assets/Common/Fire.png
 Assets/Common/Smoke.png
 Assets/MissingTexture.png
 Assets/MissingSound.wav
-Assets/CommonUI/Button.png Made by Kenney.nl, edges have been slightly modified (https://www.kenney.nl/assets/ui-pack-adventure)

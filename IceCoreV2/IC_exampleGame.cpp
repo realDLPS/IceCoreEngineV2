@@ -35,6 +35,7 @@ void IC_exampleGame::Tick(float deltaTime)
 
 void IC_exampleGame::BeginPlay()
 {
+    SetDefaultStyling();
 #pragma region Input mappings
     // Movement
     IC_mapping moveUp = IC_mapping({ IC_binding(KEY_W, 1.0f), IC_binding(KEY_S, -1.0f), IC_binding(GAMEPAD_AXIS_LEFT_Y, -1.0f) });
@@ -94,6 +95,8 @@ void IC_exampleGame::DrawUI(float deltaTime)
         }
     };
     UISTARTFONT(ICFONT("Roboto", 48.0f * (std::sin(GetTime()) + 5.f) / 7.f)) // Example of font size changing dynamically
+        //nkCtx->style.button.color_factor_background = 0.0f;
+    
     UIBUTTON("TestLabel", OnTestButton, b1) HOVERABLE
     UIENDFONT() // Ends the current font
     nk_end(nkCtx);

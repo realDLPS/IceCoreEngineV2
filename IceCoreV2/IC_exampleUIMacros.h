@@ -19,6 +19,8 @@
 #pragma region Markers
 
 // Should the widget rendered before be considered for hovering?
+// -
+// POST MACRO: Place after the ui element
 #define HOVERABLE if(nkCtx->last_widget_state == 82 || nkCtx->last_widget_state == 98) {++hoveredElementCount;}
 
 #pragma endregion
@@ -85,6 +87,35 @@ else														\
 #define UISTARTFONT(font) nk_style_push_font(nkCtx, font);
 #define UIENDFONT() nk_style_pop_font(nkCtx);
 #pragma endregion
+
+// Sets styling to default
+inline void SetDefaultStyling()
+{
+	float disabledFactor = 0.6f;
+
+
+#pragma region Text
+	nkCtx->style.text.color = nk_rgba(200, 200, 200, 255);
+	nkCtx->style.text.disabled_factor = disabledFactor;
+#pragma endregion
+
+#pragma region Button
+
+	nkCtx->style.button.normal.data.color = nk_rgba(75, 75, 75, 255);
+	nkCtx->style.button.hover.data.color = nk_rgba(65, 65, 65, 245);
+	nkCtx->style.button.active.data.color = nk_rgba(50, 50, 50, 235);
+	nkCtx->style.button.border_color = nk_rgba(40, 40, 40, 255);
+	nkCtx->style.button.border = 0.0f;
+	nkCtx->style.button.rounding = 12.0f;
+
+	nkCtx->style.button.text_normal = nkCtx->style.text.color;
+	nkCtx->style.button.text_hover = nkCtx->style.text.color;
+
+	nkCtx->style.button.disabled_factor = disabledFactor;
+
+#pragma endregion
+}
+
 
 
 #pragma endregion
