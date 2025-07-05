@@ -40,13 +40,13 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -124,10 +124,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y /E /I "$(ProjectDir)..\Assets" "$(TargetDir)Assets"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>RD /S /Q "$(TargetDir)/Assets/"</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -147,10 +149,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y /E /I "$(ProjectDir)..\Assets" "$(TargetDir)Assets" &amp;&amp; xcopy /Y /E /I "$(ProjectDir)..\Assets" "$(SolutionDir)..\Packaged\$(Platform)\$(GameName)\Assets" &amp;&amp; xcopy /Y /I "$(SolutionDir)$(Platform)\$(Configuration)\$(GameName).exe" "$(SolutionDir)..\Packaged\$(Platform)\$(GameName)\"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>Copy assets and executable to proper path.</Message>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -165,7 +169,6 @@
     <ClCompile Include="IC_objectSystem.cpp" />
     <ClCompile Include="IC_textStructs.cpp" />
     <ClCompile Include="IC_visualDebugger.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="nuklearHelpers.cpp" />
     <ClCompile Include="vectorHelpers.cpp" />
   </ItemGroup>
@@ -203,11 +206,13 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="packages\raylib.5.5.0\build\native\raylib.targets" Condition="Exists('packages\raylib.5.5.0\build\native\raylib.targets')" />
+    <Import Project="..\..\packages\raylib.5.5.0\build\native\raylib.targets" Condition="Exists('..\..\packages\raylib.5.5.0\build\native\raylib.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('packages\raylib.5.5.0\build\native\raylib.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\raylib.5.5.0\build\native\raylib.targets'))" />
+    <Error Condition="!Exists('..\..\packages\raylib.5.5.0\build\native\raylib.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\raylib.5.5.0\build\native\raylib.targets'))" />
   </Target>
 </Project>

@@ -62,9 +62,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="vectorHelpers.cpp">
       <Filter>Source Files\Helpers</Filter>
     </ClCompile>
