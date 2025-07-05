@@ -42,23 +42,6 @@ Vector2 Vec2(int x)
 	v.y = (float)x;
 	return v;
 }
-Vector2 operator*(const Vector2& lhs, const float& rhs)
-{
-	return Vec2(lhs.x * rhs, lhs.y * rhs);
-}
-Vector2 operator*(const Vector2& lhs, const Vector2& rhs)
-{
-	return Vec2(lhs.x * rhs.x, lhs.y * rhs.y);
-}
-Vector2 operator-(const Vector2& lhs, const Vector2& rhs)
-{
-	return Vec2(lhs.x - rhs.x, lhs.y - rhs.y);
-}
-
-Vector2 operator+(const Vector2& lhs, const Vector2& rhs)
-{
-	return Vec2(lhs.x + rhs.x, lhs.y + rhs.y);
-}
 
 Vector2 rotVec2(Vector2 v, float angle)
 {
