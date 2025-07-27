@@ -16,24 +16,8 @@ public:
 
 	virtual ~IC_object() = default;
 
-	// Can be changed at any time to enable of disable ticking.
-	// Even if false this object will be added to the tick list.
-	bool ticking = false;
-	// How often can this object tick?
-	// 0.0f = each frame, 1.0f = every second and so on.
-	float maxTickFrequency = 0.0f;
-
-	// Is this object affected by time dilation?
-	// Change customTimeDilation if you only want to affect this object. (And set this to false)
-	// Also not affected by pausing if set to false.
-	bool affectedByTimeDilation = true;
-
-	// Only used if affectedByTimeDilation is false.
-	float customTimeDilation = 1.0f;
-
 	// Gets delta time multiplied by time dilation for this object.
 	float GetObjectDeltaTime();
-
 
 	// Call to destroy this object.
 	// All pointers and references to this object should be
@@ -56,9 +40,6 @@ protected:
 	// Called after destroy is called on this object.
 	virtual void EndPlay() = 0;
 
-	// Returns pointer to the game.
-	IC_game* GetGame();
-
 private:
 	
 	// Returns true if this object was ticked.
@@ -68,20 +49,6 @@ private:
 	// Called by TryTick if TryTick returns true.
 	void SubTick(float deltaTime);
 
-	// If false this object will not be added to the tick list.
-	bool canEverTick = false;
-
-	// Should this object persist through levels.
-	// Useful for things like music you'd want to keep playing while changing levels.
-	bool persistent = false;
-
-	// Affected by time dilation.
-	float timeSinceLastTick = 0.0f;
-
-	// Set by the object system.
-	// -1 signifies that this object is not fully initialized yet.
-	int id = -1;
-
 	// Set by the object system.
 	IC_objectSystem* objectSystem = nullptr;
 
@@ -90,4 +57,33 @@ private:
 
 	// Set to true when destroy is called.
 	bool pendingDestroy = false;
+
+	// If false this object will not be added to the tick list.
+	bool canEverTick = false;
+
+	// Should this object persist through levels.
+	// Useful for things like music you'd want to keep playing while changing levels.
+	bool persistent = false;
+public:
+	// Can be changed at any time to enable of disable ticking.
+	// Even if false this object will be added to the tick list.
+	bool ticking = false;
+
+	// Is this object affected by time dilation?
+	// Change customTimeDilation if you only want to affect this object. (And set this to false)
+	// Also not affected by pausing if set to false.
+	bool affectedByTimeDilation = true;
+
+	// How often can this object tick?
+	// 0.0f = each frame, 1.0f = every second and so on.
+	float maxTickFrequency = 0.0f;
+
+	// Only used if affectedByTimeDilation is false.
+	float customTimeDilation = 1.0f;
+private:
+	// Set by the object system.
+	// -1 signifies that this object is not fully initialized yet.
+	int id = -1;
+	// Affected by time dilation.
+	float timeSinceLastTick = 0.0f;
 };

@@ -33,14 +33,9 @@ int IC_object::GetId()
 	return id;
 }
 
-IC_game* IC_object::GetGame()
-{
-	return game;
-}
-
 bool IC_object::TryTick()
 {
-	timeSinceLastTick += GetObjectDeltaTime();
+	timeSinceLastTick += GetFrameTime();
 
 	// It's not necessary to check if this object can ever tick, as this function will not be
 	// called if canEverTick is false.
